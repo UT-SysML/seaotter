@@ -1,0 +1,48 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "seab",
+  "pipeline_label": "SEA OTTER (no fine-tuning)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 6,
+    "extras": {}
+  },
+  "transmit_bpp_mean": null,
+  "storage_bpp_mean": null,
+  "n_eval": null,
+  "n_throughput_images": 256,
+  "metrics": null,
+  "throughput": {
+    "encode": {
+      "n": 256,
+      "median_ms": 2.452556014759466,
+      "mean_ms": 2.5058671637907537,
+      "p25_ms": 2.4192642740672454,
+      "p75_ms": 2.4831795308273286
+    },
+    "consumer": {
+      "n": 256,
+      "median_ms": 19.02807698934339,
+      "mean_ms": 19.06284181313822,
+      "p25_ms": 18.95490700553637,
+      "p75_ms": 19.10228776978329
+    }
+  },
+  "config": {
+    "codec": "seaotter",
+    "n_ch": 6,
+    "fine_tuned": false,
+    "checkpoint": null,
+    "phase2_init": "/home/dgj335/danjacobellis/seaotter/shared_color/experiments/round16_dual_goal/iter8/S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth",
+    "phase2_k": 2,
+    "phase2_arch": "D",
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
+    "device": "cuda:0",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+  }
+}

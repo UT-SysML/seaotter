@@ -1,0 +1,36 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "frp",
+  "pipeline_label": "FRAPPE-only (no transcode)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 12,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.09385952758789062,
+  "storage_bpp_mean": 0.09385952758789062,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.2908738851547241,
+    "pixel_accuracy": 0.7174298957614884,
+    "bpp_std": 0.025487970538072457,
+    "elapsed_s": 65.47419595718384,
+    "psnr_db": 26.81355337524414,
+    "ssim": 0.8351074945628643,
+    "lpips_db": 4.365963573419162,
+    "dists_db": 7.489361198870558
+  },
+  "throughput": null,
+  "config": {
+    "codec": "frappe",
+    "n_ch": 12,
+    "linear_input": false
+  }
+}

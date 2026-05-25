@@ -1,0 +1,39 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "frp",
+  "pipeline_label": "FRAPPE-only (no transcode)",
+  "task": "clip",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "naflex max_num_patches=256 snap=32",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 6,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.053708133553447425,
+  "storage_bpp_mean": 0.053708133553447425,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.1694,
+    "top5": 0.32174,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.006570545084642853,
+    "elapsed_s": 681.8556542396545,
+    "psnr_db": 21.502376382484435,
+    "ssim": 0.5555069065289945,
+    "lpips_db": 2.627105015444786,
+    "dists_db": 4.493080428222963
+  },
+  "throughput": null,
+  "config": {
+    "codec": "frappe",
+    "n_ch": 6,
+    "linear_input": false
+  },
+  "clip_naflex_max_patches": 256,
+  "clip_naflex_patch_size": 16,
+  "clip_naflex_snap": 32
+}

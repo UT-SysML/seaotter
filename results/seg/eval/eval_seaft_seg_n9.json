@@ -1,0 +1,40 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "seaft",
+  "pipeline_label": "SEA OTTER (fine-tuned)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 9,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.05497401428222656,
+  "storage_bpp_mean": 0.47261776733398436,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.28198641538619995,
+    "pixel_accuracy": 0.7175240796659345,
+    "bpp_std": 0.010911014862491245,
+    "elapsed_s": 231.55175971984863,
+    "psnr_db": 10.77728428387642,
+    "ssim": 0.5042835578471422,
+    "lpips_db": 2.92006996572971,
+    "dists_db": 5.642310708646907
+  },
+  "throughput": null,
+  "config": {
+    "codec": "seaotter",
+    "n_ch": 9,
+    "fine_tuned": true,
+    "checkpoint": "/home/dgj335/danjacobellis/seaotter/pre_trained_convnext/experiments/iter1_initial_pipeline/production/checkpoint_prod_seg_n9_C6.pth",
+    "phase2_init": "/home/dgj335/danjacobellis/seaotter/shared_color/experiments/round16_dual_goal/iter8/S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth",
+    "phase2_k": 2,
+    "phase2_arch": "D"
+  }
+}
