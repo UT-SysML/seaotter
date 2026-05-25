@@ -1,0 +1,38 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "avifx",
+  "pipeline_label": "Vanilla AVIF (libavif speed=10)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "quality",
+    "value": 10,
+    "extras": {
+      "avif_speed": 10
+    }
+  },
+  "transmit_bpp_mean": 0.19475009657118056,
+  "storage_bpp_mean": 0.19475009657118056,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.68222,
+    "top5": 0.89196,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.3239964196150511,
+    "elapsed_s": 1109.8882875442505,
+    "psnr_db": 25.696068612976074,
+    "ssim": 0.8223510637187957,
+    "lpips_db": 3.725237579579468,
+    "dists_db": 6.66306058502027
+  },
+  "throughput": null,
+  "config": {
+    "format": "AVIF",
+    "quality": 10,
+    "avif_speed": 10
+  }
+}

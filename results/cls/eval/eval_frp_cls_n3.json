@@ -1,0 +1,36 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "frp",
+  "pipeline_label": "FRAPPE-only (no transcode)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 3,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.012166694878472223,
+  "storage_bpp_mean": 0.012166694878472223,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.06774,
+    "top5": 0.15864,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.0011889127212603573,
+    "elapsed_s": 1085.9667782783508,
+    "psnr_db": 19.84958520050049,
+    "ssim": 0.5043398054027557,
+    "lpips_db": 1.8497776336799856,
+    "dists_db": 3.9667830438478733
+  },
+  "throughput": null,
+  "config": {
+    "codec": "frappe",
+    "n_ch": 3,
+    "linear_input": false
+  }
+}

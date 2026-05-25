@@ -1,0 +1,38 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "wal",
+  "pipeline_label": "WaLLoC RGB_16x",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 80,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.531174455295139,
+  "storage_bpp_mean": 0.531174455295139,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.79102,
+    "top5": 0.95358,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.10460810204454161,
+    "elapsed_s": 992.5587251186371,
+    "psnr_db": 28.97422347076416,
+    "ssim": 0.9299356758689881,
+    "lpips_db": 6.037833513961851,
+    "dists_db": 9.729918025588404
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walloc:RGB_16x",
+    "q_pixel_ratio": 80.0,
+    "latent_dim": 12,
+    "latent_bits": 8,
+    "J": 3
+  }
+}

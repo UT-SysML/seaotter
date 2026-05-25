@@ -1,0 +1,46 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "wal",
+  "pipeline_label": "WaLLoC RGB_16x",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 16,
+    "extras": {}
+  },
+  "transmit_bpp_mean": null,
+  "storage_bpp_mean": null,
+  "n_eval": null,
+  "n_throughput_images": 256,
+  "metrics": null,
+  "throughput": {
+    "encode": {
+      "n": 256,
+      "median_ms": 6.706467014737427,
+      "mean_ms": 6.88907167727848,
+      "p25_ms": 6.266607510042377,
+      "p75_ms": 6.950165261514485
+    },
+    "consumer": {
+      "n": 256,
+      "median_ms": 6.301865476416424,
+      "mean_ms": 6.329410474336328,
+      "p25_ms": 6.2824032647768036,
+      "p75_ms": 6.325287482468411
+    }
+  },
+  "config": {
+    "codec": "walloc:RGB_16x",
+    "q_pixel_ratio": 16.0,
+    "latent_dim": 12,
+    "latent_bits": 8,
+    "J": 3,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
+    "device": "cuda:0",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+  }
+}

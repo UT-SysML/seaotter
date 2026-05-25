@@ -1,0 +1,41 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "walft",
+  "pipeline_label": "WaLLoC + SEA OTTER (fine-tuned)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 80,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.531174455295139,
+  "storage_bpp_mean": 1.3465920779079863,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.7972,
+    "top5": 0.95414,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.10460810204454161,
+    "elapsed_s": 772.2082009315491,
+    "psnr_db": 11.230797949523925,
+    "ssim": 0.5592820457839965,
+    "lpips_db": 3.7322826627453667,
+    "dists_db": 6.1324676430671685
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walft",
+    "q_pixel_ratio": 80.0,
+    "checkpoint": "/home/dgj335/danjacobellis/seaotter/pre_trained_convnext/experiments/iter10_walft_eval_driven_sweep/production/checkpoint_iter10_prod_cls_walft_p80.pth",
+    "phase2_init": "/home/dgj335/danjacobellis/seaotter/shared_color/experiments/round16_dual_goal/iter8/S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth",
+    "phase2_k": 2,
+    "phase2_arch": "D",
+    "walloc_latent_dim": 12,
+    "walloc_latent_bits": 8
+  }
+}

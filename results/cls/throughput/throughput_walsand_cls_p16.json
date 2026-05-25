@@ -1,0 +1,47 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "walsand",
+  "pipeline_label": "WaLLoC + SEA OTTER sandwich",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 16,
+    "extras": {}
+  },
+  "transmit_bpp_mean": null,
+  "storage_bpp_mean": null,
+  "n_eval": null,
+  "n_throughput_images": 256,
+  "metrics": null,
+  "throughput": {
+    "encode": {
+      "n": 256,
+      "median_ms": 7.239269034471363,
+      "mean_ms": 9.84355482751198,
+      "p25_ms": 6.93859726015944,
+      "p75_ms": 7.950085986522026
+    },
+    "consumer": {
+      "n": 256,
+      "median_ms": 9.314200491644442,
+      "mean_ms": 9.586489150478883,
+      "p25_ms": 9.173985017696396,
+      "p75_ms": 10.070615506265312
+    }
+  },
+  "config": {
+    "codec": "walsand",
+    "q_pixel_ratio": 16.0,
+    "phase2_k": 2,
+    "phase2_arch": "D",
+    "walloc_latent_dim": 12,
+    "walloc_latent_bits": 8,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
+    "device": "cuda:0",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+  }
+}

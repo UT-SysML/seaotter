@@ -1,0 +1,46 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "avifx",
+  "pipeline_label": "Vanilla AVIF (libavif speed=10)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "quality",
+    "value": 25,
+    "extras": {
+      "avif_speed": 10
+    }
+  },
+  "transmit_bpp_mean": null,
+  "storage_bpp_mean": null,
+  "n_eval": null,
+  "n_throughput_images": 256,
+  "metrics": null,
+  "throughput": {
+    "encode": {
+      "n": 256,
+      "median_ms": 6.796567002311349,
+      "mean_ms": 7.002586589351267,
+      "p25_ms": 6.0344125085975975,
+      "p75_ms": 7.657562484382652
+    },
+    "consumer": {
+      "n": 256,
+      "median_ms": 12.498754978878424,
+      "mean_ms": 13.71989351105185,
+      "p25_ms": 11.380799522157758,
+      "p75_ms": 16.29087727633305
+    }
+  },
+  "config": {
+    "format": "AVIF",
+    "quality": 25,
+    "avif_speed": 10,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
+    "device": "cuda:0",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+  }
+}
