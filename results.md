@@ -12,9 +12,14 @@ schema. Updated as additional results land.
 
 ```
 results/
-└── cls/
-    ├── eval/           per-pipeline × per-op accuracy + distortion + bpp
-    └── throughput/     per-pipeline × per-op encode / consumer wall-clock
+├── cls/
+│   ├── eval/           accuracy + distortion + bpp per pipeline × op
+│   └── throughput/     encode / consumer wall-clock per pipeline × op
+├── seg/
+│   ├── eval/           FRAPPE-side only so far
+│   └── throughput/     FRAPPE-side only so far
+└── clip/
+    └── eval/           FRAPPE-side only so far; no throughput measured yet
 ```
 
 Filenames follow `eval_<pipeline>_<task>_<op>.json` and
@@ -30,35 +35,59 @@ Filenames follow `eval_<pipeline>_<task>_<op>.json` and
   - `walsand` — WaLLoC + SEA OTTER zero-shot sandwich.
   - `seaft` — FRAPPE + SEA OTTER, fine-tuned against the downstream task loss.
   - `walft` — WaLLoC + SEA OTTER, fine-tuned against the downstream task loss.
-- `<task>` ∈ `{cls}` for now (seg / clip to follow).
+- `<task>` ∈ `{cls, seg, clip}` (see "Task-specific dataset / preprocessing" below).
 - `<op>` is the operating-point id: `q{1,5,10,25,50}` (+ `_s10` for `avifx`)
   for AVIF, `n{3,6,9,12,15}` (FRAPPE latent channel count) for FRAPPE-side
   pipelines, `p{4,16,36,80,100}` (target pixel ratio %) for WaLLoC-side.
 
-5 operating points × 8 pipelines × {eval, throughput} = 80 files per task.
+## Task-specific dataset / preprocessing
+
+The schema below is shared across all three tasks, but **the underlying
+data distributions and image sizes are different**, so distortion /
+bpp values cannot be compared across tasks directly:
+
+| task   | val dataset                  | n_eval | preprocessing                                  | populates                                   |
+|--------|------------------------------|--------|------------------------------------------------|---------------------------------------------|
+| `cls`  | `timm/imagenet-1k-wds`       | 50000  | squash 384×384                                 | `metrics.top1`, `metrics.top5`              |
+| `seg`  | `danjacobellis/scene_parse_150` (ADE20K) | 2000   | squash 512×512                       | `metrics.miou`, `metrics.pixel_accuracy`    |
+| `clip` | `timm/imagenet-1k-wds`       | 50000  | naflex (max_num_patches=256, patch_size=16, snap=32; aspect-preserving) | `metrics.top1`, `metrics.top5` (zero-shot via SigLIP-2 prototypes) |
+
+All distortion fields (`psnr_db`, `ssim`, `lpips_db`, `dists_db`) and
+both bpp fields (`transmit_bpp_mean`, `storage_bpp_mean`) are populated
+on every task — they're just computed on whichever (dataset,
+preprocessing) the task uses. Compare distortion / bpp **within a
+task**, not across tasks.
+
+`clip` JSONs additionally carry three top-level naflex-config fields
+(`clip_naflex_max_patches`, `clip_naflex_patch_size`,
+`clip_naflex_snap`) and stash the fine-tune checkpoint pointer under
+`operating_point.extras.checkpoint` (in addition to `config.checkpoint`).
 
 ## `eval_*.json` schema
 
-Accuracy + distortion + bitrate, computed over the full ImageNet val 50k
-under the model-card squash-384² preprocessing.
+Accuracy + distortion + bitrate. The fields are identical across tasks;
+only `val_ds` / `n_eval` / `preprocessing` change.
 
 | field                  | meaning                                                                                  |
 |------------------------|------------------------------------------------------------------------------------------|
 | `transmit_bpp_mean`    | bits-per-pixel of what crosses the wireless link (FRAPPE-LS / WaLLoC latents for SEA OTTER; full JPEG / AVIF bytes for baselines). |
 | `storage_bpp_mean`     | bits-per-pixel of the final on-disk JPEG (= `transmit_bpp_mean` for baselines; **different** for SEA OTTER, since the cloud transcoder one-time-rewrites the latents to a JPEG file). |
 | `metrics.bpp_std`      | per-image bpp standard deviation.                                                        |
-| `metrics.top1`         | ImageNet-1k top-1 accuracy.                                                              |
-| `metrics.top5`         | ImageNet-1k top-5 accuracy.                                                              |
-| `metrics.psnr_db`      | reconstruction PSNR (dB) vs the original sRGB.                                           |
+| `metrics.top1`         | top-1 accuracy. `cls`: ImageNet-1k supervised. `clip`: SigLIP-2 zero-shot prototype matching. `null` for `seg`. |
+| `metrics.top5`         | top-5 accuracy (same convention as `top1`).                                              |
+| `metrics.miou`         | mean IoU on ADE20K val. Populated for `seg`; `null` otherwise.                           |
+| `metrics.pixel_accuracy` | per-pixel accuracy on ADE20K val. Populated for `seg`; `null` otherwise.               |
+| `metrics.psnr_db`      | reconstruction PSNR (dB) vs the original sRGB at the task's preprocessing resolution.    |
 | `metrics.ssim`         | reconstruction SSIM.                                                                     |
 | `metrics.lpips_db`     | LPIPS, reported in dB (`-10 log10 LPIPS`).                                               |
 | `metrics.dists_db`     | DISTS, reported in dB.                                                                   |
-| `metrics.miou` / `metrics.pixel_accuracy` | segmentation metrics — `null` for cls; populated when `<task>=seg`.        |
-| `n_eval`               | sample count (50000 for cls).                                                            |
-| `operating_point`      | `{type, value, extras}` — e.g. `{n_ch, 12}` or `{q_pixel_ratio, 16.0}`.                  |
+| `metrics.elapsed_s`    | total eval wall-clock seconds.                                                           |
+| `n_eval`               | sample count for this row (see Task-specific section).                                   |
+| `operating_point`      | `{type, value, extras}` — e.g. `{n_ch, 12}` or `{q_pixel_ratio, 16.0}`. `clip` also stashes the fine-tune checkpoint in `extras.checkpoint`. |
 | `config.codec`         | codec identifier (`seaotter` / `walft` / `avif` / ...).                                  |
 | `config.checkpoint`    | path to the fine-tune checkpoint when one exists (`seaft`, `walft`); `None` otherwise.   |
 | `config.phase2_init` / `phase2_k` / `phase2_arch` | warm-start pin into the phase-2 K=3 sandwich (`S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth`). |
+| `clip_naflex_*` (clip only) | `max_patches=256`, `patch_size=16`, `snap=32`. Pin the variable-resolution preprocessing geometry. |
 | `harness_version`, `pipeline`, `pipeline_label`, `task`, `val_ds`, `val_split`, `preprocessing` | provenance / run identity. |
 
 Fine-tuned SEA OTTER pipelines (`seaft`, `walft`) trade reconstruction
@@ -91,12 +120,38 @@ FRAPPE / Pillow encode-complexity harness methodology.
 intentionally `null`; pair the throughput JSON with the matching
 `eval_*.json` for those.
 
-## Provenance — `cls` (current contents)
+## Current contents and provenance
 
-All 40 (pipeline × op) cells were produced by the iter-6 harness at
+### `cls/` — 40 eval + 40 throughput (full pipeline coverage)
+
+All 8 pipelines × 5 operating points, both eval and throughput.
+Produced by the iter-6 harness at
 `pre_trained_convnext/experiments/iter6_extra_codec_baselines/`. The
 `walft` row was refreshed 2026-05-22 with the iter-10 LR-sweep champion
 (`λ=0.05, lr_base=2e-5`); pre-iter-10 `walft` JSONs are retired in
 `stale_iter7/` at the source and are not mirrored here. All other
-pipelines are as-evaluated on 2026-05-19. Nothing under `cls/` has been
-superseded by later (seg / clip) work.
+pipelines are as-evaluated on 2026-05-19.
+
+### `seg/` — 15 eval + 15 throughput (FRAPPE-side only)
+
+FRAPPE pipelines `{frp, seab, seaft}` × `n ∈ {3, 6, 9, 12, 15}` on
+ADE20K val 2k under squash-512² preprocessing. Same iter-6 harness.
+WaLLoC-side seg (`wal`, `walsand`, `walft`) and AVIF / non-FRAPPE
+baselines are intentionally **not** mirrored here yet.
+
+### `clip/` — 15 eval, no throughput (FRAPPE-side only)
+
+FRAPPE pipelines `{frp, seab, seaft}` × `n ∈ {3, 6, 9, 12, 15}` on
+ImageNet val 50k under naflex preprocessing (zero-shot via SigLIP-2
+prototypes). `n=12` for `frp` and `seab` was sourced from the iter-6
+production directory (smoke-4 anchor row, same harness, same
+preprocessing); the other 13 come from
+`experiments/clip_production/production/`. **All five `seaft` cells
+come from the same `checkpoint_clip_prod_frappe_n{N}.pth` sweep** —
+including `n=3`. (`n=3` was the one cell where fine-tuning did not
+beat the zero-shot baseline; a separate λ=0.025 re-run did
+marginally better but still failed, and is intentionally **not**
+mirrored here so the row reflects the original sweep.)
+
+No `throughput_*.json` files exist for clip in the source repo —
+clip-task throughput was not measured.
