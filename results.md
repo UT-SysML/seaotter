@@ -20,7 +20,8 @@ results/
 │   └── throughput/     FRAPPE-side only so far
 ├── clip/
 │   └── eval/           FRAPPE-side only so far; no throughput measured yet
-└── codec_kodak/        standalone codec eval on Kodak (no downstream task)
+├── codec_kodak/        standalone codec eval on Kodak (no downstream task)
+└── codec_kodak_cls/    standalone codec eval on ImageNet 50k under the cls protocol
 ```
 
 Filenames follow `eval_<pipeline>_<task>_<op>.json` and
@@ -61,6 +62,7 @@ bpp values cannot be compared across tasks directly:
 | `seg`          | `danjacobellis/scene_parse_150` (ADE20K) | 2000   | squash 512×512                       | `metrics.miou`, `metrics.pixel_accuracy`    |
 | `clip`         | `timm/imagenet-1k-wds`       | 50000  | naflex (max_num_patches=256, patch_size=16, snap=32; aspect-preserving) | `metrics.top1`, `metrics.top5` (zero-shot via SigLIP-2 prototypes) |
 | `kodak_recon`  | `danjacobellis/kodak`        | 24     | native (no resize, no crop; 768×512 or 512×768; bs=1) | per-image + summary `bpp`, `psnr_db`, `ssim`, `lpips_db`, `dists_db` (no downstream task accuracy) |
+| `kodak_cls`    | `timm/imagenet-1k-wds`       | 50000  | squash 384×384; bpp denominator pinned at 384·384 = 147456 | `metrics.{top1, top5, psnr_db, ssim, lpips_db, dists_db, bpp_mean, bpp_std}` — standalone codec only (no FRAPPE upstream); `metrics.{miou, pixel_accuracy} = null` |
 
 All distortion fields (`psnr_db`, `ssim`, `lpips_db`, `dists_db`) and
 both bpp fields (`transmit_bpp_mean`, `storage_bpp_mean`) are populated
@@ -282,3 +284,53 @@ distortion-only standalone-codec eval; sensor / consumer
 throughput numbers for the codecs in scope live in `cls/throughput/`
 (SEA OTTER appears there as `seab`, JPEG as the JPEG-only / no-codec
 baselines).
+
+### `codec_kodak_cls/` — 17 eval cells + raw anchor (standalone codec, ImageNet 50k cls)
+
+**Harness version: `codec-kodak-cls-v1`** — companion to `codec_kodak/`.
+Same three codecs and same 17 operating points (3 SEA OTTER `k ∈ {0, 1, 2}`,
+7 `jpeg` 4:2:0 + 7 `jpeg_sub0` 4:4:4 over the
+`{q0p5, q1, q1p5, q2, q2p5, q3, q3p5}` ladder loaded verbatim from the
+Kodak-native `codec_kodak/summary.json`), but evaluated this time on
+ImageNet val 50k under the cls protocol (`squash 384×384` →
+`convnext_tiny.in12k_ft_in1k_384` top-1/top-5 + the same
+`piq.{psnr, ssim, LPIPS, DISTS}` distortion metrics + bpp). No FRAPPE
+upstream — these codecs operate directly on the 384²-squashed RGB.
+
+Output of `experiments/codec_kodak_eval/run_cls_eval.py` in the research
+tree, run single-process on `cuda:0` (the codec round-trip stays on CPU
+via Pillow / `seaotter.load_from_hub`; only the ConvNeXt teacher + the
+piq.LPIPS / piq.DISTS nets go to GPU). bpp denominator is pinned at
+`384·384 = 147456` (`config.bpp_denominator`), so per-cell
+`metrics.bpp_mean = 8 * mean(len(jpeg_bytes)) / 147456`.
+
+Schema mirrors the iter-6 `eval_*.json` envelope so figures / tables
+can stack `codec-kodak-cls-v1` rows next to existing
+`seab` / `walsand` / `seaft` / `walft` rows without munging:
+`metrics.{top1, top5, bpp_mean, bpp_std, psnr_db, ssim, lpips_db, dists_db}`
+populated; `metrics.{miou, pixel_accuracy} = null` (cls task);
+`storage_bpp_mean == transmit_bpp_mean` (no FRAPPE/transcode split for
+a standalone codec). `config.codec` is one of
+`{seaotter, jpeg, jpeg_sub0}`; the SEA OTTER cells additionally carry
+`config.seaotter_k`, `config.seaotter_source`, and
+`config.seaotter_lambdas = [0.75, 0.4, 0.22]`. The raw (no-codec)
+ImageNet 50k cls anchor is also persisted here as
+`eval_raw_cls_kodak_anchor.json` (top-1 = 85.13%, top-5 = 97.616%,
+exact match to the iter-4 §0 anchor and to `cls/eval/eval_raw_cls_ref.json`);
+the anchor file carries only `metrics.{top1, top5, elapsed_s}` — no
+distortion / bpp fields.
+
+**File list** (18 total):
+
+```
+codec_kodak_cls/
+├── eval_raw_cls_kodak_anchor.json
+├── eval_seaotter_cls_kodak_k{0,1,2}.json
+├── eval_jpeg_cls_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+└── eval_jpeg_sub0_cls_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+```
+
+No `throughput_*.json` companion — `codec_kodak_cls` is an
+inference-only accuracy + distortion eval. The relevant sensor /
+consumer throughput numbers for these codecs live in `cls/throughput/`
+(SEA OTTER as `seab`, vanilla JPEG via the iter-6 `jpeg` baseline).
