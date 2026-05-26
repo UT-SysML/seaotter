@@ -1,0 +1,36 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jpeg",
+  "pipeline_label": "Vanilla JPEG (subsampling=0)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "quality",
+    "value": 25,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.6737578887939453,
+  "storage_bpp_mean": 0.6737578887939453,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.42450812458992004,
+    "pixel_accuracy": 0.7992368046400539,
+    "bpp_std": 0.1781803873223704,
+    "elapsed_s": 137.14748096466064,
+    "psnr_db": 32.41261723804474,
+    "ssim": 0.95124345266819,
+    "lpips_db": 6.603540936652667,
+    "dists_db": 12.841432270381404
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG",
+    "quality": 25,
+    "subsampling": 0
+  }
+}

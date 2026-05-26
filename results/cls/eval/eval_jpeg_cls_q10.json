@@ -1,0 +1,36 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jpeg",
+  "pipeline_label": "Vanilla JPEG (subsampling=0)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "quality",
+    "value": 10,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.4807186089409722,
+  "storage_bpp_mean": 0.4807186089409722,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.75184,
+    "top5": 0.9331,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.11501353956625408,
+    "elapsed_s": 827.8218879699707,
+    "psnr_db": 26.52182521331787,
+    "ssim": 0.8529564956855774,
+    "lpips_db": 3.63417638884094,
+    "dists_db": 7.407796099785884
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG",
+    "quality": 10,
+    "subsampling": 0
+  }
+}

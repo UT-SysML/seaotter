@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jp2",
+  "pipeline_label": "Vanilla JPEG 2000",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "rate",
+    "value": 12,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 1.9976319427490234,
+  "storage_bpp_mean": 1.9976319427490234,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.4293622672557831,
+    "pixel_accuracy": 0.8034485149624725,
+    "bpp_std": 0.002885523542158725,
+    "elapsed_s": 166.80829000473022,
+    "psnr_db": 37.70036328029632,
+    "ssim": 0.9749929106235504,
+    "lpips_db": 9.346686928050064,
+    "dists_db": 14.478130281752936
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG2000",
+    "rate": 12.0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jpeg",
+  "pipeline_label": "Vanilla JPEG (subsampling=0)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "quality",
+    "value": 25,
+    "extras": {}
+  },
+  "transmit_bpp_mean": null,
+  "storage_bpp_mean": null,
+  "n_eval": null,
+  "n_throughput_images": 256,
+  "metrics": null,
+  "throughput": {
+    "encode": {
+      "n": 256,
+      "median_ms": 0.5448769952636212,
+      "mean_ms": 0.5492489933658362,
+      "p25_ms": 0.5197644786676392,
+      "p75_ms": 0.5673945270245895
+    },
+    "consumer": {
+      "n": 256,
+      "median_ms": 3.6635319993365556,
+      "mean_ms": 4.919507634213005,
+      "p25_ms": 3.558951255399734,
+      "p75_ms": 5.060883791884407
+    }
+  },
+  "config": {
+    "format": "JPEG",
+    "quality": 25,
+    "subsampling": 0,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
+    "device": "cuda:0",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+  }
+}

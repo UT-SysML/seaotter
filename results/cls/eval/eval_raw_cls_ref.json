@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "raw",
+  "pipeline_label": "Lossless reference (no codec)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "none",
+    "value": 0,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 14.66578721137153,
+  "storage_bpp_mean": 14.66578721137153,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.8513,
+    "top5": 0.97616,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 3.1295159154878514,
+    "elapsed_s": 1386.9688551425934,
+    "psnr_db": 120.0,
+    "ssim": 1.0,
+    "lpips_db": 120.0,
+    "dists_db": 69.11055112401277
+  },
+  "throughput": null,
+  "config": {
+    "format": "PNG",
+    "lossless": true
+  }
+}

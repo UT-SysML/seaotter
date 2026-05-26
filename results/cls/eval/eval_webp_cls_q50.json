@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "webp",
+  "pipeline_label": "Vanilla WebP",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "quality",
+    "value": 50,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.8308483723958334,
+  "storage_bpp_mean": 0.8308483723958334,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.81732,
+    "top5": 0.96534,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.47355886381795204,
+    "elapsed_s": 889.5131547451019,
+    "psnr_db": 32.20556581970215,
+    "ssim": 0.9534918586540222,
+    "lpips_db": 7.27708176101633,
+    "dists_db": 11.16793941982672
+  },
+  "throughput": null,
+  "config": {
+    "format": "WEBP",
+    "quality": 50
+  }
+}

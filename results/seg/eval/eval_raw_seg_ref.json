@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "raw",
+  "pipeline_label": "Lossless reference (no codec)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "none",
+    "value": 0,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 11.127966598510742,
+  "storage_bpp_mean": 11.127966598510742,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.44507908821105957,
+    "pixel_accuracy": 0.8106278529062632,
+    "bpp_std": 2.430557682352759,
+    "elapsed_s": 68.2497923374176,
+    "psnr_db": 120.0,
+    "ssim": 0.9999999403953552,
+    "lpips_db": 120.0,
+    "dists_db": 67.29592014692615
+  },
+  "throughput": null,
+  "config": {
+    "format": "PNG",
+    "lossless": true
+  }
+}

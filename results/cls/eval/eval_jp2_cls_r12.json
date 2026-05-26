@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jp2",
+  "pipeline_label": "Vanilla JPEG 2000",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "rate",
+    "value": 12,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 1.9965099663628472,
+  "storage_bpp_mean": 1.9965099663628472,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.81504,
+    "top5": 0.96284,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.010618881619125255,
+    "elapsed_s": 1774.8137590885162,
+    "psnr_db": 34.19535984893799,
+    "ssim": 0.9575672083473206,
+    "lpips_db": 7.534781214685574,
+    "dists_db": 11.738787517939564
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG2000",
+    "rate": 12.0
+  }
+}

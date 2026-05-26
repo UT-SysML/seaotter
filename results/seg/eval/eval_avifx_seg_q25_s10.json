@@ -1,0 +1,38 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "avifx",
+  "pipeline_label": "Vanilla AVIF (libavif speed=10)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "quality",
+    "value": 25,
+    "extras": {
+      "avif_speed": 10
+    }
+  },
+  "transmit_bpp_mean": 0.20207321166992187,
+  "storage_bpp_mean": 0.20207321166992187,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.3898564577102661,
+    "pixel_accuracy": 0.7790061224960761,
+    "bpp_std": 0.059617632220999583,
+    "elapsed_s": 99.8286509513855,
+    "psnr_db": 29.88544408607483,
+    "ssim": 0.9142760252952575,
+    "lpips_db": 5.564327126981374,
+    "dists_db": 9.388139416351532
+  },
+  "throughput": null,
+  "config": {
+    "format": "AVIF",
+    "quality": 25,
+    "avif_speed": 10
+  }
+}

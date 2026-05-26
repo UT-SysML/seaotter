@@ -1,0 +1,35 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "webp",
+  "pipeline_label": "Vanilla WebP",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "quality",
+    "value": 50,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.5988274841308594,
+  "storage_bpp_mean": 0.5988274841308594,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.4234479069709778,
+    "pixel_accuracy": 0.798264447993155,
+    "bpp_std": 0.30721441551435424,
+    "elapsed_s": 114.3697783946991,
+    "psnr_db": 34.68759266376495,
+    "ssim": 0.9653692151904106,
+    "lpips_db": 7.998191116206375,
+    "dists_db": 12.656418740900278
+  },
+  "throughput": null,
+  "config": {
+    "format": "WEBP",
+    "quality": 50
+  }
+}
