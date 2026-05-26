@@ -18,16 +18,20 @@ results/
 ├── seg/
 │   ├── eval/           FRAPPE-side only so far
 │   └── throughput/     FRAPPE-side only so far
-└── clip/
-    └── eval/           FRAPPE-side only so far; no throughput measured yet
+├── clip/
+│   └── eval/           FRAPPE-side only so far; no throughput measured yet
+└── codec_kodak/        standalone codec eval on Kodak (no downstream task)
 ```
 
 Filenames follow `eval_<pipeline>_<task>_<op>.json` and
 `throughput_<pipeline>_<task>_<op>.json`, where:
 
-- `<pipeline>` ∈ `{avif, avifx, frp, wal, seab, walsand, seaft, walft}`:
+- `<pipeline>` ∈ `{avif, avifx, jpeg, jp2, webp, frp, wal, seab, walsand, seaft, walft, raw}`:
   - `avif` — AVIF (libavif default speed).
   - `avifx` — AVIF (libavif max speed, `s10`).
+  - `jpeg` — Vanilla JPEG baseline (Pillow defaults; 4:2:0 chroma subsampling).
+  - `jp2` — JPEG 2000 (Pillow / OpenJPEG defaults).
+  - `webp` — WebP (libwebp defaults).
   - `frp` — FRAPPE codec, no SEA OTTER sandwich.
   - `wal` — WaLLoC codec, no SEA OTTER sandwich.
   - `seab` — FRAPPE + SEA OTTER zero-shot sandwich (phase-2 K=3 warm-start,
@@ -35,10 +39,15 @@ Filenames follow `eval_<pipeline>_<task>_<op>.json` and
   - `walsand` — WaLLoC + SEA OTTER zero-shot sandwich.
   - `seaft` — FRAPPE + SEA OTTER, fine-tuned against the downstream task loss.
   - `walft` — WaLLoC + SEA OTTER, fine-tuned against the downstream task loss.
+  - `raw` — no-codec ceiling (lossless PNG reference). Single `_ref` op per task;
+    no `throughput_*` companion (`raw` is a reconstruction-fidelity / accuracy upper bound, not a deployment configuration).
 - `<task>` ∈ `{cls, seg, clip}` (see "Task-specific dataset / preprocessing" below).
-- `<op>` is the operating-point id: `q{1,5,10,25,50}` (+ `_s10` for `avifx`)
-  for AVIF, `n{3,6,9,12,15}` (FRAPPE latent channel count) for FRAPPE-side
-  pipelines, `p{4,16,36,80,100}` (target pixel ratio %) for WaLLoC-side.
+- `<op>` is the operating-point id, **per pipeline family**:
+  - `q{1,5,10,25,50}` (+ `_s10` suffix for `avifx`) — AVIF / JPEG / WebP quality.
+  - `r{12,25,50,100,200}` — JPEG 2000 compression ratio (Pillow `quality_layers` semantics).
+  - `n{3,6,9,12,15}` — FRAPPE latent channel count (FRAPPE-side pipelines).
+  - `p{4,16,36,80,100}` — target pixel-ratio % (WaLLoC-side pipelines).
+  - `ref` — single no-codec reference cell for the `raw` pipeline.
 
 ## Task-specific dataset / preprocessing
 
@@ -46,11 +55,12 @@ The schema below is shared across all three tasks, but **the underlying
 data distributions and image sizes are different**, so distortion /
 bpp values cannot be compared across tasks directly:
 
-| task   | val dataset                  | n_eval | preprocessing                                  | populates                                   |
-|--------|------------------------------|--------|------------------------------------------------|---------------------------------------------|
-| `cls`  | `timm/imagenet-1k-wds`       | 50000  | squash 384×384                                 | `metrics.top1`, `metrics.top5`              |
-| `seg`  | `danjacobellis/scene_parse_150` (ADE20K) | 2000   | squash 512×512                       | `metrics.miou`, `metrics.pixel_accuracy`    |
-| `clip` | `timm/imagenet-1k-wds`       | 50000  | naflex (max_num_patches=256, patch_size=16, snap=32; aspect-preserving) | `metrics.top1`, `metrics.top5` (zero-shot via SigLIP-2 prototypes) |
+| task           | val dataset                  | n_eval | preprocessing                                  | populates                                   |
+|----------------|------------------------------|--------|------------------------------------------------|---------------------------------------------|
+| `cls`          | `timm/imagenet-1k-wds`       | 50000  | squash 384×384                                 | `metrics.top1`, `metrics.top5`              |
+| `seg`          | `danjacobellis/scene_parse_150` (ADE20K) | 2000   | squash 512×512                       | `metrics.miou`, `metrics.pixel_accuracy`    |
+| `clip`         | `timm/imagenet-1k-wds`       | 50000  | naflex (max_num_patches=256, patch_size=16, snap=32; aspect-preserving) | `metrics.top1`, `metrics.top5` (zero-shot via SigLIP-2 prototypes) |
+| `kodak_recon`  | `danjacobellis/kodak`        | 24     | native (no resize, no crop; 768×512 or 512×768; bs=1) | per-image + summary `bpp`, `psnr_db`, `ssim`, `lpips_db`, `dists_db` (no downstream task accuracy) |
 
 All distortion fields (`psnr_db`, `ssim`, `lpips_db`, `dists_db`) and
 both bpp fields (`transmit_bpp_mean`, `storage_bpp_mean`) are populated
@@ -122,24 +132,46 @@ intentionally `null`; pair the throughput JSON with the matching
 
 ## Current contents and provenance
 
-### `cls/` — 40 eval + 40 throughput (full pipeline coverage)
+### `cls/` — 56 eval + 55 throughput
 
-All 8 pipelines × 5 operating points, both eval and throughput.
-Produced by the iter-6 harness at
-`pre_trained_convnext/experiments/iter6_extra_codec_baselines/`. The
-`walft` row was refreshed 2026-05-22 with the iter-10 LR-sweep champion
-(`λ=0.05, lr_base=2e-5`); pre-iter-10 `walft` JSONs are retired in
-`stale_iter7/` at the source and are not mirrored here. All other
-pipelines are as-evaluated on 2026-05-19.
+8 SEA OTTER / FRAPPE / WaLLoC / AVIF pipelines × 5 ops + 3 alt-codec
+baselines × 5 ops + 1 raw (no-codec) ceiling row. Produced by the
+iter-6 harness at
+`pre_trained_convnext/experiments/iter6_extra_codec_baselines/`.
 
-### `seg/` — 15 eval + 15 throughput (FRAPPE-side only)
+- The 8-pipeline core (`avif, avifx, frp, wal, seab, walsand, seaft, walft`)
+  × 5 ops × {eval, throughput} = 80 files. The `walft` row was refreshed
+  2026-05-22 with the iter-10 LR-sweep champion (`λ=0.05, lr_base=2e-5`);
+  pre-iter-10 `walft` JSONs are retired in `stale_iter7/` at the source and
+  are not mirrored here. All other 8-pipeline cells are as-evaluated on
+  2026-05-19.
+- Alt-codec baselines: `jpeg` (q ∈ {1, 5, 10, 25, 50}), `jp2` (r ∈
+  {12, 25, 50, 100, 200}), `webp` (q ∈ {1, 5, 10, 25, 50}) × {eval,
+  throughput} = 30 files.
+- Raw ceiling: `eval_raw_cls_ref.json` (no-codec lossless reference;
+  85.13% top-1 — matches the iter-4 §0 anchor and the
+  `convnext_tiny.in12k_ft_in1k_384` model card). No throughput
+  companion (raw is a ceiling, not a deployment configuration).
 
-FRAPPE pipelines `{frp, seab, seaft}` × `n ∈ {3, 6, 9, 12, 15}` on
-ADE20K val 2k under squash-512² preprocessing. Same iter-6 harness.
-WaLLoC-side seg (`wal`, `walsand`, `walft`) and AVIF / non-FRAPPE
-baselines are intentionally **not** mirrored here yet.
+### `seg/` — 41 eval + 40 throughput
 
-### `clip/` — 15 eval, no throughput (FRAPPE-side only)
+FRAPPE pipelines + WaLLoC-zero-shot/fine-tuned coverage + AVIF / alt-codec
+baselines + raw ceiling, all on ADE20K val 2k under squash-512²
+preprocessing. Same iter-6 harness.
+
+- FRAPPE pipelines `{frp, seab, seaft}` × `n ∈ {3, 6, 9, 12, 15}` ×
+  {eval, throughput} = 30 files.
+- Alt-codec baselines: `avif` / `avifx` (q ∈ {1, 5, 10, 25, 50}, `_s10`
+  suffix on `avifx`), `jpeg` (q ∈ {1, 5, 10, 25, 50}), `jp2` (r ∈ {12,
+  25, 50, 100, 200}), `webp` (q ∈ {1, 5, 10, 25, 50}) × {eval,
+  throughput} = 50 files.
+- Raw ceiling: `eval_raw_seg_ref.json` (no-codec lossless reference).
+  Iter-6 harness `raw seg` reproduces ~44.51 % mIoU under the squash-512²
+  protocol — about 1.5 pp below the sliding-window paper-protocol number
+  (45.96 % mIoU) for the same teacher. No throughput companion.
+- WaLLoC-side seg (`wal`, `walsand`, `walft`) is **not** mirrored here.
+
+### `clip/` — 16 eval, no throughput (FRAPPE-side + raw ceiling)
 
 FRAPPE pipelines `{frp, seab, seaft}` × `n ∈ {3, 6, 9, 12, 15}` on
 ImageNet val 50k under naflex preprocessing (zero-shot via SigLIP-2
@@ -153,5 +185,100 @@ beat the zero-shot baseline; a separate λ=0.025 re-run did
 marginally better but still failed, and is intentionally **not**
 mirrored here so the row reflects the original sweep.)
 
+- Raw ceiling: `eval_raw_clip_ref.json` (no-codec lossless reference;
+  0.6959 zero-shot top-1 / 0.8568 top-5 via SigLIP-2 — matches iter-9
+  Smoke 3).
+- WaLLoC-side clip (`wal`, `walsand`, `walft`) is **not** mirrored here.
+
 No `throughput_*.json` files exist for clip in the source repo —
 clip-task throughput was not measured.
+
+### `codec_kodak/` — 17 eval cells + `summary.json` (standalone codec, no downstream task)
+
+**Harness version: `codec-kodak-v1`** (separate harness from the
+iter-6 pipeline harness; different schema — see below). Output of
+`experiments/codec_kodak_eval/run_eval.py` in the research tree, run
+CPU-only at `bs=1` on Kodak validation at **native resolution** (no
+resize, no crop; 16 images at 768×512 + 8 at 512×768).
+
+Compares three codecs:
+
+- `seaotter` — SEA OTTER S3 K=3 production bundle
+  (`danjacobellis/seaotter @ seaotter_jpeg_s3`,
+  λ = [0.75, 0.40, 0.22]; this is the warm-start used by every
+  phase-4 production pipeline at `phase2_k=2`). Loaded via
+  `from seaotter import load_from_hub; bundle = load_from_hub()`
+  (S3 is the package default).
+- `jpeg` — Pillow JPEG, default chroma subsampling (4:2:0).
+- `jpeg_sub0` — Pillow JPEG, no chroma subsampling (4:4:4).
+
+7-q ladder (`q0p5`, `q1`, `q1p5`, `q2`, `q2p5`, `q3`, `q3p5`) selected
+by anchoring `q1` / `q2` / `q3` to the **smallest integer JPEG-sub=0
+quality** where SEA OTTER@k strictly dominates JPEG-sub=0@q on both
+mean Kodak PSNR (SEA OTTER > JPEG) and mean Kodak bpp (SEA OTTER
+< JPEG), then interpolating:
+
+- `q1p5 = round((q1 + q2) / 2)`
+- `q2p5 = round((q2 + q3) / 2)`
+- `q0p5 = round(q1 - (q2 - q1) / 2)`
+- `q3p5 = round(q3 + (q3 - q2) / 2)`
+
+(all clamped to `[1, 99]`). The same q values are reused for the
+default-subsampling JPEG variant.
+
+**Per-cell file schema** (different from the iter-6 envelope —
+no `metrics.*`, no `transmit_bpp_*` / `storage_bpp_*` split since
+storage ≡ transmit ≡ JPEG bytes for a standalone codec):
+
+| field                       | meaning                                                                  |
+|-----------------------------|--------------------------------------------------------------------------|
+| `per_image.bpp`             | per-image bit-rate `8 * len(jpeg_bytes) / (H * W)` (length-24 array).     |
+| `per_image.psnr_db`         | per-image PSNR (dB), uint8 vs uint8 reconstruction.                       |
+| `per_image.ssim`            | per-image SSIM via `piq.ssim(data_range=1.0)`.                            |
+| `per_image.lpips_db`        | per-image `-10 * log10(piq.LPIPS()(...))`. piq net on CPU, `[0, 1]` input. |
+| `per_image.dists_db`        | per-image `-10 * log10(piq.DISTS()(...))`. piq net on CPU, `[0, 1]` input. |
+| `per_image.image_h`, `image_w` | native pixel dimensions per image (no resize).                        |
+| `per_image.kodak_index`     | source-row index in `danjacobellis/kodak[validation]` (0..23).            |
+| `summary.{bpp,psnr_db,ssim,lpips_db,dists_db}` | `{mean, median}` over the 24 images.                  |
+| `operating_point.type`      | `seaotter_k` for SEA OTTER cells, `jpeg_q` for JPEG cells.                |
+| `operating_point.value`     | `k ∈ {0, 1, 2}` (seaotter) or integer Pillow quality (jpeg).              |
+| `operating_point.ladder_id` | (jpeg only) `q0p5` / `q1` / … so a JSON can be located by ladder rung.    |
+| `config.codec`              | `seaotter` / `jpeg` / `jpeg_sub0`.                                        |
+| `config.subsampling`        | `0` for jpeg_sub0 + seaotter, `2` (= 4:2:0) for the default jpeg variant. |
+| `config.quality`            | Pillow `quality` (null for seaotter).                                     |
+| `config.seaotter_k`         | `0` / `1` / `2` for seaotter, null otherwise.                             |
+| `config.seaotter_source`    | `"danjacobellis/seaotter @ seaotter_jpeg_s3 (load_from_hub default)"`.    |
+| `config.seaotter_lambdas`   | `[0.75, 0.4, 0.22]` (S3 production sister).                               |
+| `config.device`             | `"cpu"` — no GPU used anywhere.                                           |
+
+Distortion metric conventions match the iter-6 harness
+(`piq.psnr` / `piq.ssim` / `piq.LPIPS` / `piq.DISTS` on `[0, 1]`
+float tensors; LPIPS/DISTS reported in dB via `-10·log10`), so
+codec_kodak distortion values can be compared directly with iter-6
+`metrics.{psnr_db, ssim, lpips_db, dists_db}` on a like-for-like
+preprocessing basis — but **not** numerically against the other
+tasks here, since the underlying images and resolutions differ
+(see "Task-specific dataset / preprocessing").
+
+**`summary.json`** (side artifact) records the q-selection
+process: the three SEA OTTER anchors with mean bpp/PSNR and the
+matched JPEG-sub=0 q; the full JPEG-sub=0 mean-bpp / mean-PSNR
+sweep over q ∈ [1, 99] used for anchor selection; the resolved
+q-ladder; any anchor/interpolation collisions; and the verbatim
+q-selection + interpolation rules.
+
+**File list** (18 total):
+
+```
+codec_kodak/
+├── eval_seaotter_kodak_k{0,1,2}.json
+├── eval_jpeg_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+├── eval_jpeg_sub0_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+└── summary.json
+```
+
+No `throughput_*.json` for this harness — codec_kodak is a
+distortion-only standalone-codec eval; sensor / consumer
+throughput numbers for the codecs in scope live in `cls/throughput/`
+(SEA OTTER appears there as `seab`, JPEG as the JPEG-only / no-codec
+baselines).
