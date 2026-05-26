@@ -1,0 +1,45 @@
+{
+  "harness_version": "codec-kodak-cls-v1",
+  "pipeline": "seaotter",
+  "pipeline_label": "SEA OTTER S3 K=3, k=2",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "seaotter_k",
+    "value": 2
+  },
+  "n_eval": 50000,
+  "transmit_bpp_mean": 3.3284098101128468,
+  "storage_bpp_mean": 3.3284098101128468,
+  "metrics": {
+    "bpp_mean": 3.3284098101128468,
+    "bpp_std": 1.336289516365703,
+    "top1": 0.8475,
+    "top5": 0.9754,
+    "psnr_db": 39.07228840820313,
+    "ssim": 0.9895514282989502,
+    "lpips_db": 12.75043859347408,
+    "dists_db": 18.244453091478544,
+    "miou": null,
+    "pixel_accuracy": null,
+    "elapsed_s": 828.3049099445343
+  },
+  "config": {
+    "codec": "seaotter",
+    "subsampling": 0,
+    "quality": null,
+    "seaotter_k": 2,
+    "seaotter_source": "danjacobellis/seaotter @ seaotter_jpeg_s3 (load_from_hub default)",
+    "seaotter_lambdas": [
+      0.75,
+      0.4,
+      0.22
+    ],
+    "teacher": "convnext_tiny.in12k_ft_in1k_384",
+    "device": "cuda:0",
+    "bpp_denominator": 147456,
+    "resize": "bicubic 384x384"
+  }
+}

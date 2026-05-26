@@ -1,0 +1,42 @@
+{
+  "harness_version": "codec-kodak-cls-v1",
+  "pipeline": "jpeg_sub0",
+  "pipeline_label": "Pillow JPEG (subsampling=0, 4:4:4)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "jpeg_q",
+    "value": 81,
+    "ladder_id": "q2"
+  },
+  "n_eval": 50000,
+  "transmit_bpp_mean": 2.184088428819445,
+  "storage_bpp_mean": 2.184088428819445,
+  "metrics": {
+    "bpp_mean": 2.184088428819445,
+    "bpp_std": 0.7795145422446161,
+    "top1": 0.84472,
+    "top5": 0.97454,
+    "psnr_db": 35.495087377929686,
+    "ssim": 0.98611771276474,
+    "lpips_db": 11.031319157080679,
+    "dists_db": 18.410899726551854,
+    "miou": null,
+    "pixel_accuracy": null,
+    "elapsed_s": 828.2470605373383
+  },
+  "config": {
+    "codec": "jpeg_sub0",
+    "subsampling": 0,
+    "quality": 81,
+    "seaotter_k": null,
+    "seaotter_source": null,
+    "seaotter_lambdas": null,
+    "teacher": "convnext_tiny.in12k_ft_in1k_384",
+    "device": "cuda:0",
+    "bpp_denominator": 147456,
+    "resize": "bicubic 384x384"
+  }
+}

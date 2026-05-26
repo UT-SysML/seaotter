@@ -1,0 +1,21 @@
+{
+  "harness_version": "codec-kodak-cls-v1",
+  "pipeline": "raw",
+  "pipeline_label": "Lossless reference (no codec)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "n_eval": 50000,
+  "metrics": {
+    "top1": 0.8513,
+    "top5": 0.97616,
+    "elapsed_s": 88.9939706325531
+  },
+  "config": {
+    "teacher": "convnext_tiny.in12k_ft_in1k_384",
+    "device": "cuda:0",
+    "bpp_denominator": 147456,
+    "resize": "bicubic 384x384"
+  }
+}
