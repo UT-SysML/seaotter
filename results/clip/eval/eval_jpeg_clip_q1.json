@@ -1,0 +1,39 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "jpeg",
+  "pipeline_label": "Vanilla JPEG (subsampling=0)",
+  "task": "clip",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "naflex max_num_patches=256 snap=32",
+  "operating_point": {
+    "type": "quality",
+    "value": 1,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.348365740657133,
+  "storage_bpp_mean": 0.348365740657133,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.18662,
+    "top5": 0.34362,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.030726981624708265,
+    "elapsed_s": 1783.5169513225555,
+    "psnr_db": 21.084668282527925,
+    "ssim": 0.5329205836355686,
+    "lpips_db": 1.969056968820717,
+    "dists_db": 3.839146016553684
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG",
+    "quality": 1,
+    "subsampling": 0
+  },
+  "clip_naflex_max_patches": 256,
+  "clip_naflex_patch_size": 16,
+  "clip_naflex_snap": 32
+}
