@@ -1,5 +1,5 @@
 {
-  "harness_version": "iter6-1",
+  "harness_version": "iter11-cpu-2",
   "pipeline": "webp",
   "pipeline_label": "Vanilla WebP",
   "task": "cls",
@@ -14,30 +14,45 @@
   "transmit_bpp_mean": null,
   "storage_bpp_mean": null,
   "n_eval": null,
-  "n_throughput_images": 256,
+  "n_throughput_images": 32,
   "metrics": null,
   "throughput": {
     "encode": {
-      "n": 256,
-      "median_ms": 9.014145005494356,
-      "mean_ms": 9.088913481946292,
-      "p25_ms": 8.23330698767677,
-      "p75_ms": 9.775822240044363
+      "n": 32,
+      "median_ms": 9.120141970925033,
+      "mean_ms": 9.24484940333059,
+      "p25_ms": 8.522861055098474,
+      "p75_ms": 9.820786421187222
     },
     "consumer": {
-      "n": 256,
-      "median_ms": 4.049423994729295,
-      "mean_ms": 4.070082166890643,
-      "p25_ms": 3.9291329885600135,
-      "p75_ms": 4.180815769359469
+      "n": 32,
+      "median_ms": 64.98055648989975,
+      "mean_ms": 64.71684809366707,
+      "p25_ms": 63.82627022685483,
+      "p75_ms": 66.05576508445665
+    },
+    "consumer_decode_only": {
+      "n": 32,
+      "median_ms": 1.2388440081849694,
+      "mean_ms": 1.2608994293259457,
+      "p25_ms": 1.12894392805174,
+      "p75_ms": 1.3722964795306325
+    },
+    "teacher_only": {
+      "n": 32,
+      "median_ms": 58.42615140136331,
+      "mean_ms": 58.6435775476275,
+      "p25_ms": 57.51774139935151,
+      "p75_ms": 59.20268833870068
     }
   },
   "config": {
     "format": "WEBP",
     "quality": 10,
     "cpu_model": "AMD EPYC 9354 32-Core Processor",
-    "gpu_model": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation",
-    "device": "cuda:0",
-    "threading": "natural (library defaults; no OMP/MKL/torch caps)"
+    "gpu_model": null,
+    "device": "cpu",
+    "threading": "natural (library defaults; no OMP/MKL/torch caps)",
+    "warmup_iters": 2
   }
 }
