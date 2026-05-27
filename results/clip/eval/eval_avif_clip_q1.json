@@ -1,0 +1,39 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "avif",
+  "pipeline_label": "Vanilla AVIF (libavif default speed)",
+  "task": "clip",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "naflex max_num_patches=256 snap=32",
+  "operating_point": {
+    "type": "quality",
+    "value": 1,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.2503376289294654,
+  "storage_bpp_mean": 0.2503376289294654,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.42588,
+    "top5": 0.64146,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.738677754225937,
+    "elapsed_s": 1623.6318686008453,
+    "psnr_db": 24.34451397245407,
+    "ssim": 0.6637795650106668,
+    "lpips_db": 3.416145183915313,
+    "dists_db": 5.462077997252807
+  },
+  "throughput": null,
+  "config": {
+    "format": "AVIF",
+    "quality": 1,
+    "avif_speed": null
+  },
+  "clip_naflex_max_patches": 256,
+  "clip_naflex_patch_size": 16,
+  "clip_naflex_snap": 32
+}
