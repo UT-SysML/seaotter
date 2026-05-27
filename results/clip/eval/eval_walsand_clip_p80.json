@@ -1,0 +1,42 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "walsand",
+  "pipeline_label": "WaLLoC + SEA OTTER sandwich",
+  "task": "clip",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "naflex max_num_patches=256 snap=32",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 80,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.6194935314438238,
+  "storage_bpp_mean": 2.1064589825575504,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.64142,
+    "top5": 0.8253,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.10407531277838121,
+    "elapsed_s": 2981.7126157283783,
+    "psnr_db": 28.391946940231325,
+    "ssim": 0.8290264208811522,
+    "lpips_db": 6.095516238260352,
+    "dists_db": 7.79469465708585
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walsand",
+    "q_pixel_ratio": 80.0,
+    "phase2_k": 2,
+    "phase2_arch": "D",
+    "walloc_latent_dim": 12,
+    "walloc_latent_bits": 8
+  },
+  "clip_naflex_max_patches": 256,
+  "clip_naflex_patch_size": 16,
+  "clip_naflex_snap": 32
+}

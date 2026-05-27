@@ -1,0 +1,42 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "wal_jpeg",
+  "pipeline_label": "WaLLoC + ITU JPEG (subsampling=0, q=75)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 36,
+    "extras": {
+      "jpeg_quality": 75
+    }
+  },
+  "transmit_bpp_mean": 0.25312249755859373,
+  "storage_bpp_mean": 1.0693248291015625,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.38771626353263855,
+    "pixel_accuracy": 0.7829187580829664,
+    "bpp_std": 0.040748905975655565,
+    "elapsed_s": 132.80439114570618,
+    "psnr_db": 28.851455693244933,
+    "ssim": 0.9026670162379742,
+    "lpips_db": 5.691840440929443,
+    "dists_db": 9.555988337236359
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG",
+    "quality": 75,
+    "subsampling": 0,
+    "walloc_pixel_ratio": 36.0,
+    "walloc_latent_dim": 12,
+    "walloc_latent_bits": 8,
+    "walloc_J": 3
+  }
+}

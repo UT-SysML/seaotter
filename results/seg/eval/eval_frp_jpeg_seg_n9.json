@@ -1,0 +1,40 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "frp_jpeg",
+  "pipeline_label": "FRAPPE + ITU JPEG (subsampling=0, q=75)",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 9,
+    "extras": {
+      "jpeg_quality": 75
+    }
+  },
+  "transmit_bpp_mean": 0.05497401428222656,
+  "storage_bpp_mean": 0.84025732421875,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.2613697648048401,
+    "pixel_accuracy": 0.7009434746094206,
+    "bpp_std": 0.010911014862491245,
+    "elapsed_s": 104.42172765731812,
+    "psnr_db": 25.10176335144043,
+    "ssim": 0.7697424055188894,
+    "lpips_db": 3.9300566316349665,
+    "dists_db": 6.942098435683186
+  },
+  "throughput": null,
+  "config": {
+    "format": "JPEG",
+    "quality": 75,
+    "subsampling": 0,
+    "frappe_n_ch": 9,
+    "linear_input": false
+  }
+}

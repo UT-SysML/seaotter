@@ -1,0 +1,39 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "walsand",
+  "pipeline_label": "WaLLoC + SEA OTTER sandwich",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 16,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.13000015258789063,
+  "storage_bpp_mean": 1.0685219421386718,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.3358272910118103,
+    "pixel_accuracy": 0.7518856145898001,
+    "bpp_std": 0.017656553938215008,
+    "elapsed_s": 185.9653079509735,
+    "psnr_db": 26.536668979644777,
+    "ssim": 0.8331088602244854,
+    "lpips_db": 4.4853053739673845,
+    "dists_db": 7.751976450161882
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walsand",
+    "q_pixel_ratio": 16.0,
+    "phase2_k": 2,
+    "phase2_arch": "D",
+    "walloc_latent_dim": 12,
+    "walloc_latent_bits": 8
+  }
+}
