@@ -8,6 +8,7 @@ parts:
  - caption: Overview
    chapters:
    - file: overview
- - caption: Examples
+ - caption: Workflow
    chapters:
     - file: seaotter
+      title: SEA OTTER workflow (segmentation)
