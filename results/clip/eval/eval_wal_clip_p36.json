@@ -1,0 +1,41 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "wal",
+  "pipeline_label": "WaLLoC RGB_16x",
+  "task": "clip",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "naflex max_num_patches=256 snap=32",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 36,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.29733770104383467,
+  "storage_bpp_mean": 0.29733770104383467,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.5585,
+    "top5": 0.76208,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.04007185742030233,
+    "elapsed_s": 776.0312623977661,
+    "psnr_db": 25.814081879825594,
+    "ssim": 0.735382035742104,
+    "lpips_db": 4.56601858298306,
+    "dists_db": 6.3513727361549845
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walloc:RGB_16x",
+    "q_pixel_ratio": 36.0,
+    "latent_dim": 12,
+    "latent_bits": 8,
+    "J": 3
+  },
+  "clip_naflex_max_patches": 256,
+  "clip_naflex_patch_size": 16,
+  "clip_naflex_snap": 32
+}

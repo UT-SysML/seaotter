@@ -1,0 +1,38 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "wal",
+  "pipeline_label": "WaLLoC RGB_16x",
+  "task": "seg",
+  "val_ds": "danjacobellis/scene_parse_150",
+  "val_split": "validation",
+  "preprocessing": "squash 512x512",
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 36,
+    "extras": {}
+  },
+  "transmit_bpp_mean": 0.25312249755859373,
+  "storage_bpp_mean": 0.25312249755859373,
+  "n_eval": 2000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": null,
+    "top5": null,
+    "miou": 0.3832509219646454,
+    "pixel_accuracy": 0.7788540566863695,
+    "bpp_std": 0.040748905975655565,
+    "elapsed_s": 95.11943650245667,
+    "psnr_db": 28.97536145591736,
+    "ssim": 0.9064425881206989,
+    "lpips_db": 5.5649869507917735,
+    "dists_db": 9.466799782042829
+  },
+  "throughput": null,
+  "config": {
+    "codec": "walloc:RGB_16x",
+    "q_pixel_ratio": 36.0,
+    "latent_dim": 12,
+    "latent_bits": 8,
+    "J": 3
+  }
+}
