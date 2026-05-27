@@ -57,6 +57,8 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -170,9 +172,9 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">SEAOTTER</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Workflow</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="seaotter.html">Inference using pre-trained model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="seaotter.html">SEA OTTER workflow (segmentation)</a></li>
 </ul>
 
     </div>
@@ -322,7 +324,6 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-embedded-autoencoding-with-one-time-transcode-for-efficient-reconstruction">Sensor Embedded Autoencoding with One Time Transcode for Efficient Reconstruction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
 </ul>
             </nav>
         </div>
@@ -340,11 +341,15 @@ document.write(`
 <h2>Sensor Embedded Autoencoding with One Time Transcode for Efficient Reconstruction<a class="headerlink" href="#sensor-embedded-autoencoding-with-one-time-transcode-for-efficient-reconstruction" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://github.com/UT-SysML/seaotter">code</a></p>
 <p><a class="reference external" href="https://danjacobellis.net/_static/seaotter.pdf">paper</a></p>
-<p>TODO: SEAOTTER abstract.</p>
-</section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>TODO.</p>
+<p>In robotics, wearables, and remote sensing, an incredible wealth of visual data is easily captured at high resolution, high frame rate, and using low cost and low power hardware.
+However, limited bandwidth and on-device processing power severely limit our ability to utilize these signals with standard JPEG and MPEG codecs.
+Newer standards, like AV1/AVIF, provide better rate-distortion trade-off, but require significantly more resources to encode on device, making them impractical to use without custom ASICs or hardware accelerators.
+Recent asymmetric neural network-based autoencoder systems deliver high quality under extreme power and bandwidth constraints, but introduce difficulties for downstream applications due to (1) their prohibitive decoding cost and (2) their use of bespoke formats that ignore decades of infrastructure built around standards like JPEG.
+To address these limitations, we introduce a compression framework for cloud robotics based on a <strong>S</strong>ensor <strong>E</strong>mbedded <strong>A</strong>utoencoder paired with a <strong>O</strong>ne-<strong>T</strong>ime <strong>T</strong>ranscode for <strong>E</strong>fficient <strong>R</strong>econstruction (SEAOTTER).
+By exploiting heterogeneity of power and bandwidth constraints across processing stages in cloud robotics systems, SEAOTTER bridges the gap between compact, but difficult to utilize, latent representations and higher bitrate, but universally supported, JPEG bitstreams.
+SEAOTTER improves the accuracy of global, dense, and VLM/VLA-based remote inference pipelines compared to modern standards like AVIF.
+Remarkably, SEAOTTER’s additional transcode step <em>increases</em> accuracy compared to the same DNN-based autoencoder without it.
+At the same time, SEAOTTER seamlessly integrates with the ecosystem of hardware and software systems built around the JPEG standard, and can be optimized end-to-end for specific sensors, environments, or downstream models.</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -408,7 +413,6 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-embedded-autoencoding-with-one-time-transcode-for-efficient-reconstruction">Sensor Embedded Autoencoding with One Time Transcode for Efficient Reconstruction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
 </ul>
   </nav></div>
 

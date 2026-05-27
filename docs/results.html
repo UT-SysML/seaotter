@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Results &#8212; SEAOTTER</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'results';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SEAOTTER</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">SEAOTTER</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Workflow</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="seaotter.html">SEA OTTER workflow (segmentation)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/results.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Results</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#layout">Layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-specific-dataset-preprocessing">Task-specific dataset / preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eval-json-schema"><code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#throughput-json-schema"><code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-contents-and-provenance">Current contents and provenance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cls-56-eval-55-throughput"><code class="docutils literal notranslate"><span class="pre">cls/</span></code> — 56 eval + 55 throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seg-41-eval-40-throughput"><code class="docutils literal notranslate"><span class="pre">seg/</span></code> — 41 eval + 40 throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clip-16-eval-no-throughput-frappe-side-raw-ceiling"><code class="docutils literal notranslate"><span class="pre">clip/</span></code> — 16 eval, no throughput (FRAPPE-side + raw ceiling)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codec-kodak-17-eval-cells-summary-json-standalone-codec-no-downstream-task"><code class="docutils literal notranslate"><span class="pre">codec_kodak/</span></code> — 17 eval cells + <code class="docutils literal notranslate"><span class="pre">summary.json</span></code> (standalone codec, no downstream task)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codec-kodak-cls-17-eval-cells-raw-anchor-standalone-codec-imagenet-50k-cls"><code class="docutils literal notranslate"><span class="pre">codec_kodak_cls/</span></code> — 17 eval cells + raw anchor (standalone codec, ImageNet 50k cls)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="results">
+<h1>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h1>
+<p>Raw per-operating-point JSONs from the SEA OTTER paper evaluation
+harness. Each row of the paper’s main results figure corresponds to one
+<code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> + one <code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> pair under <code class="docutils literal notranslate"><span class="pre">results/&lt;task&gt;/</span></code>.</p>
+<p>This file documents what each JSON contains so downstream readers
+(figure scripts, tables, ablation plots) don’t have to re-discover the
+schema. Updated as additional results land.</p>
+<section id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Link to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>results/
+├── cls/
+│   ├── eval/           accuracy + distortion + bpp per pipeline × op
+│   └── throughput/     encode / consumer wall-clock per pipeline × op
+├── seg/
+│   ├── eval/           FRAPPE-side only so far
+│   └── throughput/     FRAPPE-side only so far
+├── clip/
+│   └── eval/           FRAPPE-side only so far; no throughput measured yet
+├── codec_kodak/        standalone codec eval on Kodak (no downstream task)
+└── codec_kodak_cls/    standalone codec eval on ImageNet 50k under the cls protocol
+</pre></div>
+</div>
+<p>Filenames follow <code class="docutils literal notranslate"><span class="pre">eval_&lt;pipeline&gt;_&lt;task&gt;_&lt;op&gt;.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">throughput_&lt;pipeline&gt;_&lt;task&gt;_&lt;op&gt;.json</span></code>, where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;pipeline&gt;</span></code> ∈ <code class="docutils literal notranslate"><span class="pre">{avif,</span> <span class="pre">avifx,</span> <span class="pre">jpeg,</span> <span class="pre">jp2,</span> <span class="pre">webp,</span> <span class="pre">frp,</span> <span class="pre">wal,</span> <span class="pre">seab,</span> <span class="pre">walsand,</span> <span class="pre">seaft,</span> <span class="pre">walft,</span> <span class="pre">raw}</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">avif</span></code> — AVIF (libavif default speed).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avifx</span></code> — AVIF (libavif max speed, <code class="docutils literal notranslate"><span class="pre">s10</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jpeg</span></code> — Vanilla JPEG baseline (Pillow defaults; 4:2:0 chroma subsampling).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jp2</span></code> — JPEG 2000 (Pillow / OpenJPEG defaults).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">webp</span></code> — WebP (libwebp defaults).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frp</span></code> — FRAPPE codec, no SEA OTTER sandwich.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wal</span></code> — WaLLoC codec, no SEA OTTER sandwich.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seab</span></code> — FRAPPE + SEA OTTER zero-shot sandwich (phase-2 K=3 warm-start,
+no fine-tune).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">walsand</span></code> — WaLLoC + SEA OTTER zero-shot sandwich.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seaft</span></code> — FRAPPE + SEA OTTER, fine-tuned against the downstream task loss.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">walft</span></code> — WaLLoC + SEA OTTER, fine-tuned against the downstream task loss.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">raw</span></code> — no-codec ceiling (lossless PNG reference). Single <code class="docutils literal notranslate"><span class="pre">_ref</span></code> op per task;
+no <code class="docutils literal notranslate"><span class="pre">throughput_*</span></code> companion (<code class="docutils literal notranslate"><span class="pre">raw</span></code> is a reconstruction-fidelity / accuracy upper bound, not a deployment configuration).</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;task&gt;</span></code> ∈ <code class="docutils literal notranslate"><span class="pre">{cls,</span> <span class="pre">seg,</span> <span class="pre">clip}</span></code> (see “Task-specific dataset / preprocessing” below).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;op&gt;</span></code> is the operating-point id, <strong>per pipeline family</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">q{1,5,10,25,50}</span></code> (+ <code class="docutils literal notranslate"><span class="pre">_s10</span></code> suffix for <code class="docutils literal notranslate"><span class="pre">avifx</span></code>) — AVIF / JPEG / WebP quality.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r{12,25,50,100,200}</span></code> — JPEG 2000 compression ratio (Pillow <code class="docutils literal notranslate"><span class="pre">quality_layers</span></code> semantics).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n{3,6,9,12,15}</span></code> — FRAPPE latent channel count (FRAPPE-side pipelines).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p{4,16,36,80,100}</span></code> — target pixel-ratio % (WaLLoC-side pipelines).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ref</span></code> — single no-codec reference cell for the <code class="docutils literal notranslate"><span class="pre">raw</span></code> pipeline.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="task-specific-dataset-preprocessing">
+<h2>Task-specific dataset / preprocessing<a class="headerlink" href="#task-specific-dataset-preprocessing" title="Link to this heading">#</a></h2>
+<p>The schema below is shared across all three tasks, but <strong>the underlying
+data distributions and image sizes are different</strong>, so distortion /
+bpp values cannot be compared across tasks directly:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>task</p></th>
+<th class="head"><p>val dataset</p></th>
+<th class="head"><p>n_eval</p></th>
+<th class="head"><p>preprocessing</p></th>
+<th class="head"><p>populates</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cls</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">timm/imagenet-1k-wds</span></code></p></td>
+<td><p>50000</p></td>
+<td><p>squash 384×384</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metrics.top1</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics.top5</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">seg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">danjacobellis/scene_parse_150</span></code> (ADE20K)</p></td>
+<td><p>2000</p></td>
+<td><p>squash 512×512</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metrics.miou</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics.pixel_accuracy</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clip</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">timm/imagenet-1k-wds</span></code></p></td>
+<td><p>50000</p></td>
+<td><p>naflex (max_num_patches=256, patch_size=16, snap=32; aspect-preserving)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metrics.top1</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics.top5</span></code> (zero-shot via SigLIP-2 prototypes)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kodak_recon</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">danjacobellis/kodak</span></code></p></td>
+<td><p>24</p></td>
+<td><p>native (no resize, no crop; 768×512 or 512×768; bs=1)</p></td>
+<td><p>per-image + summary <code class="docutils literal notranslate"><span class="pre">bpp</span></code>, <code class="docutils literal notranslate"><span class="pre">psnr_db</span></code>, <code class="docutils literal notranslate"><span class="pre">ssim</span></code>, <code class="docutils literal notranslate"><span class="pre">lpips_db</span></code>, <code class="docutils literal notranslate"><span class="pre">dists_db</span></code> (no downstream task accuracy)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kodak_cls</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">timm/imagenet-1k-wds</span></code></p></td>
+<td><p>50000</p></td>
+<td><p>squash 384×384; bpp denominator pinned at 384·384 = 147456</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">metrics.{top1,</span> <span class="pre">top5,</span> <span class="pre">psnr_db,</span> <span class="pre">ssim,</span> <span class="pre">lpips_db,</span> <span class="pre">dists_db,</span> <span class="pre">bpp_mean,</span> <span class="pre">bpp_std}</span></code> — standalone codec only (no FRAPPE upstream); <code class="docutils literal notranslate"><span class="pre">metrics.{miou,</span> <span class="pre">pixel_accuracy}</span> <span class="pre">=</span> <span class="pre">null</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>All distortion fields (<code class="docutils literal notranslate"><span class="pre">psnr_db</span></code>, <code class="docutils literal notranslate"><span class="pre">ssim</span></code>, <code class="docutils literal notranslate"><span class="pre">lpips_db</span></code>, <code class="docutils literal notranslate"><span class="pre">dists_db</span></code>) and
+both bpp fields (<code class="docutils literal notranslate"><span class="pre">transmit_bpp_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">storage_bpp_mean</span></code>) are populated
+on every task — they’re just computed on whichever (dataset,
+preprocessing) the task uses. Compare distortion / bpp <strong>within a
+task</strong>, not across tasks.</p>
+<p><code class="docutils literal notranslate"><span class="pre">clip</span></code> JSONs additionally carry three top-level naflex-config fields
+(<code class="docutils literal notranslate"><span class="pre">clip_naflex_max_patches</span></code>, <code class="docutils literal notranslate"><span class="pre">clip_naflex_patch_size</span></code>,
+<code class="docutils literal notranslate"><span class="pre">clip_naflex_snap</span></code>) and stash the fine-tune checkpoint pointer under
+<code class="docutils literal notranslate"><span class="pre">operating_point.extras.checkpoint</span></code> (in addition to <code class="docutils literal notranslate"><span class="pre">config.checkpoint</span></code>).</p>
+</section>
+<section id="eval-json-schema">
+<h2><code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> schema<a class="headerlink" href="#eval-json-schema" title="Link to this heading">#</a></h2>
+<p>Accuracy + distortion + bitrate. The fields are identical across tasks;
+only <code class="docutils literal notranslate"><span class="pre">val_ds</span></code> / <code class="docutils literal notranslate"><span class="pre">n_eval</span></code> / <code class="docutils literal notranslate"><span class="pre">preprocessing</span></code> change.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>field</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transmit_bpp_mean</span></code></p></td>
+<td><p>bits-per-pixel of what crosses the wireless link (FRAPPE-LS / WaLLoC latents for SEA OTTER; full JPEG / AVIF bytes for baselines).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">storage_bpp_mean</span></code></p></td>
+<td><p>bits-per-pixel of the final on-disk JPEG (= <code class="docutils literal notranslate"><span class="pre">transmit_bpp_mean</span></code> for baselines; <strong>different</strong> for SEA OTTER, since the cloud transcoder one-time-rewrites the latents to a JPEG file).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.bpp_std</span></code></p></td>
+<td><p>per-image bpp standard deviation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.top1</span></code></p></td>
+<td><p>top-1 accuracy. <code class="docutils literal notranslate"><span class="pre">cls</span></code>: ImageNet-1k supervised. <code class="docutils literal notranslate"><span class="pre">clip</span></code>: SigLIP-2 zero-shot prototype matching. <code class="docutils literal notranslate"><span class="pre">null</span></code> for <code class="docutils literal notranslate"><span class="pre">seg</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.top5</span></code></p></td>
+<td><p>top-5 accuracy (same convention as <code class="docutils literal notranslate"><span class="pre">top1</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.miou</span></code></p></td>
+<td><p>mean IoU on ADE20K val. Populated for <code class="docutils literal notranslate"><span class="pre">seg</span></code>; <code class="docutils literal notranslate"><span class="pre">null</span></code> otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.pixel_accuracy</span></code></p></td>
+<td><p>per-pixel accuracy on ADE20K val. Populated for <code class="docutils literal notranslate"><span class="pre">seg</span></code>; <code class="docutils literal notranslate"><span class="pre">null</span></code> otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.psnr_db</span></code></p></td>
+<td><p>reconstruction PSNR (dB) vs the original sRGB at the task’s preprocessing resolution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.ssim</span></code></p></td>
+<td><p>reconstruction SSIM.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.lpips_db</span></code></p></td>
+<td><p>LPIPS, reported in dB (<code class="docutils literal notranslate"><span class="pre">-10</span> <span class="pre">log10</span> <span class="pre">LPIPS</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.dists_db</span></code></p></td>
+<td><p>DISTS, reported in dB.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">metrics.elapsed_s</span></code></p></td>
+<td><p>total eval wall-clock seconds.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">n_eval</span></code></p></td>
+<td><p>sample count for this row (see Task-specific section).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">operating_point</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{type,</span> <span class="pre">value,</span> <span class="pre">extras}</span></code> — e.g. <code class="docutils literal notranslate"><span class="pre">{n_ch,</span> <span class="pre">12}</span></code> or <code class="docutils literal notranslate"><span class="pre">{q_pixel_ratio,</span> <span class="pre">16.0}</span></code>. <code class="docutils literal notranslate"><span class="pre">clip</span></code> also stashes the fine-tune checkpoint in <code class="docutils literal notranslate"><span class="pre">extras.checkpoint</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.codec</span></code></p></td>
+<td><p>codec identifier (<code class="docutils literal notranslate"><span class="pre">seaotter</span></code> / <code class="docutils literal notranslate"><span class="pre">walft</span></code> / <code class="docutils literal notranslate"><span class="pre">avif</span></code> / …).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.checkpoint</span></code></p></td>
+<td><p>path to the fine-tune checkpoint when one exists (<code class="docutils literal notranslate"><span class="pre">seaft</span></code>, <code class="docutils literal notranslate"><span class="pre">walft</span></code>); <code class="docutils literal notranslate"><span class="pre">None</span></code> otherwise.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.phase2_init</span></code> / <code class="docutils literal notranslate"><span class="pre">phase2_k</span></code> / <code class="docutils literal notranslate"><span class="pre">phase2_arch</span></code></p></td>
+<td><p>warm-start pin into the phase-2 K=3 sandwich (<code class="docutils literal notranslate"><span class="pre">S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clip_naflex_*</span></code> (clip only)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_patches=256</span></code>, <code class="docutils literal notranslate"><span class="pre">patch_size=16</span></code>, <code class="docutils literal notranslate"><span class="pre">snap=32</span></code>. Pin the variable-resolution preprocessing geometry.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">harness_version</span></code>, <code class="docutils literal notranslate"><span class="pre">pipeline</span></code>, <code class="docutils literal notranslate"><span class="pre">pipeline_label</span></code>, <code class="docutils literal notranslate"><span class="pre">task</span></code>, <code class="docutils literal notranslate"><span class="pre">val_ds</span></code>, <code class="docutils literal notranslate"><span class="pre">val_split</span></code>, <code class="docutils literal notranslate"><span class="pre">preprocessing</span></code></p></td>
+<td><p>provenance / run identity.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Fine-tuned SEA OTTER pipelines (<code class="docutils literal notranslate"><span class="pre">seaft</span></code>, <code class="docutils literal notranslate"><span class="pre">walft</span></code>) trade reconstruction
+PSNR (10-22 dB) for downstream accuracy — this is the “task-driven
+recon drift” framing in the paper, not a measurement error.
+Zero-shot SEA OTTER (<code class="docutils literal notranslate"><span class="pre">seab</span></code>, <code class="docutils literal notranslate"><span class="pre">walsand</span></code>) keeps PSNR closer to the
+codec-only baselines (24-30 dB) because the sandwich was trained
+against an R-D loss, not a task loss.</p>
+</section>
+<section id="throughput-json-schema">
+<h2><code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> schema<a class="headerlink" href="#throughput-json-schema" title="Link to this heading">#</a></h2>
+<p>Encode and consumer wall-clock distributions over a 256-image subset.
+Threading is intentionally <strong>not</strong> pinned (no <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS=1</span></code> /
+<code class="docutils literal notranslate"><span class="pre">MKL_NUM_THREADS=1</span></code> / <code class="docutils literal notranslate"><span class="pre">torch.set_num_threads</span></code>) to match the
+FRAPPE / Pillow encode-complexity harness methodology.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>field</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">throughput.encode.{median,mean,p25,p75}_ms</span></code></p></td>
+<td><p>sensor-side encode wall-clock per image (ms).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">throughput.encode.n</span></code></p></td>
+<td><p>sample count (256).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">throughput.consumer.{median,mean,p25,p75}_ms</span></code></p></td>
+<td><p>consumer-side decode + ConvNeXt forward, bs=1 (ms).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">n_throughput_images</span></code></p></td>
+<td><p>sample count (256).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.cpu_model</span></code></p></td>
+<td><p>CPU model (<code class="docutils literal notranslate"><span class="pre">AMD</span> <span class="pre">EPYC</span> <span class="pre">9354</span> <span class="pre">32-Core</span> <span class="pre">Processor</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.gpu_model</span></code></p></td>
+<td><p>GPU model (<code class="docutils literal notranslate"><span class="pre">NVIDIA</span> <span class="pre">RTX</span> <span class="pre">PRO</span> <span class="pre">6000</span> <span class="pre">Blackwell</span> <span class="pre">Max-Q</span> <span class="pre">Workstation</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.device</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> for the consumer-side timings; encoder is CPU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.threading</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;natural</span> <span class="pre">(library</span> <span class="pre">defaults;</span> <span class="pre">no</span> <span class="pre">OMP/MKL/torch</span> <span class="pre">caps)&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operating_point</span></code>, <code class="docutils literal notranslate"><span class="pre">config.codec</span></code>, <code class="docutils literal notranslate"><span class="pre">config.checkpoint</span></code>, <code class="docutils literal notranslate"><span class="pre">harness_version</span></code>, …</p></td>
+<td><p>same as the eval JSON.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">accuracy</span></code> / <code class="docutils literal notranslate"><span class="pre">distortion</span></code> / <code class="docutils literal notranslate"><span class="pre">bpp</span></code> fields in throughput JSONs are
+intentionally <code class="docutils literal notranslate"><span class="pre">null</span></code>; pair the throughput JSON with the matching
+<code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> for those.</p>
+</section>
+<section id="current-contents-and-provenance">
+<h2>Current contents and provenance<a class="headerlink" href="#current-contents-and-provenance" title="Link to this heading">#</a></h2>
+<section id="cls-56-eval-55-throughput">
+<h3><code class="docutils literal notranslate"><span class="pre">cls/</span></code> — 56 eval + 55 throughput<a class="headerlink" href="#cls-56-eval-55-throughput" title="Link to this heading">#</a></h3>
+<p>8 SEA OTTER / FRAPPE / WaLLoC / AVIF pipelines × 5 ops + 3 alt-codec
+baselines × 5 ops + 1 raw (no-codec) ceiling row. Produced by the
+iter-6 harness at
+<code class="docutils literal notranslate"><span class="pre">pre_trained_convnext/experiments/iter6_extra_codec_baselines/</span></code>.</p>
+<ul class="simple">
+<li><p>The 8-pipeline core (<code class="docutils literal notranslate"><span class="pre">avif,</span> <span class="pre">avifx,</span> <span class="pre">frp,</span> <span class="pre">wal,</span> <span class="pre">seab,</span> <span class="pre">walsand,</span> <span class="pre">seaft,</span> <span class="pre">walft</span></code>)
+× 5 ops × {eval, throughput} = 80 files. The <code class="docutils literal notranslate"><span class="pre">walft</span></code> row was refreshed
+2026-05-22 with the iter-10 LR-sweep champion (<code class="docutils literal notranslate"><span class="pre">λ=0.05,</span> <span class="pre">lr_base=2e-5</span></code>);
+pre-iter-10 <code class="docutils literal notranslate"><span class="pre">walft</span></code> JSONs are retired in <code class="docutils literal notranslate"><span class="pre">stale_iter7/</span></code> at the source and
+are not mirrored here. All other 8-pipeline cells are as-evaluated on
+2026-05-19.</p></li>
+<li><p>Alt-codec baselines: <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> (q ∈ {1, 5, 10, 25, 50}), <code class="docutils literal notranslate"><span class="pre">jp2</span></code> (r ∈
+{12, 25, 50, 100, 200}), <code class="docutils literal notranslate"><span class="pre">webp</span></code> (q ∈ {1, 5, 10, 25, 50}) × {eval,
+throughput} = 30 files.</p></li>
+<li><p>Raw ceiling: <code class="docutils literal notranslate"><span class="pre">eval_raw_cls_ref.json</span></code> (no-codec lossless reference;
+85.13% top-1 — matches the iter-4 §0 anchor and the
+<code class="docutils literal notranslate"><span class="pre">convnext_tiny.in12k_ft_in1k_384</span></code> model card). No throughput
+companion (raw is a ceiling, not a deployment configuration).</p></li>
+</ul>
+</section>
+<section id="seg-41-eval-40-throughput">
+<h3><code class="docutils literal notranslate"><span class="pre">seg/</span></code> — 41 eval + 40 throughput<a class="headerlink" href="#seg-41-eval-40-throughput" title="Link to this heading">#</a></h3>
+<p>FRAPPE pipelines + WaLLoC-zero-shot/fine-tuned coverage + AVIF / alt-codec
+baselines + raw ceiling, all on ADE20K val 2k under squash-512²
+preprocessing. Same iter-6 harness.</p>
+<ul class="simple">
+<li><p>FRAPPE pipelines <code class="docutils literal notranslate"><span class="pre">{frp,</span> <span class="pre">seab,</span> <span class="pre">seaft}</span></code> × <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">∈</span> <span class="pre">{3,</span> <span class="pre">6,</span> <span class="pre">9,</span> <span class="pre">12,</span> <span class="pre">15}</span></code> ×
+{eval, throughput} = 30 files.</p></li>
+<li><p>Alt-codec baselines: <code class="docutils literal notranslate"><span class="pre">avif</span></code> / <code class="docutils literal notranslate"><span class="pre">avifx</span></code> (q ∈ {1, 5, 10, 25, 50}, <code class="docutils literal notranslate"><span class="pre">_s10</span></code>
+suffix on <code class="docutils literal notranslate"><span class="pre">avifx</span></code>), <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> (q ∈ {1, 5, 10, 25, 50}), <code class="docutils literal notranslate"><span class="pre">jp2</span></code> (r ∈ {12,
+25, 50, 100, 200}), <code class="docutils literal notranslate"><span class="pre">webp</span></code> (q ∈ {1, 5, 10, 25, 50}) × {eval,
+throughput} = 50 files.</p></li>
+<li><p>Raw ceiling: <code class="docutils literal notranslate"><span class="pre">eval_raw_seg_ref.json</span></code> (no-codec lossless reference).
+Iter-6 harness <code class="docutils literal notranslate"><span class="pre">raw</span> <span class="pre">seg</span></code> reproduces ~44.51 % mIoU under the squash-512²
+protocol — about 1.5 pp below the sliding-window paper-protocol number
+(45.96 % mIoU) for the same teacher. No throughput companion.</p></li>
+<li><p>WaLLoC-side seg (<code class="docutils literal notranslate"><span class="pre">wal</span></code>, <code class="docutils literal notranslate"><span class="pre">walsand</span></code>, <code class="docutils literal notranslate"><span class="pre">walft</span></code>) is <strong>not</strong> mirrored here.</p></li>
+</ul>
+</section>
+<section id="clip-16-eval-no-throughput-frappe-side-raw-ceiling">
+<h3><code class="docutils literal notranslate"><span class="pre">clip/</span></code> — 16 eval, no throughput (FRAPPE-side + raw ceiling)<a class="headerlink" href="#clip-16-eval-no-throughput-frappe-side-raw-ceiling" title="Link to this heading">#</a></h3>
+<p>FRAPPE pipelines <code class="docutils literal notranslate"><span class="pre">{frp,</span> <span class="pre">seab,</span> <span class="pre">seaft}</span></code> × <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">∈</span> <span class="pre">{3,</span> <span class="pre">6,</span> <span class="pre">9,</span> <span class="pre">12,</span> <span class="pre">15}</span></code> on
+ImageNet val 50k under naflex preprocessing (zero-shot via SigLIP-2
+prototypes). <code class="docutils literal notranslate"><span class="pre">n=12</span></code> for <code class="docutils literal notranslate"><span class="pre">frp</span></code> and <code class="docutils literal notranslate"><span class="pre">seab</span></code> was sourced from the iter-6
+production directory (smoke-4 anchor row, same harness, same
+preprocessing); the other 13 come from
+<code class="docutils literal notranslate"><span class="pre">experiments/clip_production/production/</span></code>. <strong>All five <code class="docutils literal notranslate"><span class="pre">seaft</span></code> cells
+come from the same <code class="docutils literal notranslate"><span class="pre">checkpoint_clip_prod_frappe_n{N}.pth</span></code> sweep</strong> —
+including <code class="docutils literal notranslate"><span class="pre">n=3</span></code>. (<code class="docutils literal notranslate"><span class="pre">n=3</span></code> was the one cell where fine-tuning did not
+beat the zero-shot baseline; a separate λ=0.025 re-run did
+marginally better but still failed, and is intentionally <strong>not</strong>
+mirrored here so the row reflects the original sweep.)</p>
+<ul class="simple">
+<li><p>Raw ceiling: <code class="docutils literal notranslate"><span class="pre">eval_raw_clip_ref.json</span></code> (no-codec lossless reference;
+0.6959 zero-shot top-1 / 0.8568 top-5 via SigLIP-2 — matches iter-9
+Smoke 3).</p></li>
+<li><p>WaLLoC-side clip (<code class="docutils literal notranslate"><span class="pre">wal</span></code>, <code class="docutils literal notranslate"><span class="pre">walsand</span></code>, <code class="docutils literal notranslate"><span class="pre">walft</span></code>) is <strong>not</strong> mirrored here.</p></li>
+</ul>
+<p>No <code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> files exist for clip in the source repo —
+clip-task throughput was not measured.</p>
+</section>
+<section id="codec-kodak-17-eval-cells-summary-json-standalone-codec-no-downstream-task">
+<h3><code class="docutils literal notranslate"><span class="pre">codec_kodak/</span></code> — 17 eval cells + <code class="docutils literal notranslate"><span class="pre">summary.json</span></code> (standalone codec, no downstream task)<a class="headerlink" href="#codec-kodak-17-eval-cells-summary-json-standalone-codec-no-downstream-task" title="Link to this heading">#</a></h3>
+<p><strong>Harness version: <code class="docutils literal notranslate"><span class="pre">codec-kodak-v1</span></code></strong> (separate harness from the
+iter-6 pipeline harness; different schema — see below). Output of
+<code class="docutils literal notranslate"><span class="pre">experiments/codec_kodak_eval/run_eval.py</span></code> in the research tree, run
+CPU-only at <code class="docutils literal notranslate"><span class="pre">bs=1</span></code> on Kodak validation at <strong>native resolution</strong> (no
+resize, no crop; 16 images at 768×512 + 8 at 512×768).</p>
+<p>Compares three codecs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">seaotter</span></code> — SEA OTTER S3 K=3 production bundle
+(<code class="docutils literal notranslate"><span class="pre">danjacobellis/seaotter</span> <span class="pre">&#64;</span> <span class="pre">seaotter_jpeg_s3</span></code>,
+λ = [0.75, 0.40, 0.22]; this is the warm-start used by every
+phase-4 production pipeline at <code class="docutils literal notranslate"><span class="pre">phase2_k=2</span></code>). Loaded via
+<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">seaotter</span> <span class="pre">import</span> <span class="pre">load_from_hub;</span> <span class="pre">bundle</span> <span class="pre">=</span> <span class="pre">load_from_hub()</span></code>
+(S3 is the package default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jpeg</span></code> — Pillow JPEG, default chroma subsampling (4:2:0).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jpeg_sub0</span></code> — Pillow JPEG, no chroma subsampling (4:4:4).</p></li>
+</ul>
+<p>7-q ladder (<code class="docutils literal notranslate"><span class="pre">q0p5</span></code>, <code class="docutils literal notranslate"><span class="pre">q1</span></code>, <code class="docutils literal notranslate"><span class="pre">q1p5</span></code>, <code class="docutils literal notranslate"><span class="pre">q2</span></code>, <code class="docutils literal notranslate"><span class="pre">q2p5</span></code>, <code class="docutils literal notranslate"><span class="pre">q3</span></code>, <code class="docutils literal notranslate"><span class="pre">q3p5</span></code>) selected
+by anchoring <code class="docutils literal notranslate"><span class="pre">q1</span></code> / <code class="docutils literal notranslate"><span class="pre">q2</span></code> / <code class="docutils literal notranslate"><span class="pre">q3</span></code> to the <strong>smallest integer JPEG-sub=0
+quality</strong> where SEA OTTER&#64;k strictly dominates JPEG-sub=0&#64;q on both
+mean Kodak PSNR (SEA OTTER &gt; JPEG) and mean Kodak bpp (SEA OTTER
+&lt; JPEG), then interpolating:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">q1p5</span> <span class="pre">=</span> <span class="pre">round((q1</span> <span class="pre">+</span> <span class="pre">q2)</span> <span class="pre">/</span> <span class="pre">2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q2p5</span> <span class="pre">=</span> <span class="pre">round((q2</span> <span class="pre">+</span> <span class="pre">q3)</span> <span class="pre">/</span> <span class="pre">2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q0p5</span> <span class="pre">=</span> <span class="pre">round(q1</span> <span class="pre">-</span> <span class="pre">(q2</span> <span class="pre">-</span> <span class="pre">q1)</span> <span class="pre">/</span> <span class="pre">2)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q3p5</span> <span class="pre">=</span> <span class="pre">round(q3</span> <span class="pre">+</span> <span class="pre">(q3</span> <span class="pre">-</span> <span class="pre">q2)</span> <span class="pre">/</span> <span class="pre">2)</span></code></p></li>
+</ul>
+<p>(all clamped to <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">99]</span></code>). The same q values are reused for the
+default-subsampling JPEG variant.</p>
+<p><strong>Per-cell file schema</strong> (different from the iter-6 envelope —
+no <code class="docutils literal notranslate"><span class="pre">metrics.*</span></code>, no <code class="docutils literal notranslate"><span class="pre">transmit_bpp_*</span></code> / <code class="docutils literal notranslate"><span class="pre">storage_bpp_*</span></code> split since
+storage ≡ transmit ≡ JPEG bytes for a standalone codec):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>field</p></th>
+<th class="head"><p>meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.bpp</span></code></p></td>
+<td><p>per-image bit-rate <code class="docutils literal notranslate"><span class="pre">8</span> <span class="pre">*</span> <span class="pre">len(jpeg_bytes)</span> <span class="pre">/</span> <span class="pre">(H</span> <span class="pre">*</span> <span class="pre">W)</span></code> (length-24 array).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.psnr_db</span></code></p></td>
+<td><p>per-image PSNR (dB), uint8 vs uint8 reconstruction.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.ssim</span></code></p></td>
+<td><p>per-image SSIM via <code class="docutils literal notranslate"><span class="pre">piq.ssim(data_range=1.0)</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.lpips_db</span></code></p></td>
+<td><p>per-image <code class="docutils literal notranslate"><span class="pre">-10</span> <span class="pre">*</span> <span class="pre">log10(piq.LPIPS()(...))</span></code>. piq net on CPU, <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> input.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.dists_db</span></code></p></td>
+<td><p>per-image <code class="docutils literal notranslate"><span class="pre">-10</span> <span class="pre">*</span> <span class="pre">log10(piq.DISTS()(...))</span></code>. piq net on CPU, <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.image_h</span></code>, <code class="docutils literal notranslate"><span class="pre">image_w</span></code></p></td>
+<td><p>native pixel dimensions per image (no resize).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">per_image.kodak_index</span></code></p></td>
+<td><p>source-row index in <code class="docutils literal notranslate"><span class="pre">danjacobellis/kodak[validation]</span></code> (0..23).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">summary.{bpp,psnr_db,ssim,lpips_db,dists_db}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{mean,</span> <span class="pre">median}</span></code> over the 24 images.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operating_point.type</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">seaotter_k</span></code> for SEA OTTER cells, <code class="docutils literal notranslate"><span class="pre">jpeg_q</span></code> for JPEG cells.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">operating_point.value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">∈</span> <span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">2}</span></code> (seaotter) or integer Pillow quality (jpeg).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">operating_point.ladder_id</span></code></p></td>
+<td><p>(jpeg only) <code class="docutils literal notranslate"><span class="pre">q0p5</span></code> / <code class="docutils literal notranslate"><span class="pre">q1</span></code> / … so a JSON can be located by ladder rung.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.codec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">seaotter</span></code> / <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> / <code class="docutils literal notranslate"><span class="pre">jpeg_sub0</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.subsampling</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> for jpeg_sub0 + seaotter, <code class="docutils literal notranslate"><span class="pre">2</span></code> (= 4:2:0) for the default jpeg variant.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.quality</span></code></p></td>
+<td><p>Pillow <code class="docutils literal notranslate"><span class="pre">quality</span></code> (null for seaotter).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.seaotter_k</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> / <code class="docutils literal notranslate"><span class="pre">1</span></code> / <code class="docutils literal notranslate"><span class="pre">2</span></code> for seaotter, null otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.seaotter_source</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;danjacobellis/seaotter</span> <span class="pre">&#64;</span> <span class="pre">seaotter_jpeg_s3</span> <span class="pre">(load_from_hub</span> <span class="pre">default)&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config.seaotter_lambdas</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0.75,</span> <span class="pre">0.4,</span> <span class="pre">0.22]</span></code> (S3 production sister).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config.device</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;cpu&quot;</span></code> — no GPU used anywhere.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Distortion metric conventions match the iter-6 harness
+(<code class="docutils literal notranslate"><span class="pre">piq.psnr</span></code> / <code class="docutils literal notranslate"><span class="pre">piq.ssim</span></code> / <code class="docutils literal notranslate"><span class="pre">piq.LPIPS</span></code> / <code class="docutils literal notranslate"><span class="pre">piq.DISTS</span></code> on <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>
+float tensors; LPIPS/DISTS reported in dB via <code class="docutils literal notranslate"><span class="pre">-10·log10</span></code>), so
+codec_kodak distortion values can be compared directly with iter-6
+<code class="docutils literal notranslate"><span class="pre">metrics.{psnr_db,</span> <span class="pre">ssim,</span> <span class="pre">lpips_db,</span> <span class="pre">dists_db}</span></code> on a like-for-like
+preprocessing basis — but <strong>not</strong> numerically against the other
+tasks here, since the underlying images and resolutions differ
+(see “Task-specific dataset / preprocessing”).</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">summary.json</span></code></strong> (side artifact) records the q-selection
+process: the three SEA OTTER anchors with mean bpp/PSNR and the
+matched JPEG-sub=0 q; the full JPEG-sub=0 mean-bpp / mean-PSNR
+sweep over q ∈ [1, 99] used for anchor selection; the resolved
+q-ladder; any anchor/interpolation collisions; and the verbatim
+q-selection + interpolation rules.</p>
+<p><strong>File list</strong> (18 total):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>codec_kodak/
+├── eval_seaotter_kodak_k{0,1,2}.json
+├── eval_jpeg_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+├── eval_jpeg_sub0_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+└── summary.json
+</pre></div>
+</div>
+<p>No <code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> for this harness — codec_kodak is a
+distortion-only standalone-codec eval; sensor / consumer
+throughput numbers for the codecs in scope live in <code class="docutils literal notranslate"><span class="pre">cls/throughput/</span></code>
+(SEA OTTER appears there as <code class="docutils literal notranslate"><span class="pre">seab</span></code>, JPEG as the JPEG-only / no-codec
+baselines).</p>
+</section>
+<section id="codec-kodak-cls-17-eval-cells-raw-anchor-standalone-codec-imagenet-50k-cls">
+<h3><code class="docutils literal notranslate"><span class="pre">codec_kodak_cls/</span></code> — 17 eval cells + raw anchor (standalone codec, ImageNet 50k cls)<a class="headerlink" href="#codec-kodak-cls-17-eval-cells-raw-anchor-standalone-codec-imagenet-50k-cls" title="Link to this heading">#</a></h3>
+<p><strong>Harness version: <code class="docutils literal notranslate"><span class="pre">codec-kodak-cls-v1</span></code></strong> — companion to <code class="docutils literal notranslate"><span class="pre">codec_kodak/</span></code>.
+Same three codecs and same 17 operating points (3 SEA OTTER <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">∈</span> <span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">2}</span></code>,
+7 <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> 4:2:0 + 7 <code class="docutils literal notranslate"><span class="pre">jpeg_sub0</span></code> 4:4:4 over the
+<code class="docutils literal notranslate"><span class="pre">{q0p5,</span> <span class="pre">q1,</span> <span class="pre">q1p5,</span> <span class="pre">q2,</span> <span class="pre">q2p5,</span> <span class="pre">q3,</span> <span class="pre">q3p5}</span></code> ladder loaded verbatim from the
+Kodak-native <code class="docutils literal notranslate"><span class="pre">codec_kodak/summary.json</span></code>), but evaluated this time on
+ImageNet val 50k under the cls protocol (<code class="docutils literal notranslate"><span class="pre">squash</span> <span class="pre">384×384</span></code> →
+<code class="docutils literal notranslate"><span class="pre">convnext_tiny.in12k_ft_in1k_384</span></code> top-1/top-5 + the same
+<code class="docutils literal notranslate"><span class="pre">piq.{psnr,</span> <span class="pre">ssim,</span> <span class="pre">LPIPS,</span> <span class="pre">DISTS}</span></code> distortion metrics + bpp). No FRAPPE
+upstream — these codecs operate directly on the 384²-squashed RGB.</p>
+<p>Output of <code class="docutils literal notranslate"><span class="pre">experiments/codec_kodak_eval/run_cls_eval.py</span></code> in the research
+tree, run single-process on <code class="docutils literal notranslate"><span class="pre">cuda:0</span></code> (the codec round-trip stays on CPU
+via Pillow / <code class="docutils literal notranslate"><span class="pre">seaotter.load_from_hub</span></code>; only the ConvNeXt teacher + the
+piq.LPIPS / piq.DISTS nets go to GPU). bpp denominator is pinned at
+<code class="docutils literal notranslate"><span class="pre">384·384</span> <span class="pre">=</span> <span class="pre">147456</span></code> (<code class="docutils literal notranslate"><span class="pre">config.bpp_denominator</span></code>), so per-cell
+<code class="docutils literal notranslate"><span class="pre">metrics.bpp_mean</span> <span class="pre">=</span> <span class="pre">8</span> <span class="pre">*</span> <span class="pre">mean(len(jpeg_bytes))</span> <span class="pre">/</span> <span class="pre">147456</span></code>.</p>
+<p>Schema mirrors the iter-6 <code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> envelope so figures / tables
+can stack <code class="docutils literal notranslate"><span class="pre">codec-kodak-cls-v1</span></code> rows next to existing
+<code class="docutils literal notranslate"><span class="pre">seab</span></code> / <code class="docutils literal notranslate"><span class="pre">walsand</span></code> / <code class="docutils literal notranslate"><span class="pre">seaft</span></code> / <code class="docutils literal notranslate"><span class="pre">walft</span></code> rows without munging:
+<code class="docutils literal notranslate"><span class="pre">metrics.{top1,</span> <span class="pre">top5,</span> <span class="pre">bpp_mean,</span> <span class="pre">bpp_std,</span> <span class="pre">psnr_db,</span> <span class="pre">ssim,</span> <span class="pre">lpips_db,</span> <span class="pre">dists_db}</span></code>
+populated; <code class="docutils literal notranslate"><span class="pre">metrics.{miou,</span> <span class="pre">pixel_accuracy}</span> <span class="pre">=</span> <span class="pre">null</span></code> (cls task);
+<code class="docutils literal notranslate"><span class="pre">storage_bpp_mean</span> <span class="pre">==</span> <span class="pre">transmit_bpp_mean</span></code> (no FRAPPE/transcode split for
+a standalone codec). <code class="docutils literal notranslate"><span class="pre">config.codec</span></code> is one of
+<code class="docutils literal notranslate"><span class="pre">{seaotter,</span> <span class="pre">jpeg,</span> <span class="pre">jpeg_sub0}</span></code>; the SEA OTTER cells additionally carry
+<code class="docutils literal notranslate"><span class="pre">config.seaotter_k</span></code>, <code class="docutils literal notranslate"><span class="pre">config.seaotter_source</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">config.seaotter_lambdas</span> <span class="pre">=</span> <span class="pre">[0.75,</span> <span class="pre">0.4,</span> <span class="pre">0.22]</span></code>. The raw (no-codec)
+ImageNet 50k cls anchor is also persisted here as
+<code class="docutils literal notranslate"><span class="pre">eval_raw_cls_kodak_anchor.json</span></code> (top-1 = 85.13%, top-5 = 97.616%,
+exact match to the iter-4 §0 anchor and to <code class="docutils literal notranslate"><span class="pre">cls/eval/eval_raw_cls_ref.json</span></code>);
+the anchor file carries only <code class="docutils literal notranslate"><span class="pre">metrics.{top1,</span> <span class="pre">top5,</span> <span class="pre">elapsed_s}</span></code> — no
+distortion / bpp fields.</p>
+<p><strong>File list</strong> (18 total):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>codec_kodak_cls/
+├── eval_raw_cls_kodak_anchor.json
+├── eval_seaotter_cls_kodak_k{0,1,2}.json
+├── eval_jpeg_cls_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+└── eval_jpeg_sub0_cls_kodak_{q0p5,q1,q1p5,q2,q2p5,q3,q3p5}.json
+</pre></div>
+</div>
+<p>No <code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> companion — <code class="docutils literal notranslate"><span class="pre">codec_kodak_cls</span></code> is an
+inference-only accuracy + distortion eval. The relevant sensor /
+consumer throughput numbers for these codecs live in <code class="docutils literal notranslate"><span class="pre">cls/throughput/</span></code>
+(SEA OTTER as <code class="docutils literal notranslate"><span class="pre">seab</span></code>, vanilla JPEG via the iter-6 <code class="docutils literal notranslate"><span class="pre">jpeg</span></code> baseline).</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#layout">Layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-specific-dataset-preprocessing">Task-specific dataset / preprocessing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eval-json-schema"><code class="docutils literal notranslate"><span class="pre">eval_*.json</span></code> schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#throughput-json-schema"><code class="docutils literal notranslate"><span class="pre">throughput_*.json</span></code> schema</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-contents-and-provenance">Current contents and provenance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cls-56-eval-55-throughput"><code class="docutils literal notranslate"><span class="pre">cls/</span></code> — 56 eval + 55 throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seg-41-eval-40-throughput"><code class="docutils literal notranslate"><span class="pre">seg/</span></code> — 41 eval + 40 throughput</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clip-16-eval-no-throughput-frappe-side-raw-ceiling"><code class="docutils literal notranslate"><span class="pre">clip/</span></code> — 16 eval, no throughput (FRAPPE-side + raw ceiling)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codec-kodak-17-eval-cells-summary-json-standalone-codec-no-downstream-task"><code class="docutils literal notranslate"><span class="pre">codec_kodak/</span></code> — 17 eval cells + <code class="docutils literal notranslate"><span class="pre">summary.json</span></code> (standalone codec, no downstream task)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codec-kodak-cls-17-eval-cells-raw-anchor-standalone-codec-imagenet-50k-cls"><code class="docutils literal notranslate"><span class="pre">codec_kodak_cls/</span></code> — 17 eval cells + raw anchor (standalone codec, ImageNet 50k cls)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dan Jacobellis
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
