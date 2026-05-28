@@ -1,0 +1,62 @@
+{
+  "id": "6a4f090fea6048259dbe1b8ff4f75f42",
+  "codec": "avifx",
+  "task": "encode_complexity",
+  "dataset": "seg_512",
+  "input_resolution": [
+    512,
+    512
+  ],
+  "n_images": 256,
+  "operating_point": {
+    "type": "quality",
+    "value": 10,
+    "extras": {
+      "avif_speed": 10
+    }
+  },
+  "stages": [
+    "encode"
+  ],
+  "config": {
+    "backend": "pillow",
+    "format": "AVIF",
+    "quality": 10,
+    "speed": 10
+  },
+  "testbed": {
+    "hostname": "ecen-a94017",
+    "os": "Linux 6.8.0-111-generic",
+    "python": "3.12.3",
+    "torch": "2.11.0+cu130",
+    "pil_version": "12.2.0",
+    "device": "cpu",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": null
+  },
+  "results": {
+    "throughput": {
+      "median_MPx_per_s": 32.64923216207499,
+      "mean_MPx_per_s": 32.677242986778545,
+      "total_per_image": {
+        "median": 0.008029101532883942,
+        "mean": 0.008022219013582799
+      }
+    },
+    "stages": {
+      "encode": {
+        "median": 0.008029101532883942,
+        "mean": 0.008022219013582799
+      }
+    }
+  },
+  "harness": {
+    "module": "seaotter.eval.encode_complexity",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "n_total_inferences": 1280,
+    "wallclock_runtime_s": 10.28165736887604
+  }
+}

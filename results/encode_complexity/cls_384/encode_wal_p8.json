@@ -1,0 +1,72 @@
+{
+  "id": "23871b1fb6fb43729358c86ebdaa9c83",
+  "codec": "wal",
+  "task": "encode_complexity",
+  "dataset": "cls_384",
+  "input_resolution": [
+    384,
+    384
+  ],
+  "n_images": 256,
+  "operating_point": {
+    "type": "pixel_ratio",
+    "value": 8,
+    "extras": {}
+  },
+  "stages": [
+    "analysis",
+    "transfer",
+    "store"
+  ],
+  "config": {
+    "backend": "walloc",
+    "checkpoint": "RGB_16x",
+    "pixel_ratio": 8.0,
+    "latent_dim": 12,
+    "latent_bits": 8,
+    "J": 3
+  },
+  "testbed": {
+    "hostname": "ecen-a94017",
+    "os": "Linux 6.8.0-111-generic",
+    "python": "3.12.3",
+    "torch": "2.11.0+cu130",
+    "pil_version": "12.2.0",
+    "device": "cpu",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": null
+  },
+  "results": {
+    "throughput": {
+      "median_MPx_per_s": 38.75826289767974,
+      "mean_MPx_per_s": 39.30148133882464,
+      "total_per_image": {
+        "median": 0.003804504871368408,
+        "mean": 0.0037519196472203475
+      }
+    },
+    "stages": {
+      "analysis": {
+        "median": 0.002766477409750223,
+        "mean": 0.0028794083980756115
+      },
+      "transfer": {
+        "median": 2.0400620996952057e-06,
+        "mean": 2.0719013264169917e-06
+      },
+      "store": {
+        "median": 0.0006967169465497136,
+        "mean": 0.0008704393478183193
+      }
+    }
+  },
+  "harness": {
+    "module": "seaotter.eval.encode_complexity",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "n_total_inferences": 1280,
+    "wallclock_runtime_s": 4.820152504835278
+  }
+}

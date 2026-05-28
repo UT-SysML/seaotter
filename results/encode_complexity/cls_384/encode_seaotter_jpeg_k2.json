@@ -1,0 +1,65 @@
+{
+  "id": "d2754183e5e84c628902ec9419275229",
+  "codec": "seaotter_jpeg",
+  "task": "encode_complexity",
+  "dataset": "cls_384",
+  "input_resolution": [
+    384,
+    384
+  ],
+  "n_images": 256,
+  "operating_point": {
+    "type": "k",
+    "value": 2,
+    "extras": {}
+  },
+  "stages": [
+    "fwd",
+    "store"
+  ],
+  "config": {
+    "backend": "seaotter_jpeg",
+    "subdir": "seaotter_jpeg_s3",
+    "k": 2,
+    "lambda": 0.22
+  },
+  "testbed": {
+    "hostname": "ecen-a94017",
+    "os": "Linux 6.8.0-111-generic",
+    "python": "3.12.3",
+    "torch": "2.11.0+cu130",
+    "pil_version": "12.2.0",
+    "device": "cpu",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "cpu_model": "AMD EPYC 9354 32-Core Processor",
+    "gpu_model": null
+  },
+  "results": {
+    "throughput": {
+      "median_MPx_per_s": 77.8491333253937,
+      "mean_MPx_per_s": 77.61308625825151,
+      "total_per_image": {
+        "median": 0.0018941251328215003,
+        "mean": 0.0018998857938640867
+      }
+    },
+    "stages": {
+      "fwd": {
+        "median": 0.0008731628768146038,
+        "mean": 0.0008711143636901397
+      },
+      "store": {
+        "median": 0.0010211780900135636,
+        "mean": 0.001028771430173947
+      }
+    }
+  },
+  "harness": {
+    "module": "seaotter.eval.encode_complexity",
+    "n_warmup": 1,
+    "n_measurement": 5,
+    "n_total_inferences": 1280,
+    "wallclock_runtime_s": 2.4439483489841223
+  }
+}
