@@ -8,52 +8,52 @@
   "preprocessing": "squash 384x384",
   "operating_point": {
     "type": "quality",
-    "value": 1,
+    "value": 6,
     "extras": {}
   },
   "transmit_bpp_mean": null,
   "storage_bpp_mean": null,
   "n_eval": null,
-  "n_throughput_images": 256,
+  "n_throughput_images": 32,
   "metrics": null,
   "throughput": {
     "encode": {
-      "n": 256,
-      "median_ms": 28.012561961077154,
-      "mean_ms": 27.755732086916396,
-      "p25_ms": 24.2748383898288,
-      "p75_ms": 30.72170476661995
+      "n": 32,
+      "median_ms": 31.38407808728516,
+      "mean_ms": 30.19827501702821,
+      "p25_ms": 26.433896098751575,
+      "p75_ms": 32.55666873883456
     },
     "consumer": {
-      "n": 256,
-      "median_ms": 70.71706594433635,
-      "mean_ms": 70.99540147282823,
-      "p25_ms": 69.13698889547959,
-      "p75_ms": 72.4120624945499
+      "n": 32,
+      "median_ms": 82.4637794867158,
+      "mean_ms": 82.54925077199005,
+      "p25_ms": 80.11173253180459,
+      "p75_ms": 83.98540440248325
     },
     "consumer_decode_only": {
-      "n": 256,
-      "median_ms": 7.466836832463741,
-      "mean_ms": 7.649590186701971,
-      "p25_ms": 7.360561692621559,
-      "p75_ms": 7.6185494544915855
+      "n": 32,
+      "median_ms": 7.422361988574266,
+      "mean_ms": 7.557187425845768,
+      "p25_ms": 7.242626044899225,
+      "p75_ms": 7.61570711620152
     },
     "teacher_only": {
-      "n": 256,
-      "median_ms": 51.6693553654477,
-      "mean_ms": 52.044054701582354,
-      "p25_ms": 50.91262562200427,
-      "p75_ms": 53.19015734130517
+      "n": 32,
+      "median_ms": 61.128751491196454,
+      "mean_ms": 63.556933811923955,
+      "p25_ms": 59.91945805726573,
+      "p75_ms": 61.97781936498359
     }
   },
   "config": {
     "format": "AVIF",
-    "quality": 1,
+    "quality": 6,
     "avif_speed": null,
     "cpu_model": "AMD EPYC 9354 32-Core Processor",
     "gpu_model": null,
     "device": "cpu",
     "threading": "natural (library defaults; no OMP/MKL/torch caps)",
-    "warmup_iters": 4
+    "warmup_iters": 2
   }
 }

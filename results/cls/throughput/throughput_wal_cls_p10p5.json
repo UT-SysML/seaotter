@@ -8,47 +8,47 @@
   "preprocessing": "squash 384x384",
   "operating_point": {
     "type": "pixel_ratio",
-    "value": 4,
+    "value": 10.5,
     "extras": {}
   },
   "transmit_bpp_mean": null,
   "storage_bpp_mean": null,
   "n_eval": null,
-  "n_throughput_images": 256,
+  "n_throughput_images": 32,
   "metrics": null,
   "throughput": {
     "encode": {
-      "n": 256,
-      "median_ms": 4.544186987914145,
-      "mean_ms": 4.815347399926395,
-      "p25_ms": 4.272578866221011,
-      "p75_ms": 4.643712833058089
+      "n": 32,
+      "median_ms": 5.37399051245302,
+      "mean_ms": 5.544213592656888,
+      "p25_ms": 5.263057770207524,
+      "p75_ms": 5.824420368298888
     },
     "consumer": {
-      "n": 256,
-      "median_ms": 186.70809804461896,
-      "mean_ms": 197.49366985251982,
-      "p25_ms": 145.3994553303346,
-      "p75_ms": 229.04279473004863
+      "n": 32,
+      "median_ms": 503.2476714113727,
+      "mean_ms": 637.4685070186388,
+      "p25_ms": 252.86654382944107,
+      "p75_ms": 645.6664155120961
     },
     "consumer_decode_only": {
-      "n": 256,
-      "median_ms": 113.77098993398249,
-      "mean_ms": 151.66957807286963,
-      "p25_ms": 41.5068922447972,
-      "p75_ms": 182.62300145579502
+      "n": 32,
+      "median_ms": 45.20204954314977,
+      "mean_ms": 45.43668800761225,
+      "p25_ms": 44.81939546531066,
+      "p75_ms": 46.10983730526641
     },
     "teacher_only": {
-      "n": 256,
-      "median_ms": 49.30908442474902,
-      "mean_ms": 49.48087506363663,
-      "p25_ms": 48.489976732525975,
-      "p75_ms": 50.275441841222346
+      "n": 32,
+      "median_ms": 70.8749599289149,
+      "mean_ms": 71.60992793069454,
+      "p25_ms": 69.26009256858379,
+      "p75_ms": 71.54169713612646
     }
   },
   "config": {
     "codec": "walloc:RGB_16x",
-    "q_pixel_ratio": 4.0,
+    "q_pixel_ratio": 10.5,
     "latent_dim": 12,
     "latent_bits": 8,
     "J": 3,
@@ -56,6 +56,6 @@
     "gpu_model": null,
     "device": "cpu",
     "threading": "natural (library defaults; no OMP/MKL/torch caps)",
-    "warmup_iters": 4
+    "warmup_iters": 2
   }
 }

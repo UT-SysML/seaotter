@@ -1,15 +1,17 @@
 {
   "harness_version": "iter11-cpu-2",
-  "pipeline": "avif",
-  "pipeline_label": "Vanilla AVIF (libavif default speed)",
+  "pipeline": "avifx",
+  "pipeline_label": "Vanilla AVIF (libavif speed=10)",
   "task": "cls",
   "val_ds": "timm/imagenet-1k-wds",
   "val_split": "validation",
   "preprocessing": "squash 384x384",
   "operating_point": {
     "type": "quality",
-    "value": 1,
-    "extras": {}
+    "value": 3,
+    "extras": {
+      "avif_speed": 10
+    }
   },
   "transmit_bpp_mean": null,
   "storage_bpp_mean": null,
@@ -19,37 +21,37 @@
   "throughput": {
     "encode": {
       "n": 256,
-      "median_ms": 28.012561961077154,
-      "mean_ms": 27.755732086916396,
-      "p25_ms": 24.2748383898288,
-      "p75_ms": 30.72170476661995
+      "median_ms": 5.875526927411556,
+      "mean_ms": 5.906023930037918,
+      "p25_ms": 5.65903092501685,
+      "p75_ms": 6.055715202819556
     },
     "consumer": {
       "n": 256,
-      "median_ms": 70.71706594433635,
-      "mean_ms": 70.99540147282823,
-      "p25_ms": 69.13698889547959,
-      "p75_ms": 72.4120624945499
+      "median_ms": 59.586720541119576,
+      "mean_ms": 59.649722523317905,
+      "p25_ms": 57.280783250462264,
+      "p75_ms": 61.44255097024143
     },
     "consumer_decode_only": {
       "n": 256,
-      "median_ms": 7.466836832463741,
-      "mean_ms": 7.649590186701971,
-      "p25_ms": 7.360561692621559,
-      "p75_ms": 7.6185494544915855
+      "median_ms": 7.545456639491022,
+      "mean_ms": 7.697474382439395,
+      "p25_ms": 7.430938945617527,
+      "p75_ms": 7.6992897083982825
     },
     "teacher_only": {
       "n": 256,
-      "median_ms": 51.6693553654477,
-      "mean_ms": 52.044054701582354,
-      "p25_ms": 50.91262562200427,
-      "p75_ms": 53.19015734130517
+      "median_ms": 37.022495991550386,
+      "mean_ms": 42.1628402918941,
+      "p25_ms": 36.50659677805379,
+      "p75_ms": 51.25923443119973
     }
   },
   "config": {
     "format": "AVIF",
-    "quality": 1,
-    "avif_speed": null,
+    "quality": 3,
+    "avif_speed": 10,
     "cpu_model": "AMD EPYC 9354 32-Core Processor",
     "gpu_model": null,
     "device": "cpu",
