@@ -1,10 +1,13 @@
-# Reproducing the SEAOTTER (CoRL 2026) results
+# Reproducing the paper results
 
-Public code + data release for *"SEAOTTER: Sensor Embedded Autoencoding
-with One-Time Transcode for Efficient Reconstruction"* (Jacobellis &
-Yadwadkar). Numerical results are **frozen as-published**; the scripts
-here regenerate the paper's figures and tables from the committed data
-without re-running any evaluation.
+```bibtex
+@article{jacobellis2026seaotter,
+  title={SEAOTTER: Sensor Embedded Autoencoding with One-Time Transcode for Efficient Reconstruction},
+  author={Jacobellis, Dan and Yadwadkar, Neeraja J},
+  year={2026}
+  url={https://ut-sysml.github.io/seaotter}
+}
+```
 
 ## What's in this repo
 

@@ -18,8 +18,6 @@ At the same time, SEAOTTER seamlessly integrates with the ecosystem of hardware 
 
 ## Code, pretrained models, and reproduction
 
-This repository also ships the code and data to reproduce the paper:
-
 - **`src/seaotter/`** — the `seaotter` v1.0.0 package (JPEG codec, learned color/quantization sandwich, fine-tunable pipeline, training recipes, encoder-throughput harness). Install with `pip install seaotter==1.0.0` or `pip install .` from this repo.
 - **Pretrained pipeline, one call:**
 
