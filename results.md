@@ -155,7 +155,7 @@ iter-6 harness at
   `convnext_tiny.in12k_ft_in1k_384` model card). No throughput
   companion (raw is a ceiling, not a deployment configuration).
 
-### `seg/` — 41 eval + 40 throughput
+### `seg/` — 41 eval (throughput pruned 2026-05-29 — see [`DELETIONS.md`](DELETIONS.md))
 
 FRAPPE pipelines + WaLLoC-zero-shot/fine-tuned coverage + AVIF / alt-codec
 baselines + raw ceiling, all on ADE20K val 2k under squash-512²
@@ -334,3 +334,21 @@ No `throughput_*.json` companion — `codec_kodak_cls` is an
 inference-only accuracy + distortion eval. The relevant sensor /
 consumer throughput numbers for these codecs live in `cls/throughput/`
 (SEA OTTER as `seab`, vanilla JPEG via the iter-6 `jpeg` baseline).
+
+## Post-submission maintenance (2026-05-29, public-release prep)
+
+- **`seg/throughput/` pruned.** The 40 iter-6 (`iter6-1`, `device=cuda:0`)
+  seg throughput JSONs were removed. Their **encode** field is superseded
+  by `encode_complexity/seg_512/`, and their **consumer** field by the
+  iter-11 CPU `cls/throughput/` measurement (decode MPx/s is treated as
+  task-invariant in the tables, so all tasks read `cls/throughput`). No
+  figure/table generator reads `seg/throughput/`; every paper figure and
+  table regenerates byte-identically after removal. Recoverable from git
+  history. Full rationale + the kept-set in [`DELETIONS.md`](DELETIONS.md).
+- **The per-section counts above are historical.** They predate the
+  matched-rate / storage-CR backfill; the eval directories now hold more
+  cells (`cls` 69, `seg` 73, `clip` 54, `codec_kodak` 42). The additions
+  are extra operating points and the `frp_jpeg` / `wal_jpeg` storage-CR
+  cells — all in scope. Nothing was removed except `seg/throughput/`.
+- **Traceability.** Every reported number is mapped to its backing file
+  and generator in [`TRACEABILITY.md`](TRACEABILITY.md).

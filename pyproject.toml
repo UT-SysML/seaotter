@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seaotter"
+version = "1.0.0"
+description = "Sensor-Embedded Asymmetric codec with One-Time Transcode for Efficient Retrieval "
+authors = [
+    {name = "Dan Jacobellis", email = "danjacobellis@utexas.edu"}
+]
+readme = "README.md"
+license = "LicenseRef-Proprietary"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "torch",
+]
+requires-python = ">=3.6"
+
+# Vendored mirror of the published `seaotter` package (src layout). Pin
+# discovery to src/ so a repo-root `pip install .` builds only the package
+# and ignores the sibling docs/ results/ experiments/ paper_figures/ trees.
+[tool.setuptools.packages.find]
+where = ["src"]

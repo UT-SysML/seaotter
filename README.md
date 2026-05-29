@@ -15,3 +15,23 @@ By exploiting heterogeneity of power and bandwidth constraints across processing
 SEAOTTER improves the accuracy of global, dense, and VLM/VLA-based remote inference pipelines compared to modern standards like AVIF.
 Remarkably, SEAOTTER's additional transcode step *increases* accuracy compared to the same DNN-based autoencoder without it.
 At the same time, SEAOTTER seamlessly integrates with the ecosystem of hardware and software systems built around the JPEG standard, and can be optimized end-to-end for specific sensors, environments, or downstream models.
+
+## Code, pretrained models, and reproduction
+
+This repository also ships the code and data to reproduce the paper:
+
+- **`src/seaotter/`** — the `seaotter` v1.0.0 package (JPEG codec, learned color/quantization sandwich, fine-tunable pipeline, training recipes, encoder-throughput harness). Install with `pip install seaotter==1.0.0` or `pip install .` from this repo.
+- **Pretrained pipeline, one call:**
+
+  ```python
+  from seaotter import load_pipeline_from_hub
+  pipe = load_pipeline_from_hub(subdir="seaotter_cls")  # headline ImageNet pipeline
+  jpeg = pipe.transcode(image_uint8)   # cloud one-time transcode -> JPEG bytes
+  rgb  = pipe.decode(jpeg)             # consumer steady-state decode -> uint8 RGB
+  ```
+
+- **`results/`** — every per-operating-point JSON behind the paper's figures and tables (`results.md` schema; `TRACEABILITY.md` number→file audit).
+- **`paper_figures/`** — the generators that turn `results/` into the paper figures/tables.
+- **`experiments/`** — the late-paper sweep harnesses and findings.
+
+See [`REPRODUCE.md`](REPRODUCE.md) for installation, loading the pretrained models, the dataset list, and a full result→command map.
