@@ -1,0 +1,30 @@
+# Python dependencies for the seaotter package (no version pins).
+# Install with:  pip install -r requirements.txt   (then  pip install .)
+
+# Core framework
+torch
+torchvision
+torchmetrics
+
+# Numerics and I/O
+numpy
+Pillow
+safetensors
+huggingface_hub
+datasets
+
+# Downstream-task teachers / encoders
+timm
+transformers
+open_clip_torch
+segmentation-models-pytorch
+
+# Metrics, progress, plotting
+piq
+fastprogress
+matplotlib
+
+# SEAOTTER support libraries (codec loaders, color-transform ops, timing)
+compressors
+gigatorch
+throughput
