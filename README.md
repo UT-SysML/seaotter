@@ -36,6 +36,5 @@ Performance trade-offs of SEAOTTER variants vs other codecs.
 
 - **`results/`** — every per-operating-point JSON behind the paper's figures and tables (`results.md` schema; `TRACEABILITY.md` number→file audit).
 - **`paper_figures/`** — the generators that turn `results/` into the paper figures/tables.
-- **`experiments/`** — the late-paper sweep harnesses and findings.
 
 See [`REPRODUCE.md`](REPRODUCE.md) for installation, loading the pretrained models, the dataset list, and a full result→command map.

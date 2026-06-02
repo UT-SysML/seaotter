@@ -3,7 +3,7 @@
 title: 'SEAOTTER'
 author: 'Dan Jacobellis'
 copyright: '2026'
-exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints", README.md, CLAUDE.md]
+exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints", README.md, CLAUDE.md, REPRODUCE.md, results.md, "results/**"]
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html

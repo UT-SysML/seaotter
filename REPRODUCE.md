@@ -4,7 +4,7 @@
 @article{jacobellis2026seaotter,
   title={SEAOTTER: Sensor Embedded Autoencoding with One-Time Transcode for Efficient Reconstruction},
   author={Jacobellis, Dan and Yadwadkar, Neeraja J},
-  year={2026}
+  year={2026},
   url={https://ut-sysml.github.io/seaotter}
 }
 ```
@@ -16,7 +16,6 @@
 | `src/seaotter/` | the `seaotter` **v1.0.0** package — JPEG codec, learned color/quant sandwich, fine-tunable pipeline, training recipes (`train/recipes/`), encoder-throughput harness (`eval/`), and the **downstream accuracy + consumer-throughput eval harness** (`eval/accuracy/` — the code that produced every `eval_*.json` / `throughput_*.json`). Mirrors PyPI `seaotter==1.0.0`. |
 | `results/` | every per-operating-point JSON behind the paper (`results.md` = schema; `TRACEABILITY.md` = number→file audit; `DELETIONS.md` = prune log). |
 | `paper_figures/` | the `make_*.py` generators that turn `results/` into the paper's figures/tables (+ `notes/` radar derivations). |
-| `experiments/` | the late-paper sweep harnesses (`lambda_sweep`, `storage_5line`, `wal_seg_clip`, `clip_production`, `codec_kodak_eval`) with their `launch.py` / `run_*.py` / `check_acceptance.py` / `findings.md`, plus the `iter6_extra_codec_baselines/` writeup (`findings.md` + `README.md`). The accuracy/consumer-throughput **harness itself** now lives in the package at `src/seaotter/eval/accuracy/`. Heavy outputs/checkpoints/logs excluded. |
 | `tools/export_pipeline_bundle.py` | rebuilds the pretrained pipeline bundle from a production checkpoint. |
 
 ## Install

@@ -17,15 +17,9 @@ Using SEAOTTER, we train both general-purpose and task-aware transcoding pipelin
 At a compression ratio of 200:1 and compared to AVIF, we observe 7× faster encoding, 3.5× faster decoding, and +8% ImageNet top-1 accuracy, while retaining compatibility with JPEG infrastructure.
 
 ```{figure} img/system.svg
----
-name: system
----
 Overview of SEAOTTER design and workflow.
 ```
 
 ```{figure} img/radar.svg
----
-name: radar
----
 Performance trade-offs of SEAOTTER variants vs other codecs.
 ```
