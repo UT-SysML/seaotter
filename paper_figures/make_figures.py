@@ -25,7 +25,7 @@ plt.rcParams.update({
     "ytick.labelsize":  12,
 })
 
-RESULTS = Path("/home/dgj335/UT-SysML/seaotter/results")
+RESULTS = Path(__file__).resolve().parent.parent / "results"
 EVAL_DIR = RESULTS / "cls" / "eval"
 ENC_DIR = RESULTS / "encode_complexity" / "cls_384"
 CROP = 384  # cls squash

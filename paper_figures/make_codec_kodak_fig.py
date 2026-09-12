@@ -34,7 +34,7 @@ plt.rcParams.update({
     "ytick.labelsize":  12,
 })
 
-ROOT = Path("/home/dgj335/UT-SysML/seaotter/results")
+ROOT = Path(__file__).resolve().parent.parent / "results"
 KODAK_DIR = ROOT / "codec_kodak"
 
 # Optional ImageNet-side mirror; may not exist at draft time.

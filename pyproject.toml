@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "seaotter"
 version = "1.0.0"
-description = "Sensor-Embedded Asymmetric codec with One-Time Transcode for Efficient Retrieval "
+description = "Sensor-Embedded Asymmetric codec with One-Time Transcode for Efficient Reconstruction"
 authors = [
     {name = "Dan Jacobellis", email = "danjacobellis@utexas.edu"}
 ]

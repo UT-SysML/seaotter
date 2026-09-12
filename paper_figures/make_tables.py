@@ -29,7 +29,7 @@ import json
 import math
 from pathlib import Path
 
-ROOT = Path("/home/dgj335/UT-SysML/seaotter/results")
+ROOT = Path(__file__).resolve().parent.parent / "results"
 OUT_DIR = Path(__file__).resolve().parent / "figures"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 

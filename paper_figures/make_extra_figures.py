@@ -38,7 +38,7 @@ plt.rcParams.update({
     "ytick.labelsize":  11,
 })
 
-RESULTS = Path("/home/dgj335/UT-SysML/seaotter/results")
+RESULTS = Path(__file__).resolve().parent.parent / "results"
 
 # bpp -> compression ratio convention: uncompressed RGB is 24 bpp
 # (3 channels x 8 bits), so CR = 24 / bpp.

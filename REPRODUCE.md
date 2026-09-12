@@ -62,9 +62,8 @@ The frozen FRAPPE encoder is pulled separately from
 
 ## Regenerate the paper figures & tables
 
-The generators hard-code `ROOT =
-Path("/home/dgj335/UT-SysML/seaotter/results")`. If this repo lives
-elsewhere, edit `ROOT` (or symlink) to point at this repo's `results/`.
+The generators resolve `results/` relative to the repo root
+(`Path(__file__).resolve().parent.parent / "results"`).
 
 ```bash
 python paper_figures/make_tables.py         # Tables 1-8 (.tex)
