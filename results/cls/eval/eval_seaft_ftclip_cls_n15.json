@@ -1,0 +1,43 @@
+{
+  "harness_version": "iter6-1",
+  "pipeline": "seaft",
+  "pipeline_label": "SEA OTTER (fine-tuned)",
+  "task": "cls",
+  "val_ds": "timm/imagenet-1k-wds",
+  "val_split": "validation",
+  "preprocessing": "squash 384x384",
+  "operating_point": {
+    "type": "n_ch",
+    "value": 15,
+    "extras": {
+      "ft_task": "clip"
+    }
+  },
+  "transmit_bpp_mean": 0.3439006098090278,
+  "storage_bpp_mean": 0.6988645095486112,
+  "n_eval": 50000,
+  "n_throughput_images": null,
+  "metrics": {
+    "top1": 0.75038,
+    "top5": 0.93194,
+    "miou": null,
+    "pixel_accuracy": null,
+    "bpp_std": 0.10715860869776406,
+    "elapsed_s": 1096.120257139206,
+    "psnr_db": 12.824713278198242,
+    "ssim": 0.6435718760728836,
+    "lpips_db": 3.850489173810849,
+    "dists_db": 5.9946024978115595
+  },
+  "throughput": null,
+  "config": {
+    "codec": "seaotter",
+    "n_ch": 15,
+    "fine_tuned": true,
+    "ft_task": "clip",
+    "checkpoint": "hf:danjacobellis/seaotter/seaotter_clip_n15@83b6cb2b9f2437648aada82edfa4b5379cda3ee2",
+    "phase2_init": "hf:danjacobellis/seaotter/seaotter_jpeg_s3@83b6cb2b9f2437648aada82edfa4b5379cda3ee2",
+    "phase2_k": 2,
+    "phase2_arch": "D"
+  }
+}
