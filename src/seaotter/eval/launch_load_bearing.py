@@ -1,8 +1,10 @@
-"""Launch every load-bearing (codec, op, dataset) cell for the CoRL paper.
+"""Launch every load-bearing (codec, op, dataset) cell for the SEAOTTER paper.
 
 Runs serially on CPU (no parallel cells — cache contention skews
 throughput on the EPYC 9354). Outputs land at
-``~/UT-SysML/seaotter/results/encode_complexity/<dataset>/encode_<codec>_<op>.json``.
+``<out_root>/<dataset>/encode_<codec>_<op>.json``; ``--out_root`` defaults to
+``results/encode_complexity`` relative to the working directory (the
+repository root).
 
 Codecs in scope (from the prompt):
   - avif, avifx, jpeg, jpeg_sub0, webp, jp2  (Pillow family)
@@ -34,7 +36,7 @@ import sys
 import time
 from pathlib import Path
 
-OUT_ROOT = Path("/home/dgj335/UT-SysML/seaotter/results/encode_complexity")
+OUT_ROOT_DEFAULT = "results/encode_complexity"
 
 
 # ----- load-bearing matrix -----
@@ -84,6 +86,7 @@ def _slug_for(codec: str, op: dict) -> str:
 def cells_to_run(
     codecs: list[str],
     datasets: list[str],
+    out_root: Path,
     skip_existing: bool = True,
 ) -> list[tuple[str, dict, str, Path]]:
     """Enumerate all (codec, op, dataset, out_path) tuples."""
@@ -94,7 +97,7 @@ def cells_to_run(
                 raise ValueError(f"unknown codec {codec!r}")
             for op in CODEC_OPS[codec]:
                 slug = _slug_for(codec, op)
-                p = OUT_ROOT / ds / f"encode_{codec}_{slug}.json"
+                p = out_root / ds / f"encode_{codec}_{slug}.json"
                 out.append((codec, op, ds, p))
     return out
 
@@ -103,6 +106,7 @@ def run_all(
     *,
     codecs: list[str],
     datasets: list[str],
+    out_root: str | Path = OUT_ROOT_DEFAULT,
     n_warmup: int = 1,
     n_measurement: int = 5,
     n_images: int = 256,
@@ -113,7 +117,7 @@ def run_all(
     from seaotter.eval.encode_complexity import run_codec_x_dataset_with_inputs
     from seaotter.eval.datasets import load_inputs
 
-    cells = cells_to_run(codecs, datasets, skip_existing=skip_existing)
+    cells = cells_to_run(codecs, datasets, Path(out_root), skip_existing=skip_existing)
     print(f"Total cells: {len(cells)}", flush=True)
     if dry_run:
         for codec, op, ds, p in cells:
@@ -187,6 +191,11 @@ def _build_argparser():
         default=",".join(CODEC_OPS),
         help="Comma-separated codec shorts. Default: every codec.",
     )
+    p.add_argument(
+        "--out_root", default=OUT_ROOT_DEFAULT,
+        help="Output root; JSONs land at <out_root>/<dataset>/. "
+             f"Default: {OUT_ROOT_DEFAULT} (relative to the working directory).",
+    )
     p.add_argument("--n_warmup", type=int, default=1)
     p.add_argument("--n_measurement", type=int, default=5)
     p.add_argument("--n_images", type=int, default=256)
@@ -206,6 +215,7 @@ def main(argv=None):
     run_all(
         codecs=codecs,
         datasets=datasets,
+        out_root=args.out_root,
         n_warmup=args.n_warmup,
         n_measurement=args.n_measurement,
         n_images=args.n_images,

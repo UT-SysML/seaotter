@@ -9,11 +9,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from typing import Any, Literal, Optional
 
+from seaotter.hub import hf_spec
 
-PHASE2_K3_PATH_DEFAULT = (
-    "/home/dgj335/danjacobellis/seaotter/shared_color/experiments/"
-    "round16_dual_goal/iter8/S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth"
-)
+
+# Phase-2 K=3 R16 dual-goal sister (iter8 S3_K3), published as the
+# seaotter_jpeg_s3 subdir of the Hub repo; tier k=2 is the warm-start.
+PHASE2_K3_PATH_DEFAULT = hf_spec("seaotter_jpeg_s3")
 PHASE2_K_DEFAULT = 2
 
 CLIP_NAFLEX_MAX_PATCHES = 256

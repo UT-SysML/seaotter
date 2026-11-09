@@ -1,9 +1,9 @@
 """SEA OTTER sandwich: ForwardTransform + JPEGProxy + InverseTransform.
 
 Warm-starts from a phase-2 K-tier checkpoint; arch is auto-detected from
-the checkpoint metadata. The phase-2 K=3 R16 checkpoint at
+the checkpoint metadata. The phase-2 K=3 R16 bundle at
 PHASE2_K3_PATH_DEFAULT (phase2_k=2) is the canonical warm-start for the
-phase-4 training family.
+phase-4 training family. Shared by the trainer and the eval harness.
 """
 
 from __future__ import annotations
@@ -11,6 +11,7 @@ from __future__ import annotations
 import torch
 
 from seaotter.color_transform import ForwardTransform, InverseTransform
+from seaotter.hub import load_from_hub, parse_hf_spec
 from seaotter.proxy import JPEGProxy
 
 
@@ -20,7 +21,23 @@ def load_sandwich(
     device: torch.device | str,
 ) -> tuple[ForwardTransform, JPEGProxy, InverseTransform, dict]:
     """Build (fwd, proxy, inv, meta) warm-started from a phase-2 K-tier
-    checkpoint. meta carries arch + lambdas + which tier was picked."""
+    checkpoint. meta carries arch + lambdas + which tier was picked.
+    `phase2_init` is an "hf:..." spec (see `seaotter.hub.parse_hf_spec`)
+    naming a transcoder bundle on the Hub, or a local .pth path."""
+    if phase2_init.startswith("hf:"):
+        repo_id, subdir, revision = parse_hf_spec(phase2_init)
+        bundle = load_from_hub(repo_id=repo_id, subdir=subdir, revision=revision)
+        if not 0 <= phase2_k < bundle.K:
+            raise ValueError(f"phase2_k={phase2_k} out of range [0, {bundle.K - 1}]")
+        meta = {
+            "arch": bundle.config["color_xform_arch"],
+            "lambdas": bundle.lambdas,
+            "phase2_k": phase2_k,
+            "phase2_init": phase2_init,
+        }
+        return (bundle.fwd.to(device), bundle.proxies[phase2_k].to(device),
+                bundle.inv.to(device), meta)
+
     ckpt = torch.load(phase2_init, map_location=device, weights_only=False)
     arch = ckpt.get("config", {}).get("arch")
     if arch not in ("A", "B", "D", "E", "F", "G"):

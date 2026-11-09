@@ -75,9 +75,18 @@ def task_crop_pil(img: PIL.Image.Image, task: str) -> PIL.Image.Image:
     return squash_resize(img, CROP_FOR_TASK[task])
 
 
+# Webdataset repos: load_dataset otherwise downloads every split (for
+# timm/imagenet-1k-wds, all 1024 train shards) before selecting one.
+VAL_DATA_FILES = {
+    "timm/imagenet-1k-wds": {"validation": "imagenet1k-validation-*.tar"},
+}
+
+
 def load_val(task: str):
     ds_name, split = VAL_DS[task]
-    return datasets.load_dataset(ds_name, split=split)
+    return datasets.load_dataset(
+        ds_name, data_files=VAL_DATA_FILES.get(ds_name), split=split,
+    )
 
 
 def ade_label_offset(label_uint8: torch.Tensor) -> torch.Tensor:

@@ -36,6 +36,7 @@ Pseudolabel (no grad, computed once per step):
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
 import torch
@@ -48,11 +49,16 @@ from seaotter.color_transform import ForwardTransform, InverseTransform
 from seaotter.proxy import JPEGProxy
 
 
-PHASE2_K3_PATH_DEFAULT = (
-    "/home/dgj335/danjacobellis/seaotter/shared_color/experiments/"
-    "round16_dual_goal/iter8/S3_K3_lams_0p75_0p4_0p22_w_0p3_0p7_1p5.pth"
+from seaotter.hub import (  # noqa: F401  (re-exported to the pipelines)
+    HF_REPO_ID, HF_REVISION, hf_spec, load_pipeline_weights, parse_hf_spec,
 )
-PHASE2_K_DEFAULT = 2
+from seaotter.train.config import PHASE2_K3_PATH_DEFAULT, PHASE2_K_DEFAULT  # noqa: F401
+from seaotter.train.sandwich import load_sandwich, set_sandwich_freeze  # noqa: F401
+
+
+def strip_prefix(weights: dict, prefix: str) -> dict:
+    """Sub-state-dict of a flat bundle state dict: keys under `prefix`, unprefixed."""
+    return {k[len(prefix):]: v for k, v in weights.items() if k.startswith(prefix)}
 
 
 @dataclass
@@ -79,54 +85,6 @@ def load_frappe(n_ch: int, device: torch.device | str) -> FrappeBundle:
         model=model, config=config, n_ch=n_ch,
         max_ps=max_ps, linear_input=model._linear_input,
     )
-
-
-def load_sandwich(
-    phase2_init: str,
-    phase2_k: int,
-    device: torch.device | str,
-) -> tuple[ForwardTransform, JPEGProxy, InverseTransform, dict]:
-    """Warm-start the JPEG sandwich from a phase-2 K-tier checkpoint.
-
-    Returns (fwd, proxy, inv, meta) where meta contains arch, lambdas, k.
-    """
-    ckpt = torch.load(phase2_init, map_location=device, weights_only=False)
-    arch = ckpt.get("config", {}).get("arch")
-    if arch not in ("A", "B", "D", "E", "F", "G"):
-        raise ValueError(f"phase2 checkpoint arch={arch!r} not supported")
-    proxy_state_dicts = ckpt["proxy_state_dicts"]
-    if not 0 <= phase2_k < len(proxy_state_dicts):
-        raise ValueError(
-            f"phase2_k={phase2_k} out of range [0, {len(proxy_state_dicts) - 1}]"
-        )
-
-    fwd = ForwardTransform(arch=arch).to(device)
-    inv = InverseTransform(arch=arch).to(device)
-    proxy = JPEGProxy(init=torch.full((3, 8, 8), 8.0)).to(device)
-    fwd.load_state_dict(ckpt["fwd_state_dict"])
-    inv.load_state_dict(ckpt["inv_state_dict"])
-    proxy.load_state_dict(proxy_state_dicts[phase2_k])
-
-    meta = {
-        "arch": arch,
-        "lambdas": ckpt.get("lambdas", []),
-        "phase2_k": phase2_k,
-        "phase2_init": phase2_init,
-    }
-    return fwd, proxy, inv, meta
-
-
-def set_sandwich_freeze(
-    fwd: ForwardTransform,
-    proxy: JPEGProxy,
-    inv: InverseTransform,
-    hot: bool,
-) -> None:
-    """Toggle requires_grad on the sandwich. eval() vs train() is the caller's
-    responsibility (it affects JPEGProxy noise + boundary noise)."""
-    for m in (fwd, proxy, inv):
-        for p in m.parameters():
-            p.requires_grad_(bool(hot))
 
 
 def set_decoder_freeze(frappe: nn.Module, hot: bool) -> None:
@@ -333,7 +291,7 @@ DEFAULT_TEACHER_NAME = {
 
 
 # iter-9: clip task — SigLIP-2 naflex prototype-matrix cache lives here.
-CLIP_CACHE_DIR = "/home/dgj335/danjacobellis/seaotter/pre_trained_convnext/cache"
+CLIP_CACHE_DIR = str(Path.home() / ".cache" / "seaotter")
 CLIP_NAFLEX_MAX_PATCHES = 256
 CLIP_NAFLEX_PATCH_SIZE = 16
 
@@ -431,7 +389,7 @@ class _SiglipTeacherWrapper(nn.Module):
         pixel_values, attention_mask, spatial_shapes = self._patchify(x_rgb)
         out = self.model.vision_model(
             pixel_values=pixel_values,
-            attention_mask=attention_mask,
+            pixel_attention_mask=attention_mask,
             spatial_shapes=spatial_shapes,
         )
         per_patch = out.last_hidden_state

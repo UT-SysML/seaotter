@@ -2,52 +2,34 @@
 
 Companion to `harness/pipelines/walloc.py` (zero-shot `wal`) and
 `harness/pipelines/sandbox.py::WalSandwichPipeline` (zero-shot `walsand`).
-The walft pipeline loads an iter-7 checkpoint that contains a fine-tuned
-WaLLoC decoder + sandwich (fwd / proxy / inv).
+By default the walft pipeline loads the Hub pipeline bundle
+``seaotter_{task}_walloc_p{P}`` (fine-tuned WaLLoC decoder + sandwich
+fwd / proxy / inv) at the pinned revision; ``op.extras.checkpoint`` names a
+local .pth checkpoint instead.
 
 Encoder is always the frozen pretrained WaLLoC encoder (asymmetric premise).
 Transmit blob = WaLLoC WebP-lossless latent bytes (same as `wal`/`walsand`).
 Storage bytes = JPEG sandwich bytes.
 
 Op type: ``pixel_ratio``. op_id: ``p{value}``.
-Checkpoint path: ``experiments/iter7_walloc_finetune/production/checkpoint_iter7_{task}_walft_p{P}.pth``.
 """
 
 from __future__ import annotations
 
-import os
 import struct
 import sys
-from pathlib import Path
 
 import PIL.Image
 import torch
 from torchvision.transforms.v2.functional import pil_to_tensor
 
-P4_ROOT = Path("/home/dgj335/danjacobellis/seaotter/pre_trained_convnext")
-
 from .._pipeline import (  # noqa: E402
-    PHASE2_K3_PATH_DEFAULT, PHASE2_K_DEFAULT, load_sandwich,
+    PHASE2_K3_PATH_DEFAULT, PHASE2_K_DEFAULT,
+    hf_spec, load_pipeline_weights, load_sandwich, strip_prefix,
 )
 from seaotter import jpeg_codec  # noqa: E402
 
 from ._base import Pipeline
-
-
-ITER7_PROD = (
-    P4_ROOT / "experiments/iter7_walloc_finetune/production"
-)
-
-
-def _walft_checkpoint_path(task: str, pixel_ratio: int) -> str:
-    """Default iter-7 production path. Overridable via the
-    `WALFT_CHECKPOINT_OVERRIDE` env var (iter-10 sweeps and any future
-    walft hyperparameter search use this to point at per-cell checkpoints
-    without editing the harness)."""
-    override = os.environ.get("WALFT_CHECKPOINT_OVERRIDE")
-    if override:
-        return override
-    return str(ITER7_PROD / f"checkpoint_iter7_{task}_walft_p{int(pixel_ratio)}.pth")
 
 
 class WalftPipeline(Pipeline):
@@ -63,7 +45,7 @@ class WalftPipeline(Pipeline):
         self._SNAP_MULTIPLE = SNAP_MULTIPLE
         self._snap_shape = snap_shape
 
-        # GPU codec is hot-overridden from the iter-7 checkpoint (decoder).
+        # GPU codec decoder is overwritten by the fine-tuned decoder below.
         self._codec_dev, self._info = load_codec(
             device=device, torch_dtype=torch.float32,
         )
@@ -81,29 +63,37 @@ class WalftPipeline(Pipeline):
         self.fwd = fwd; self.proxy = proxy; self.inv = inv
         self._sandwich_meta = meta
 
-        # Load iter-7 fine-tune. `op.extras.checkpoint` lets a caller point at
-        # a non-canonical checkpoint (e.g., a clip-trained walloc run from the
-        # clip_production sweep), mirroring the seaft pipeline.
-        self.checkpoint = (
-            op.get("extras", {}).get("checkpoint")
-            or _walft_checkpoint_path(task, self.q)
-        )
-        ckpt = torch.load(self.checkpoint, map_location=device, weights_only=False)
-        if "fwd_state_dict" in ckpt:
-            self.fwd.load_state_dict(ckpt["fwd_state_dict"])
-        if "proxy_state_dict" in ckpt:
-            self.proxy.load_state_dict(ckpt["proxy_state_dict"])
-        if "inv_state_dict" in ckpt:
-            self.inv.load_state_dict(ckpt["inv_state_dict"])
-        # iter-7 ckpts use "walloc_decoder_state_dict"; the consolidated trainer
-        # in src/seaotter/train/ uses unified "decoder_state_dict" (keyed by the
-        # saved "codec" field). Accept either.
-        decoder_sd = ckpt.get("decoder_state_dict") or ckpt.get("walloc_decoder_state_dict")
-        if decoder_sd is None:
-            raise RuntimeError(
-                f"walft checkpoint {self.checkpoint} missing decoder weights "
-                "(tried 'decoder_state_dict' and 'walloc_decoder_state_dict')"
-            )
+        extras = op.get("extras", {})
+        if "checkpoint" not in extras:
+            subdir = f"seaotter_{task}_walloc_p{int(self.q)}"
+            self.checkpoint = hf_spec(subdir)
+            cfg, w = load_pipeline_weights(subdir)
+            if cfg["codec"] != "walloc" or float(cfg["walloc_pixel_ratio"]) != self.q:
+                raise ValueError(
+                    f"{subdir}: codec={cfg['codec']} pixel_ratio={cfg['walloc_pixel_ratio']}"
+                )
+            self.fwd.load_state_dict(strip_prefix(w, "fwd."))
+            self.proxy.load_state_dict(strip_prefix(w, "proxy."))
+            self.inv.load_state_dict(strip_prefix(w, "inv."))
+            decoder_sd = strip_prefix(w, "decoder.")
+        else:
+            # `extras.checkpoint`: a local .pth checkpoint.
+            self.checkpoint = extras["checkpoint"]
+            ckpt = torch.load(self.checkpoint, map_location=device, weights_only=False)
+            if "fwd_state_dict" in ckpt:
+                self.fwd.load_state_dict(ckpt["fwd_state_dict"])
+            if "proxy_state_dict" in ckpt:
+                self.proxy.load_state_dict(ckpt["proxy_state_dict"])
+            if "inv_state_dict" in ckpt:
+                self.inv.load_state_dict(ckpt["inv_state_dict"])
+            # Older checkpoints use "walloc_decoder_state_dict"; the trainer in
+            # seaotter.train uses "decoder_state_dict". Accept either.
+            decoder_sd = ckpt.get("decoder_state_dict") or ckpt.get("walloc_decoder_state_dict")
+            if decoder_sd is None:
+                raise RuntimeError(
+                    f"walft checkpoint {self.checkpoint} missing decoder weights "
+                    "(tried 'decoder_state_dict' and 'walloc_decoder_state_dict')"
+                )
         self._codec_dev.decoder.load_state_dict(decoder_sd)
 
         self._codec_dev.eval()

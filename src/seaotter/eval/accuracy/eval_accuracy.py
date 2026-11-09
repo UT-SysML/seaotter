@@ -99,6 +99,9 @@ def evaluate_cls(args, op, device, env, pipe):
         sub, batch_size=args.batch_size, num_workers=args.num_workers,
         shuffle=False, collate_fn=_collate_cls,
         persistent_workers=(args.num_workers > 0),
+        # Workers read _PIPELINE_FOR_WORKERS, which only fork inherits
+        # (Python 3.14 defaults to forkserver on Linux).
+        multiprocessing_context=("fork" if args.num_workers > 0 else None),
     )
 
     teacher = load_teacher("cls", device)
@@ -193,6 +196,9 @@ def evaluate_seg(args, op, device, env, pipe):
         sub, batch_size=1, num_workers=args.num_workers,
         shuffle=False, collate_fn=_collate_seg,
         persistent_workers=(args.num_workers > 0),
+        # Workers read _PIPELINE_FOR_WORKERS, which only fork inherits
+        # (Python 3.14 defaults to forkserver on Linux).
+        multiprocessing_context=("fork" if args.num_workers > 0 else None),
     )
 
     teacher = load_teacher("seg", device)
@@ -291,6 +297,9 @@ def evaluate_clip(args, op, device, env, pipe):
         sub, batch_size=1, num_workers=args.num_workers,
         shuffle=False, collate_fn=_collate_clip,
         persistent_workers=(args.num_workers > 0),
+        # Workers read _PIPELINE_FOR_WORKERS, which only fork inherits
+        # (Python 3.14 defaults to forkserver on Linux).
+        multiprocessing_context=("fork" if args.num_workers > 0 else None),
     )
 
     teacher = load_teacher("clip", device)

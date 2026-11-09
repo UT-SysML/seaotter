@@ -5,9 +5,12 @@ Main loop unpacks → batched FRAPPE decoder on GPU → SEA OTTER sandwich →
 ConvNeXt-ready uint8 RGB. Transmit bytes are the JPEG-LS blob length;
 storage bytes are the per-image JPEG sandwich length.
 
-Fine-tuned-checkpoint asymmetry:
-  - cls seaft: experiments/iter5_imagenet_gt_squash/production/checkpoint_iter5_cls_n{N}.pth
-  - seg seaft: experiments/iter1_initial_pipeline/production/checkpoint_prod_seg_n{N}_C6.pth
+Fine-tuned weights (`seaft`) come from the public pipeline bundle
+`seaotter_{ft_task}_n{N}` on the Hugging Face hub at the pinned
+`HF_REVISION`. `ft_task` defaults to the eval task; `extras.ft_task`
+selects another task's snapshot for cross-task evaluation. A local .pth
+checkpoint (fwd/proxy/inv/decoder state dicts) can still be named through
+`extras.checkpoint`.
 """
 
 from __future__ import annotations
@@ -19,36 +22,13 @@ import PIL.Image
 import torch
 from torchvision.transforms.v2.functional import pil_to_tensor
 
-P4_ROOT = Path("/home/dgj335/danjacobellis/seaotter/pre_trained_convnext")
-
 from .._pipeline import (  # noqa: E402
-    PHASE2_K3_PATH_DEFAULT, PHASE2_K_DEFAULT, load_sandwich,
+    PHASE2_K3_PATH_DEFAULT, PHASE2_K_DEFAULT,
+    hf_spec, load_pipeline_weights, load_sandwich, strip_prefix,
 )
 from seaotter import jpeg_codec  # noqa: E402
 
 from ._base import Pipeline
-
-
-def _seaft_checkpoint_path(task: str, n_ch: int) -> str:
-    """Default canonical checkpoint path per task.
-
-    For the clip task (iter-9) there is no clip-trained checkpoint yet at
-    this path; the anchor experiment (Smoke 4) evaluates the cls-trained
-    codec under SigLIP-2 zero-shot, so we route clip → cls here. Use the
-    `extras.checkpoint` op override to point at a clip-trained checkpoint
-    once one exists (Smoke 7 onward).
-    """
-    if task in ("cls", "clip"):
-        return str(
-            P4_ROOT / "experiments/iter5_imagenet_gt_squash/production"
-            / f"checkpoint_iter5_cls_n{n_ch}.pth"
-        )
-    if task == "seg":
-        return str(
-            P4_ROOT / "experiments/iter1_initial_pipeline/production"
-            / f"checkpoint_prod_seg_n{n_ch}_C6.pth"
-        )
-    raise ValueError(task)
 
 
 class SeaOtterPipeline(Pipeline):
@@ -80,13 +60,25 @@ class SeaOtterPipeline(Pipeline):
         self.fwd = fwd; self.proxy = proxy; self.inv = inv; self._sandwich_meta = meta
 
         self.checkpoint: str | None = None
-        if short == "seaft":
-            # `extras.checkpoint` lets a caller point at a non-canonical
-            # checkpoint (e.g., an iter-9 clip-trained run).
-            self.checkpoint = (
-                op.get("extras", {}).get("checkpoint")
-                or _seaft_checkpoint_path(task, self.n_ch)
-            )
+        self.ft_task: str | None = None
+        extras = op.get("extras", {})
+        if short == "seaft" and "checkpoint" not in extras:
+            self.ft_task = extras.get("ft_task", task)
+            if self.ft_task not in ("cls", "seg", "clip"):
+                raise ValueError(f"ft_task must be cls, seg or clip, got {self.ft_task!r}")
+            subdir = f"seaotter_{self.ft_task}_n{self.n_ch}"
+            self.checkpoint = hf_spec(subdir)
+            cfg, w = load_pipeline_weights(subdir)
+            if cfg["codec"] != "frappe" or int(cfg["frappe_n_ch"]) != self.n_ch:
+                raise ValueError(f"{subdir}: codec={cfg['codec']} n_ch={cfg['frappe_n_ch']}")
+            self.fwd.load_state_dict(strip_prefix(w, "fwd."))
+            self.proxy.load_state_dict(strip_prefix(w, "proxy."))
+            self.inv.load_state_dict(strip_prefix(w, "inv."))
+            self._frappe_dev.decoder.load_state_dict(strip_prefix(w, "decoder."))
+            # Workers still use the base encoder (encoder always frozen).
+        elif short == "seaft":
+            # `extras.checkpoint`: a local .pth checkpoint.
+            self.checkpoint = extras["checkpoint"]
             ckpt = torch.load(self.checkpoint, map_location=device, weights_only=False)
             if "fwd_state_dict" in ckpt:
                 self.fwd.load_state_dict(ckpt["fwd_state_dict"])
@@ -195,6 +187,7 @@ class SeaOtterPipeline(Pipeline):
             "codec": "seaotter",
             "n_ch": self.n_ch,
             "fine_tuned": self.short == "seaft",
+            "ft_task": self.ft_task,
             "checkpoint": self.checkpoint,
             "phase2_init": self._sandwich_meta.get("phase2_init"),
             "phase2_k": self._sandwich_meta.get("phase2_k"),

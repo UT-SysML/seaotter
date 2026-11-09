@@ -1,7 +1,7 @@
 """Core timing loop + CLI for the encoder-only complexity harness.
 
 Reproduces the FRAPPE `evaluate_encode_complexity` methodology for every
-codec in the CoRL 2026 SEAOTTER paper:
+codec in the SEAOTTER paper:
 
   1. Pre-stage every input in the encoder's native form (no decode /
      conversion inside the timer).
@@ -379,7 +379,7 @@ def _build_argparser():
     p = argparse.ArgumentParser(
         prog="python -m seaotter.eval.encode_complexity",
         description=(
-            "Encoder-only complexity harness for the SEAOTTER CoRL paper. "
+            "Encoder-only complexity harness for the SEAOTTER paper. "
             "Measures encoder forward + native quant/entropy coding only; "
             "PIL decode / dtype casts to the encoder's input form are "
             "excluded from the timer."

@@ -44,6 +44,39 @@ from .proxy import JPEGProxy
 
 
 _CONFIG_NAME = "config.json"
+
+# Public Hugging Face weights, pinned to one revision so every run reads the
+# same artifacts. Specs of the form "hf:<repo_id>/<subdir>@<revision>" name a
+# bundle on the Hub; train and eval accept them wherever a .pth path is taken.
+HF_REPO_ID = "danjacobellis/seaotter"
+HF_REVISION = "83b6cb2b9f2437648aada82edfa4b5379cda3ee2"
+
+
+def hf_spec(subdir: str, repo_id: str = HF_REPO_ID, revision: str = HF_REVISION) -> str:
+    return f"hf:{repo_id}/{subdir}@{revision}"
+
+
+def parse_hf_spec(spec: str) -> tuple[str, str, str]:
+    """"hf:<owner>/<repo>/<subdir>@<revision>" -> (repo_id, subdir, revision)."""
+    body, revision = spec[len("hf:"):].split("@")
+    owner, repo, subdir = body.split("/")
+    return f"{owner}/{repo}", subdir, revision
+
+
+def load_pipeline_weights(subdir: str, repo_id: str = HF_REPO_ID,
+                          revision: str = HF_REVISION) -> tuple[dict, dict]:
+    """(config, flat safetensors weights) of a seaotter-pipeline-v1 bundle."""
+    from huggingface_hub import hf_hub_download
+    from safetensors.torch import load_file
+    cfg_path = hf_hub_download(repo_id=repo_id, filename=f"{subdir}/{_CONFIG_NAME}",
+                               revision=revision)
+    with open(cfg_path) as f:
+        cfg = json.load(f)
+    w_path = hf_hub_download(repo_id=repo_id, filename=f"{subdir}/{cfg['weights_file']}",
+                             revision=revision)
+    return cfg, load_file(w_path)
+
+
 _WEIGHTS_NAME = "seaotter_jpeg_pytorch_model.safetensors"
 
 
@@ -161,6 +194,7 @@ def load_from_hub(
     repo_id: str = "danjacobellis/seaotter",
     subdir: str = "seaotter_jpeg_s3",
     *,
+    revision: str | None = None,
     local_files_only: bool = False,
 ) -> SEAOTTERJPEGBundle:
     """Download (or look up cached) `config.json` + safetensors from the
@@ -176,11 +210,13 @@ def load_from_hub(
     config_path = hf_hub_download(
         repo_id=repo_id,
         filename=f"{subdir}/{_CONFIG_NAME}",
+        revision=revision,
         local_files_only=local_files_only,
     )
     weights_path = hf_hub_download(
         repo_id=repo_id,
         filename=f"{subdir}/{_WEIGHTS_NAME}",
+        revision=revision,
         local_files_only=local_files_only,
     )
     with open(config_path) as f:
@@ -230,22 +266,57 @@ class PipelinePackage:
         rgb  = pipe.reconstruct(image_uint8)       # end-to-end (== decode(transcode(.)))
     """
 
-    frappe: object                  # seaotter.train.codecs.FrappeBundle (encoder frozen)
     fwd: ForwardTransform           # eval mode
     inv: InverseTransform           # eval mode
     proxy: JPEGProxy                # carries Q_unconstrained (qtable below is derived)
     qtable: Tensor                  # (3, 8, 8) int32, ready for jpeg_codec.encode
     config: dict = field(default_factory=dict)
     device: str = "cpu"
+    codec: str = "frappe"           # "frappe" | "walloc" (which upstream codec was fine-tuned)
+    frappe: object = None           # seaotter.train.codecs.FrappeBundle (encoder frozen)
+    walloc: object = None           # seaotter.train.codecs.WallocBundle (encoder frozen)
 
     @property
     def frappe_n_ch(self) -> int:
         return int(self.config["frappe_n_ch"])
 
+    @property
+    def walloc_pixel_ratio(self) -> float:
+        return float(self.config["walloc_pixel_ratio"])
+
+    # -- upstream codec round trip (frozen encoder -> fine-tuned decoder) --
+    def _upstream_roundtrip(self, x_uint8_1chw: Tensor) -> Tensor:
+        """(1,3,H,W) uint8 -> (1,3,H,W) float in [0,255]: the fine-tuned
+        upstream decoder's RGB output, i.e. the sandwich input. Mirrors
+        `train.codecs.{frappe,walloc}_pipeline_forward` up to `fwd`."""
+        if self.codec == "frappe":
+            from .train.codecs import _frappe_encode_int8
+            latents = _frappe_encode_int8(self.frappe.model, x_uint8_1chw.float() / 127.5 - 1.0)
+            rgb_decoded = self.frappe.model.decode(latents).clamp(-1.0, 1.0)
+            return (rgb_decoded + 1.0) * 127.5
+        if self.codec == "walloc":
+            from compressors.walloc._codec import (
+                decode_from_latent, encode_to_latent, from_model_output,
+                resize_bicubic, snap_shape, to_model_input,
+            )
+            x_01 = x_uint8_1chw.float() / 255.0
+            H, W = x_01.shape[-2:]
+            snap_h, snap_w = snap_shape(H, W, self.walloc_pixel_ratio)
+            x_snap = resize_bicubic(x_01, (snap_h, snap_w)).clamp(0, 1) if (H, W) != (snap_h, snap_w) else x_01
+            z_hat = encode_to_latent(self.walloc.codec, to_model_input(x_snap))
+            recon_01 = from_model_output(decode_from_latent(self.walloc.codec, z_hat)).clamp(0, 1)
+            if (snap_h, snap_w) != (H, W):
+                recon_01 = resize_bicubic(recon_01, (H, W)).clamp(0, 1)
+            return recon_01 * 255.0
+        raise ValueError(f"unknown codec {self.codec!r}")
+
     # -- sensor side -----------------------------------------------------
     def sensor_encode(self, image_uint8: Tensor) -> list:
         """G_A only: RGB uint8 (3,H,W) -> list of int8 latent tensors (what
         crosses the wireless uplink). The encoder is frozen."""
+        if self.codec != "frappe":
+            raise NotImplementedError("sensor_encode is exposed for the FRAPPE pipelines only; "
+                                      "use transcode()/reconstruct() for WaLLoC bundles")
         from .train.codecs import _frappe_encode_int8
         x = _check_chw_uint8(image_uint8).to(self.device).float().unsqueeze(0)
         with torch.inference_mode():
@@ -259,12 +330,9 @@ class PipelinePackage:
         `train.codecs.frappe_pipeline_forward` up to the JPEG-encode boundary
         (deployed path: hard-rounded uint8 into a real libjpeg encode, not the
         differentiable proxy)."""
-        from .train.codecs import _frappe_encode_int8
         x = _check_chw_uint8(image_uint8).to(self.device).unsqueeze(0)
         with torch.inference_mode():
-            latents = _frappe_encode_int8(self.frappe.model, x.float() / 127.5 - 1.0)
-            rgb_decoded = self.frappe.model.decode(latents).clamp(-1.0, 1.0)
-            rgb_codec_in = (rgb_decoded + 1.0) * 127.5
+            rgb_codec_in = self._upstream_roundtrip(x)
             z = self.fwd.codec_input_uint8(rgb_codec_in)[0]   # (3,H,W) uint8
         return _jpeg_encode(z.cpu(), self.qtable, subsampling=subsampling)
 
@@ -289,16 +357,26 @@ class PipelinePackage:
 
 
 def _build_pipeline_from_artifacts(cfg: dict, weights: dict, device: str = "cpu") -> PipelinePackage:
-    from .train.codecs import load_frappe
-
     arch = str(cfg["color_xform_arch"])
-    n_ch = int(cfg["frappe_n_ch"])
-
-    # Frozen FRAPPE encoder (referenced, not in this bundle) + fine-tuned decoder.
-    frappe = load_frappe(n_ch, device)
+    codec = str(cfg.get("codec", "frappe"))
     dec_sd = {k[len("decoder."):]: v for k, v in weights.items() if k.startswith("decoder.")}
-    frappe.model.decoder.load_state_dict(dec_sd)
-    frappe.model.eval()
+
+    # Frozen upstream encoder (referenced, not in this bundle) + fine-tuned decoder.
+    frappe = walloc = None
+    if codec == "frappe":
+        from .train.codecs import load_frappe
+        frappe = load_frappe(int(cfg["frappe_n_ch"]), device)
+        frappe.model.decoder.load_state_dict(dec_sd)
+        frappe.model.eval()
+    elif codec == "walloc":
+        from .train.codecs import load_walloc
+        walloc = load_walloc(float(cfg["walloc_pixel_ratio"]), int(cfg.get("crop_size") or 384), device)
+        walloc.codec.decoder.load_state_dict(dec_sd)
+        for p_ in walloc.codec.parameters():
+            p_.requires_grad_(False)
+        walloc.codec.eval()
+    else:
+        raise ValueError(f"unknown codec {codec!r} in bundle config")
 
     fwd = ForwardTransform(arch=arch)
     inv = InverseTransform(arch=arch)
@@ -316,8 +394,8 @@ def _build_pipeline_from_artifacts(cfg: dict, weights: dict, device: str = "cpu"
         qtable = torch.clamp(proxy.qtable().round(), 1, 255).to(torch.int32)
 
     return PipelinePackage(
-        frappe=frappe, fwd=fwd, inv=inv, proxy=proxy,
-        qtable=qtable, config=cfg, device=str(device),
+        fwd=fwd, inv=inv, proxy=proxy, qtable=qtable, config=cfg,
+        device=str(device), codec=codec, frappe=frappe, walloc=walloc,
     )
 
 
@@ -339,6 +417,7 @@ def load_pipeline_from_hub(
     subdir: str = "seaotter_cls",
     *,
     device: str = "cpu",
+    revision: str | None = None,
     local_files_only: bool = False,
 ) -> PipelinePackage:
     """Download (or look up cached) a full SEAOTTER pipeline bundle from the
@@ -352,13 +431,13 @@ def load_pipeline_from_hub(
     from safetensors.torch import load_file
     config_path = hf_hub_download(
         repo_id=repo_id, filename=f"{subdir}/{_CONFIG_NAME}",
-        local_files_only=local_files_only,
+        revision=revision, local_files_only=local_files_only,
     )
     with open(config_path) as f:
         cfg = json.load(f)
     weights_path = hf_hub_download(
         repo_id=repo_id, filename=f"{subdir}/{cfg['weights_file']}",
-        local_files_only=local_files_only,
+        revision=revision, local_files_only=local_files_only,
     )
     weights = load_file(weights_path)
     return _build_pipeline_from_artifacts(cfg, weights, device=device)

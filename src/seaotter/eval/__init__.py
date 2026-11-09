@@ -1,4 +1,4 @@
-"""Encoder-only throughput evaluation harness for the SEAOTTER CoRL paper.
+"""Encoder-only throughput evaluation harness for the SEAOTTER paper.
 
 Provides a unified `seaotter.eval.encode_complexity` entry point that
 measures **encoder forward + native quant/entropy coding only**, with

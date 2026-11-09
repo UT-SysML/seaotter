@@ -207,39 +207,14 @@ def make_pillow_adapter(short: str, op: dict, *, device: str = "cpu") -> PillowA
 # FRAPPE adapter
 # ----------------------------------------------------------------------
 
-def _load_hybrid_v2_entropy():
-    """Load the hybrid-v2 entropy coder (jpegls + zstd fallback) from
-    `compressors/experiments/encoder_optimization/hybrid_v2.py`.
-
-    This is the same entropy module pinned in the reference FRAPPE
-    encode-complexity JSON at
-    ``compressors/results/frappe/encode_1777342722.json``. The
-    pillow_jpls reference path in ``compressors.frappe.entropy_coding``
-    is ~4x slower on this CPU. Bpp is within ~1-2 % of the pillow_jpls
-    path at typical operating points; bytes are not bit-identical but
-    decode round-trip is bit-exact.
-    """
-    import importlib.util
-    path = (
-        "/home/dgj335/danjacobellis/compressors/experiments/"
-        "encoder_optimization/hybrid_v2.py"
-    )
-    spec = importlib.util.spec_from_file_location("_seaotter_eval_hybrid_v2", path)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"Could not load hybrid_v2 from {path}")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
 class FrappeAdapter(CodecAdapter):
     """FRAPPE encoder: analysis (forward + int8 quantize), transfer
     (device->host; no-op on CPU), store (arrange + entropy coding via
     the hybrid-v2 module = JPEG-LS for big scales + zstd for tiny ones).
 
-    Uses the production hybrid-v2 entropy coder
-    (``compressors/experiments/encoder_optimization/hybrid_v2.py``),
-    matching the FRAPPE reference encode-complexity JSON
+    Uses the hybrid-v2 entropy coder
+    (``compressors.frappe.entropy_coding_hybrid``), matching the FRAPPE
+    reference encode-complexity JSON
     (``compressors/results/frappe/encode_1777342722.json``). The
     default pillow_jpls path in ``compressors.frappe.entropy_coding``
     is ~4x slower on this CPU and is the slow reference
@@ -269,8 +244,11 @@ class FrappeAdapter(CodecAdapter):
             p.requires_grad_(False)
 
         # Entropy coder: hybrid-v2 (JPEG-LS + zstd fallback). Matches the
-        # FRAPPE reference harness JSON.
-        self._ec = _load_hybrid_v2_entropy()
+        # FRAPPE reference harness JSON. The pillow_jpls reference path in
+        # compressors.frappe.entropy_coding is ~4x slower on this CPU; bpp is
+        # within ~1-2 % of it and both decode bit-exactly.
+        from compressors.frappe import entropy_coding_hybrid
+        self._ec = entropy_coding_hybrid
 
         self.name = "frp"
 
