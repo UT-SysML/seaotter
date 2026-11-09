@@ -6,7 +6,7 @@ Tables produced (all under `figures/`):
                                   non-raw pipeline at the Kodak rate of
                                   FRAPPE n_ch=12 (the FRAPPE-family
                                   anchor). Selected by closest Kodak-CR
-                                  against ~/UT-SysML/seaotter/results/
+                                  against results/
                                   codec_kodak/eval_*_kodak_*.json cells.
 - `deployment_tier_table.tex`  — load-bearing inline BLE/5G/Wi-Fi suitability
                                   (every pipeline x op cell from the mirror,
@@ -20,7 +20,11 @@ Tables produced (all under `figures/`):
 - `codec_kodak_table.tex`      — 17-cell standalone-codec Kodak eval.
 - `codec_kodak_cls_table.tex`  — 17-cell standalone-codec ImageNet eval.
 
-All data is pulled from `~/UT-SysML/seaotter/results/`.
+- `cross_task_table.tex`      — appendix cross-task evaluation of the
+                                  SEAOTTER-FT snapshots: accuracy (storage
+                                  bpp) per eval task x variant x n.
+
+All data is pulled from `results/`.
 """
 
 from __future__ import annotations
@@ -42,6 +46,7 @@ PIPELINE_LABEL = {
     "seab":    "SEAOTTER-ZS",
     "seaft":   "SEAOTTER-FT",
     "wal":     "WaLLoC",
+    "frp_jpeg": "FRAPPE + ITU JPEG",
     "walsand": "WaLLoC-SEAOTTER-ZS",
     "walft":   "WaLLoC-SEAOTTER-FT",
     "avif":    "AVIF",
@@ -57,6 +62,14 @@ PIPELINE_LABEL = {
 CLS_ORDER  = ["avif", "avifx", "frp", "wal", "seab", "walsand", "seaft", "raw"]
 SEG_ORDER  = ["avif", "avifx", "frp", "wal", "seab", "walsand", "seaft", "raw"]
 CLIP_ORDER = ["avif", "avifx", "frp", "wal", "seab", "walsand", "seaft", "raw"]
+
+# The appendix RD tables additionally carry the plain-transcode ablation
+# (frp_jpeg: FRAPPE followed by a vanilla ITU T.81 transcode, zero-shot).
+# It is RD-only: the deployment-tier and throughput tables key off
+# CLS_ORDER and have no measurements for it.
+RD_CLS_ORDER  = ["avif", "avifx", "frp", "wal", "frp_jpeg", "seab", "walsand", "seaft", "raw"]
+RD_SEG_ORDER  = ["avif", "avifx", "frp", "wal", "frp_jpeg", "seab", "walsand", "seaft", "raw"]
+RD_CLIP_ORDER = ["avif", "avifx", "frp", "wal", "frp_jpeg", "seab", "walsand", "seaft", "raw"]
 
 # Headline table pipeline order (collapsed to one row per pipeline at
 # the canonical op).
@@ -95,7 +108,16 @@ def _fmt(x, prec):
         return "??"
 
 
-def _load_eval(task: str):
+def _is_cross_task(d: dict, task: str) -> bool:
+    """True for a SEAOTTER-FT snapshot evaluated on a task other than the
+    one it was fine-tuned for (`operating_point.extras.ft_task`)."""
+    ft = (d.get("operating_point") or {}).get("extras", {}).get("ft_task")
+    return ft is not None and ft != task
+
+
+def _load_eval(task: str, cross_task: bool = False):
+    """Eval cells for `task`. Cross-task SEAOTTER-FT cells are returned
+    only when `cross_task=True` (and then exclusively)."""
     cells = []
     eval_dir = ROOT / task / "eval"
     if not eval_dir.exists():
@@ -104,6 +126,8 @@ def _load_eval(task: str):
         try:
             d = json.loads(p.read_text())
         except json.JSONDecodeError:
+            continue
+        if _is_cross_task(d, task) != cross_task:
             continue
         cells.append(d)
     return cells
@@ -970,18 +994,96 @@ def emit_codec_kodak_cls_table():
     print(f"WROTE {OUT_DIR / 'codec_kodak_cls_table.tex'}")
 
 
+CROSS_TASK_N = [3, 6, 9, 12, 15]
+CROSS_TASK_EVAL = [
+    # (task, accuracy key, block label)
+    ("cls",  "top1", "ImageNet top-1"),
+    ("seg",  "miou", "ADE20K mIoU"),
+    ("clip", "top1", "SigLIP-2 zero-shot top-1"),
+]
+CROSS_TASK_FT_LABEL = {"cls": "cls", "seg": "seg", "clip": "clip"}
+
+
+def emit_cross_task_table():
+    """Appendix cross-task table. Per eval task: SEAOTTER-ZS, FRAPPE +
+    ITU JPEG, SEAOTTER-FT tuned for the eval task, and the two SEAOTTER-FT
+    snapshots tuned for the other tasks. Cell = accuracy % (storage bpp).
+    In the two cross-task rows, a cell is bold when its accuracy exceeds
+    the SEAOTTER-ZS cell in the same column."""
+
+    def by_n(cells, short, ft=None):
+        out = {}
+        for d in cells:
+            if d.get("pipeline") != short:
+                continue
+            op = d["operating_point"]
+            if op.get("type") != "n_ch":
+                continue
+            if ft is not None and op.get("extras", {}).get("ft_task") != ft:
+                continue
+            out[int(op["value"])] = d
+        return out
+
+    def cell(d, key, bold=False):
+        if d is None:
+            return "--"
+        acc = (d.get("metrics") or {}).get(key)
+        s = _fmt(acc * 100 if acc is not None else None, 1)
+        if bold:
+            s = r"\textbf{" + s + "}"
+        return s + " (" + _fmt(d.get("storage_bpp_mean"), 2) + ")"
+
+    def acc_of(d, key):
+        return None if d is None else (d.get("metrics") or {}).get(key)
+
+    rows = []
+    rows.append(r"\begin{tabular}{ll" + "r" * len(CROSS_TASK_N) + "}")
+    rows.append(r"\toprule")
+    rows.append("Eval task & Variant & "
+                + " & ".join(f"$n={n}$" for n in CROSS_TASK_N) + r" \\")
+    for task, key, block in CROSS_TASK_EVAL:
+        rows.append(r"\midrule")
+        own = _load_eval(task)
+        cross = _load_eval(task, cross_task=True)
+        zs = by_n(own, "seab")
+        variants = [
+            (PIPELINE_LABEL["seab"], zs, False),
+            (PIPELINE_LABEL["frp_jpeg"], by_n(own, "frp_jpeg"), False),
+            (PIPELINE_LABEL["seaft"], by_n(own, "seaft"), False),
+        ]
+        for ft in ("cls", "seg", "clip"):
+            if ft == task:
+                continue
+            variants.append((PIPELINE_LABEL["seaft"] + " (tuned: "
+                             + CROSS_TASK_FT_LABEL[ft] + ")",
+                             by_n(cross, "seaft", ft=ft), True))
+        for i, (label, cells_n, compare) in enumerate(variants):
+            out = [block if i == 0 else "", label]
+            for n in CROSS_TASK_N:
+                d = cells_n.get(n)
+                a, z = acc_of(d, key), acc_of(zs.get(n), key)
+                bold = compare and a is not None and z is not None and a > z
+                out.append(cell(d, key, bold))
+            rows.append(" & ".join(out) + r" \\")
+    rows.append(r"\bottomrule")
+    rows.append(r"\end{tabular}")
+    (OUT_DIR / "cross_task_table.tex").write_text("\n".join(rows) + "\n")
+    print(f"WROTE {OUT_DIR / 'cross_task_table.tex'}")
+
+
 def main():
     emit_headline_table()
     emit_deployment_tier_table()
     emit_task_table("cls",  "top1", r"Top-1 (\%)",
-                    CLS_ORDER,  "rd_table_cls.tex")
+                    RD_CLS_ORDER,  "rd_table_cls.tex")
     emit_task_table("seg",  "miou", r"mIoU (\%)",
-                    SEG_ORDER,  "rd_table_seg.tex")
+                    RD_SEG_ORDER,  "rd_table_seg.tex")
     emit_task_table("clip", "top1", r"Zero-shot Top-1 (\%)",
-                    CLIP_ORDER, "rd_table_clip.tex")
+                    RD_CLIP_ORDER, "rd_table_clip.tex")
     emit_throughput_table()
     emit_codec_kodak_table()
     emit_codec_kodak_cls_table()
+    emit_cross_task_table()
 
 
 if __name__ == "__main__":

@@ -3,3 +3,4 @@ __pycache__/
 _build/
 docs/.buildinfo
 index.md
+paper_figures/figures/
