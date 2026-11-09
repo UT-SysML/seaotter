@@ -16,29 +16,30 @@ in `results/`).
 
 ## Figures
 
-| Fig | label | file | generator | backing data | status |
-|-----|-------|------|-----------|--------------|--------|
-| 1 | `fig:system` | `figures/system.pdf` | `figure_assets/figures.pptx` → `system.svg`→`.pdf` (not a Python generator) | — (schematic) | ▽ not data-driven |
-| 2 | `fig:main_results` | `figures/main_results.pdf` | `make_figures.py` | `cls/eval/eval_{avif,avifx,wal,frp,walsand,seab,walft,seaft}_cls_*.json` + `encode_complexity/cls_384/encode_*.json` | ✓ backed |
-| 3 | `fig:jpeg_sandwich` | `figures/jpeg.pdf` | `figure_assets/figures.pptx` → `jpeg.{svg,pdf}` (+ method notebooks) | — (schematic) | ▽ not data-driven |
-| 4 | `fig:rd_metric_panels` | `figures/rd_metric_panels.pdf` | `make_extra_figures.py` (`emit_rd_metric_panels`) | `cls/eval/*` (psnr/ssim/dists/top1 for avifx,wal,frp,walsand,seab,seaft), `seg/eval/*` (miou), `clip/eval/*` (top1) | ✓ backed |
-| 5 | `fig:radar` | `figures/radar.pdf` | `figure_assets/figures.pptx` → `radar.{svg,pdf}` (**SVG-finalized**, *not* the matplotlib `radar_summary*.pdf`) | rankings derived from `encode_complexity/cls_384/` + `cls/throughput/` | ⚑ data-driven rankings, hand-finalized figure |
-| 6 | `fig:quant` | `figures/quant.pdf` | `figure_assets/` (`visualize_quant.ipynb` / `intermediate_signals.ipynb`) | learned `Q^{(k)}` from the `seaotter_jpeg_s3` Hub bundle (not a `results/` JSON) | ▽ derived from published weights |
-| 7 | `fig:codec_kodak` | `figures/codec_kodak.pdf` | `make_codec_kodak_fig.py` | `codec_kodak/eval_*.json` (PSNR) + `codec_kodak_cls/eval_*.json` (top-1) | ✓ backed |
-| 8 | `fig:rd_storage` | `figures/rd_storage.pdf` | `make_extra_figures.py` (`emit_rd_storage`) | `cls/seg/clip` `eval/*` `storage_bpp_mean`+`transmit_bpp_mean` for `{wal_jpeg,frp_jpeg,walsand,seab,seaft}` | ✓ backed |
+| label | file | generator | backing data | status |
+|-------|------|-----------|--------------|--------|
+| `fig:system` | `figures/system.pdf` | `figure_assets/figures.pptx` → `system.svg`→`.pdf` (not a Python generator) | — (schematic) | ▽ not data-driven |
+| `fig:main_results` | `figures/main_results.pdf` | `make_figures.py` | `cls/eval/eval_{avif,avifx,wal,frp,walsand,seab,walft,seaft}_cls_*.json` + `encode_complexity/cls_384/encode_*.json` | ✓ backed |
+| `fig:jpeg_sandwich` | `figures/jpeg.pdf` | `figure_assets/figures.pptx` → `jpeg.{svg,pdf}` (+ method notebooks) | — (schematic) | ▽ not data-driven |
+| `fig:rd_metric_panels` | `figures/rd_metric_panels.pdf` | `make_extra_figures.py` (`emit_rd_metric_panels`) | `cls/eval/*` (psnr/ssim/dists/top1 for avifx,wal,frp,walsand,seab,seaft), `seg/eval/*` (miou), `clip/eval/*` (top1) | ✓ backed |
+| `fig:radar` | `figures/radar.pdf` | `figure_assets/figures.pptx` → `radar.{svg,pdf}` (**SVG-finalized**, *not* the matplotlib `radar_summary*.pdf`) | rankings derived from `encode_complexity/cls_384/` + `cls/throughput/` | ⚑ data-driven rankings, hand-finalized figure |
+| `fig:quant` | `figures/quant.pdf` | `figure_assets/` (`visualize_quant.ipynb` / `intermediate_signals.ipynb`) | learned `Q^{(k)}` from the `seaotter_jpeg_s3` Hub bundle (not a `results/` JSON) | ▽ derived from published weights |
+| `fig:codec_kodak` | `figures/codec_kodak.pdf` | `make_codec_kodak_fig.py` | `codec_kodak/eval_*.json` (PSNR) + `codec_kodak_cls/eval_*.json` (top-1) | ✓ backed |
+| `fig:rd_storage` | `figures/rd_storage.pdf` | `make_extra_figures.py` (`emit_rd_storage`) | `cls/seg/clip` `eval/*` `storage_bpp_mean`+`transmit_bpp_mean` for `{wal_jpeg,frp_jpeg,walsand,seab,seaft}` | ✓ backed |
 
 ## Tables (all regenerate byte-identically from the mirror)
 
-| Tab | label | file | generator fn | backing data | status |
-|-----|-------|------|--------------|--------------|--------|
-| 1 | `tab:headline` | `headline_table.tex` | `emit_headline_table` | `cls/seg/clip` `eval/*` + `cls/throughput/*` (decode, task-invariant) + `encode_complexity/{cls_384,seg_512,clip_naflex}/*` (encode) | ✓ backed |
-| 2 | `tab:codec_kodak` | `codec_kodak_table.tex` | `emit_codec_kodak_table` | `codec_kodak/eval_{seaotter,jpeg,jpeg_sub0}_*.json` | ✓ backed |
-| 3 | `tab:codec_kodak_cls` | `codec_kodak_cls_table.tex` | `emit_codec_kodak_cls_table` | `codec_kodak_cls/eval_*.json` | ✓ backed |
-| 4 | `tab:rd_cls` | `rd_table_cls.tex` | `emit_task_table("cls")` | `cls/eval/*` (CLS_ORDER pipelines) | ✓ backed |
-| 5 | `tab:rd_seg` | `rd_table_seg.tex` | `emit_task_table("seg")` | `seg/eval/*` | ✓ backed |
-| 6 | `tab:rd_clip` | `rd_table_clip.tex` | `emit_task_table("clip")` | `clip/eval/*` | ✓ backed |
-| 7 | `tab:throughput` | `throughput_table.tex` | `emit_throughput_table` | `cls/eval/*` + `cls/throughput/*` (decode) + `encode_complexity/cls_384/*` (encode) | ✓ backed |
-| 8 | `tab:deployment_tier` | `deployment_tier_table.tex` | `emit_deployment_tier_table` | `cls/eval/*` + `encode_complexity/cls_384/*` | ✓ backed |
+| label | file | generator fn | backing data | status |
+|-------|------|--------------|--------------|--------|
+| `tab:headline` | `headline_table.tex` | `emit_headline_table` | `cls/seg/clip` `eval/*` + `cls/throughput/*` (decode, task-invariant) + `encode_complexity/{cls_384,seg_512,clip_naflex}/*` (encode) | ✓ backed |
+| `tab:codec_kodak` | `codec_kodak_table.tex` | `emit_codec_kodak_table` | `codec_kodak/eval_{seaotter,jpeg,jpeg_sub0}_*.json` | ✓ backed |
+| `tab:codec_kodak_cls` | `codec_kodak_cls_table.tex` | `emit_codec_kodak_cls_table` | `codec_kodak_cls/eval_*.json` | ✓ backed |
+| `tab:rd_cls` | `rd_table_cls.tex` | `emit_task_table("cls")` | `cls/eval/*` (RD_CLS_ORDER pipelines) | ✓ backed |
+| `tab:rd_seg` | `rd_table_seg.tex` | `emit_task_table("seg")` | `seg/eval/*` | ✓ backed |
+| `tab:rd_clip` | `rd_table_clip.tex` | `emit_task_table("clip")` | `clip/eval/*` | ✓ backed |
+| `tab:throughput` | `throughput_table.tex` | `emit_throughput_table` | `cls/eval/*` + `cls/throughput/*` (decode) + `encode_complexity/cls_384/*` (encode) | ✓ backed |
+| `tab:deployment_tier` | `deployment_tier_table.tex` | `emit_deployment_tier_table` | `cls/eval/*` + `encode_complexity/cls_384/*` | ✓ backed |
+| `tab:cross_task` | `cross_task_table.tex` | `emit_cross_task_table` | `{cls,seg,clip}/eval/eval_seaft_ft{ft}_{task}_n{N}.json` + `eval_{seab,frp_jpeg,seaft}_{task}_n{N}.json` | ✓ backed |
 
 ## Headline / in-prose numbers (Sec. "Performance evaluation" + Appendix)
 
@@ -119,4 +120,14 @@ Each SEAOTTER-FT variant, fine-tuned for one task, evaluated on the other two ta
 - **Producing harness:** `iter6-1`, `src/seaotter/eval/accuracy` in this repo. The `seaft` pipeline loads the fine-tuned bundle named by `config.ft_task` and N from the Hugging Face repo `danjacobellis/seaotter` at the revision in `config.checkpoint`.
 - **Schema additions:** `config.ft_task` names the fine-tuning task; `config.checkpoint` is an HF reference, `hf:danjacobellis/seaotter/seaotter_{ft}_n{N}@83b6cb2b9f2437648aada82edfa4b5379cda3ee2`.
 - **Examples:** `eval_seaft_ftclip_cls_n12` top-1 0.6334 at 0.560 storage bpp; `eval_seaft_ftcls_seg_n12` mIoU 0.3150 at 0.827; `eval_seaft_ftcls_clip_n12` top-1 0.4411 at 1.032.
+
+In-prose numbers (`app:cross_task`, `tab:cross_task`). Comparisons use unrounded accuracy from `metrics.top1` (cls, clip) or `metrics.miou` (seg), at equal n.
+
+| claim (paper) | value | trace | status |
+|---|---|---|---|
+| cross-task cells above SEAOTTER-ZS | 10 of 30, all at n ∈ {6, 9, 12} | `eval_seaft_ft{ft}_{task}_n{N}` vs `eval_seab_{task}_n{N}`: cls ← seg n6, n12; cls ← clip n6, n9, n12; seg ← clip n6, n9, n12; seg ← cls n12; clip ← cls n12 | ✓ |
+| of those, also above FRAPPE + ITU JPEG | 7 of 10 | vs `eval_frp_jpeg_{task}_n{N}`: cls ← seg n6; cls ← clip n6, n9, n12; seg ← clip n9, n12; seg ← cls n12 | ✓ |
+| largest margin over SEAOTTER-ZS | clip-tuned on cls, n=12: 63.34% @ 0.56 bpp vs 60.25% @ 1.28 bpp | `eval_seaft_ftclip_cls_n12` top1=0.6334, sbpp=0.5598; `eval_seab_cls_n12` top1=0.60254, sbpp=1.2822 (+3.09 pp) | ✓ |
+| fine-tuned PSNR range | 9.2–13.5 dB | min/max `metrics.psnr_db` over the 45 SEAOTTER-FT cells (15 `eval_seaft_{task}_n{N}` + 30 cross-task): 9.24 / 13.53 | ✓ |
+| SEAOTTER-ZS PSNR range | 18.9–30.4 dB | min/max over the 15 `eval_seab_{task}_n{N}` cells: 18.90 / 30.37 | ✓ |
 - **Hardware variation:** top-1 differs by about 1e-4 between GPU hosts on identical inputs.
