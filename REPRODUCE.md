@@ -14,9 +14,8 @@
 | path | what |
 |------|------|
 | `src/seaotter/` | the `seaotter` **v1.0.0** package — JPEG codec, learned color/quant sandwich, fine-tunable pipeline, training recipes (`train/recipes/`), encoder-throughput harness (`eval/`), and the **downstream accuracy + consumer-throughput eval harness** (`eval/accuracy/` — the code that produced every `eval_*.json` / `throughput_*.json`). Mirrors PyPI `seaotter==1.0.0`. |
-| `results/` | every per-operating-point JSON behind the paper (`results.md` = schema; `TRACEABILITY.md` = number→file audit; `DELETIONS.md` = prune log). |
-| `paper_figures/` | the `make_*.py` generators that turn `results/` into the paper's figures/tables (+ `notes/` radar derivations). |
-| `tools/export_pipeline_bundle.py` | rebuilds the pretrained pipeline bundle from a production checkpoint. |
+| `results/` | every per-operating-point JSON behind the paper (`results.md` = schema; `TRACEABILITY.md` = number→file audit). |
+| `paper_figures/` | the `make_*.py` generators that turn `results/` into the paper's figures/tables . |
 
 ## Install
 

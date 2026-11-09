@@ -1,24 +1,11 @@
-# Result traceability (CoRL 2026 paper → mirror data)
+# Result traceability (SEAOTTER paper → mirror data)
 
-Maps every quantitative claim in the CoRL 2026 paper
-("SEAOTTER: Sensor Embedded Autoencoding with One-Time Transcode for
-Efficient Reconstruction", Jacobellis & Yadwadkar) to the generator
-that produces it and the backing data file(s) in this mirror.
+Maps every quantitative claim in the SEAOTTER paper ("SEAOTTER: Sensor Embedded Autoencoding with One-Time Transcode for Efficient Reconstruction", Jacobellis & Yadwadkar) to the generator that produces it and the backing data file(s) in this mirror. Figure and table rows are keyed by LaTeX label.
 
-- **Mirror data root:** `~/UT-SysML/seaotter/results/` (every generator
-  hard-codes `ROOT = Path("/home/dgj335/UT-SysML/seaotter/results")`).
-- **Generators:** `corl_2026/make_{figures,extra_figures,codec_kodak_fig,tables,radar_figure_data}.py`.
-- **Producing harnesses (research repo `danjacobellis/seaotter`):** see
-  the "Where the paper's numbers actually come from" table in
-  `seaotter/CLAUDE.md` (iter-6 accuracy `iter6-1`; iter-11 CPU
-  throughput `iter11-cpu-2`; encode-complexity `src/seaotter/eval`;
-  codec-kodak `codec-kodak-v1`/`codec-kodak-cls-v1`).
-- **Verified on 2026-05-29.** All 8 `.tex` tables regenerate
-  **byte-identically** from the frozen JSONs (`make_tables.py` →
-  `diff` against the committed `corl_2026/figures/*.tex`). Every prose
-  number below was cross-checked against the regenerated tables and the
-  raw eval JSONs. Numerical results are frozen — this report does not
-  regenerate or alter any value.
+- **Mirror data root:** `results/` (every generator sets `ROOT = Path(__file__).resolve().parent.parent / "results"`).
+- **Generators:** `paper_figures/make_{figures,extra_figures,codec_kodak_fig,tables,radar_figure_data}.py`.
+- **Producing harnesses (research repo `danjacobellis/seaotter`):** iter-6 accuracy `iter6-1` (`src/seaotter/eval/accuracy`); iter-11 CPU throughput `iter11-cpu-2`; encode-complexity `src/seaotter/eval`; codec-kodak `codec-kodak-v1`/`codec-kodak-cls-v1`.
+- All 8 `.tex` tables regenerate byte-identically from the JSONs with `make_tables.py`.
 
 Status legend: **✓ backed** (file present, number reproduces);
 **⚑ flag** (backed but worth a glance — see notes); **▽ not
@@ -35,7 +22,7 @@ in `results/`).
 | 2 | `fig:main_results` | `figures/main_results.pdf` | `make_figures.py` | `cls/eval/eval_{avif,avifx,wal,frp,walsand,seab,walft,seaft}_cls_*.json` + `encode_complexity/cls_384/encode_*.json` | ✓ backed |
 | 3 | `fig:jpeg_sandwich` | `figures/jpeg.pdf` | `figure_assets/figures.pptx` → `jpeg.{svg,pdf}` (+ method notebooks) | — (schematic) | ▽ not data-driven |
 | 4 | `fig:rd_metric_panels` | `figures/rd_metric_panels.pdf` | `make_extra_figures.py` (`emit_rd_metric_panels`) | `cls/eval/*` (psnr/ssim/dists/top1 for avifx,wal,frp,walsand,seab,seaft), `seg/eval/*` (miou), `clip/eval/*` (top1) | ✓ backed |
-| 5 | `fig:radar` | `figures/radar.pdf` | `figure_assets/figures.pptx` → `radar.{svg,pdf}` (**SVG-finalized**, *not* the matplotlib `radar_summary*.pdf`) | rankings derived in `corl_2026/notes/_compute_radar_rankings_v3.py` from `encode_complexity/cls_384/` + `cls/throughput/` | ⚑ data-driven rankings, hand-finalized figure |
+| 5 | `fig:radar` | `figures/radar.pdf` | `figure_assets/figures.pptx` → `radar.{svg,pdf}` (**SVG-finalized**, *not* the matplotlib `radar_summary*.pdf`) | rankings derived from `encode_complexity/cls_384/` + `cls/throughput/` | ⚑ data-driven rankings, hand-finalized figure |
 | 6 | `fig:quant` | `figures/quant.pdf` | `figure_assets/` (`visualize_quant.ipynb` / `intermediate_signals.ipynb`) | learned `Q^{(k)}` from the `seaotter_jpeg_s3` Hub bundle (not a `results/` JSON) | ▽ derived from published weights |
 | 7 | `fig:codec_kodak` | `figures/codec_kodak.pdf` | `make_codec_kodak_fig.py` | `codec_kodak/eval_*.json` (PSNR) + `codec_kodak_cls/eval_*.json` (top-1) | ✓ backed |
 | 8 | `fig:rd_storage` | `figures/rd_storage.pdf` | `make_extra_figures.py` (`emit_rd_storage`) | `cls/seg/clip` `eval/*` `storage_bpp_mean`+`transmit_bpp_mean` for `{wal_jpeg,frp_jpeg,walsand,seab,seaft}` | ✓ backed |
@@ -90,11 +77,10 @@ in `results/`).
   `eval_frp_jpeg_cls_n12` sbpp 1.0296) or **12.14%** as a
   fraction-of-reference-file. Both round near 13.7–13.8%; the value is
   backed, only the rounding/convention differs by ~0.1 pp. Not a missing
-  file — flagged for the author's awareness only. Frozen as-published.
+  file — flagged for the author's awareness only.
 - **`radar.pdf` (Fig. 5)** is the SVG-finalized deck export, *not* the
   matplotlib `make_radar_figure*.py` output. Its per-axis rankings are
-  data-driven (derived in `corl_2026/notes/radar_rankings*.md` /
-  `_compute_radar_rankings_v3.py` from `encode_complexity/cls_384` +
+  data-driven (derived from `encode_complexity/cls_384` +
   `cls/throughput`), but the rendered figure is hand-laid-out and is not
   reproduced by any `make_*.py`. Reproducing the rankings is possible;
   reproducing the exact figure requires the deck.
@@ -109,7 +95,7 @@ in `results/`).
   pre-iter-10 `walft` are intentionally not surfaced in tables. See
   `make_tables.py` `CLS_ORDER`/`SEG_ORDER`/`CLIP_ORDER`.
 
-## Production-checkpoint provenance (for weight export, §3b)
+## Production-checkpoint provenance
 
 The `seaft` eval JSONs pin the exact fine-tuned checkpoint via
 `config.checkpoint`:
@@ -121,7 +107,16 @@ The `seaft` eval JSONs pin the exact fine-tuned checkpoint via
 | seg | n=12 | `seaotter/pre_trained_convnext/experiments/iter1_initial_pipeline/production/checkpoint_prod_seg_n12_C6.pth` | mIoU 0.32773 |
 | clip | n=12 | `seaotter/experiments/clip_production/production/checkpoint_clip_prod_frappe_n12.pth` | top-1 0.48218 |
 
-The **headline cls pipeline** bundle (§3b) is built from
+The **headline cls pipeline** bundle is built from
 `checkpoint_iter5_cls_n12.pth` (fine-tuned decoder + fwd/inv/proxy, all
 hot per `hot_names`), with the frozen FRAPPE encoder referenced from
 `~/hf/FRAPPE/FRAPPE/`.
+
+## Cross-task evaluation of SEAOTTER-FT
+
+Each SEAOTTER-FT variant, fine-tuned for one task, evaluated on the other two tasks. 30 files: `{cls,seg,clip}/eval/eval_seaft_ft{ft}_{task}_n{N}.json`, `ft` ≠ `task`, N ∈ {3, 6, 9, 12, 15}. The own-task cells are the existing `eval_seaft_{task}_n{N}.json` files.
+
+- **Producing harness:** `iter6-1`, `src/seaotter/eval/accuracy` in this repo. The `seaft` pipeline loads the fine-tuned bundle named by `config.ft_task` and N from the Hugging Face repo `danjacobellis/seaotter` at the revision in `config.checkpoint`.
+- **Schema additions:** `config.ft_task` names the fine-tuning task; `config.checkpoint` is an HF reference, `hf:danjacobellis/seaotter/seaotter_{ft}_n{N}@83b6cb2b9f2437648aada82edfa4b5379cda3ee2`.
+- **Examples:** `eval_seaft_ftclip_cls_n12` top-1 0.6334 at 0.560 storage bpp; `eval_seaft_ftcls_seg_n12` mIoU 0.3150 at 0.827; `eval_seaft_ftcls_clip_n12` top-1 0.4411 at 1.032.
+- **Hardware variation:** top-1 differs by about 1e-4 between GPU hosts on identical inputs.
